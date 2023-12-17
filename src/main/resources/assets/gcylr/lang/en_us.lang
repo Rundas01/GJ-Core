@@ -119,3 +119,9 @@ gcylr.material.actinium_228=Actinium 228
 gcylr.material.thorium_227=Thorium 227
 gcylr.material.thorium_228=Thorium 228
 gcylr.material.thorium_231=Thorium 231
+
+# Bees
+for.bees.species.stellite100=Stellite-100
+
+# Combs
+item.gt.comb.stellite100.name=Stellite-100 Comb

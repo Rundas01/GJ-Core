@@ -1,0 +1,73 @@
+package gregicality.legacy.integration.forestry;
+
+import forestry.api.apiculture.BeeManager;
+import forestry.api.arboriculture.TreeManager;
+import forestry.api.core.IItemModelRegister;
+import forestry.api.core.IModelManager;
+import forestry.api.core.Tabs;
+import forestry.api.genetics.AlleleManager;
+import forestry.api.genetics.ISpeciesRoot;
+import forestry.api.lepidopterology.ButterflyManager;
+import forestry.core.items.IColoredItem;
+import gregicality.legacy.GregicalityLegacyReimagined;
+import gregtech.api.GTValues;
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.NonNullList;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+public class GCYLRDropItem extends Item implements IColoredItem, IItemModelRegister {
+
+    public GCYLRDropItem() {
+        super();
+        setHasSubtypes(true);
+        setCreativeTab(Tabs.tabApiculture);
+        setTranslationKey("gt.honey_drop");
+        setRegistryName(GregicalityLegacyReimagined.MODID, "gt.honey_drop");
+        setResearchSuitability(BeeManager.beeRoot);
+        setResearchSuitability(TreeManager.treeRoot);
+        setResearchSuitability(ButterflyManager.butterflyRoot);
+        setResearchSuitability(AlleleManager.alleleRegistry.getSpeciesRoot("rootFlowers"));
+    }
+
+    private void setResearchSuitability(@Nullable ISpeciesRoot speciesRoot) {
+        if (speciesRoot != null) {
+            speciesRoot.setResearchSuitability(new ItemStack(this, 1, GTValues.W), 0.5f);
+        }
+    }
+
+    @SuppressWarnings("deprecation")
+    @Override
+    public void registerModel(@Nonnull Item item, @Nonnull IModelManager manager) {
+        manager.registerItemModel(item, 0);
+        for (int i = 0; i < GCYLRDropType.VALUES.length; i++) {
+            manager.registerItemModel(item, i, GTValues.MODID_FR, "gt.honey_drop");
+        }
+    }
+
+    @Override
+    @Nonnull
+    public String getTranslationKey(@Nonnull ItemStack stack) {
+        GCYLRDropType type = GCYLRDropType.getDrop(stack.getItemDamage());
+        return super.getTranslationKey(stack) + "." + type.name;
+    }
+
+    @Override
+    public void getSubItems(@Nonnull CreativeTabs tab, @Nonnull NonNullList<ItemStack> items) {
+        if (tab == Tabs.tabApiculture) {
+            for (GCYLRDropType type : GCYLRDropType.VALUES) {
+                items.add(new ItemStack(this, 1, type.ordinal()));
+            }
+        }
+    }
+
+    @Override
+    public int getColorFromItemstack(@Nonnull ItemStack stack, int i) {
+        GCYLRDropType type = GCYLRDropType.getDrop(stack.getItemDamage());
+        return type.color[i == 0 ? 0 : 1];
+    }
+}
+

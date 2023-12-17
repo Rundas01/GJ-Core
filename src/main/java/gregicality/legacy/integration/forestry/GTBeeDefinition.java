@@ -15,9 +15,7 @@ import gregtech.api.unification.OreDictUnifier;
 import gregtech.integration.IntegrationUtil;
 import gregtech.integration.forestry.bees.GTAlleleBeeSpecies;
 import gregtech.integration.forestry.bees.GTBranchDefinition;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Optional;
 import org.apache.commons.lang3.text.WordUtils;
 
@@ -33,9 +31,9 @@ import static gregtech.api.unification.ore.OrePrefix.dust;
 
 public enum GTBeeDefinition implements IBeeDefinition {
 
-    STELLITE100(GTBranchDefinition.GT_ALLOY, "Stellite 100", true, 0xDEDEFF, 0xFAFAFA,
+    STELLITE100(GTBranchDefinition.GT_ALLOY, "Stellite 100", true, 0xDEDEFF, 0xffdc16,
             beeSpecies -> {
-                beeSpecies.addProduct(getGTComb(GTCombType.STELLITE100), 0.15f);
+                beeSpecies.addProduct(getGTComb(GCYLRCombType.STELLITE100), 0.15f);
                 beeSpecies.addSpecialty(OreDictUnifier.get(dust, GCYMMaterials.Stellite100), 0.05f);
             },
             template -> {
@@ -116,7 +114,7 @@ public enum GTBeeDefinition implements IBeeDefinition {
         return IntegrationUtil.getModItem(GTValues.MODID_MB, "beecomb", meta);
     }
 
-    private static ItemStack getGTComb(GTCombType type) {
+    private static ItemStack getGTComb(GCYLRCombType type) {
         return new ItemStack(ForestryModule.combs, 1, type.ordinal());
     }
 

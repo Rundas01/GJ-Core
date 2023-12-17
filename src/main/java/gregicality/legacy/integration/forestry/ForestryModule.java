@@ -2,24 +2,15 @@ package gregicality.legacy.integration.forestry;
 
 import forestry.api.core.ForestryAPI;
 import forestry.core.items.IColoredItem;
-import gregicality.legacy.GregicalityLegacyReimagined;
-import gregicality.legacy.api.modules.GCYLRModules;
 import gregicality.legacy.integration.forestry.recipe.GCYLRCombRecipes;
-import gregtech.api.GTValues;
-import gregtech.api.items.metaitem.MetaItem;
-import gregtech.api.items.metaitem.StandardMetaItem;
-import gregtech.api.modules.GregTechModule;
 import gregtech.api.unification.material.Material;
 import gregtech.api.unification.material.event.MaterialEvent;
 import gregtech.api.unification.material.info.MaterialFlags;
 import gregtech.api.unification.material.properties.OreProperty;
 import gregtech.api.unification.material.properties.PropertyKey;
 import gregtech.integration.IntegrationModule;
-import gregtech.integration.IntegrationSubmodule;
 import gregtech.integration.forestry.ForestryConfig;
 import gregtech.integration.forestry.ForestryUtil;
-import gregtech.integration.forestry.bees.GTCombItem;
-import gregtech.integration.forestry.bees.GTDropItem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.Item;
 import net.minecraft.item.crafting.IRecipe;
@@ -33,47 +24,24 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.registries.IForgeRegistry;
 
-import javax.annotation.Nonnull;
-import java.util.Collections;
-import java.util.List;
+public class ForestryModule {
 
-@GregTechModule(
-        moduleID = GCYLRModules.MODULE_FORESTRY,
-        containerID = GregicalityLegacyReimagined.MODID,
-        modDependencies = GTValues.MODID_FR,
-        name = "Gregicality Legacy Reimagined Forestry Integration"
-)
-public class ForestryModule extends IntegrationSubmodule {
+    public static GCYLRDropItem drops;
+    public static GCYLRCombItem combs;
 
-    public static MetaItem<?> forestryMetaItem;
-
-    public static GTDropItem drops;
-    public static GTCombItem combs;
-
-    @Nonnull
-    @Override
-    public List<Class<?>> getEventBusSubscribers() {
-        return Collections.singletonList(gregtech.integration.forestry.ForestryModule.class);
-    }
-
-    @Override
-    public void preInit(FMLPreInitializationEvent event) {
-        forestryMetaItem = new StandardMetaItem();
-        forestryMetaItem.setRegistryName("forestry_meta_item");
-
+    public static void preInit(FMLPreInitializationEvent event) {
         // GT Bees
         if (ForestryConfig.enableGTBees) {
             if (ForestryUtil.apicultureEnabled()) {
-                drops = new GTDropItem();
-                combs = new GTCombItem();
+                drops = new GCYLRDropItem();
+                combs = new GCYLRCombItem();
             } else {
-                getLogger().warn("GregTech Bees are enabled, but Forestry Apiculture module is disabled. Skipping...");
+                IntegrationModule.logger.warn("GregTech Bees are enabled, but Forestry Apiculture module is disabled. Skipping...");
             }
         }
     }
 
-    @Override
-    public void init(FMLInitializationEvent event) {
+    public static void init(FMLInitializationEvent event) {
         if (ForestryUtil.apicultureEnabled()) {
             if (ForestryConfig.enableGTBees) {
                 GTBeeDefinition.initBees();
@@ -93,10 +61,9 @@ public class ForestryModule extends IntegrationSubmodule {
         }
     }
 
-    @Override
-    public void postInit(FMLPostInitializationEvent event) {
+    public static void postInit(FMLPostInitializationEvent event) {
         if (ForestryUtil.apicultureEnabled()) {
-            getLogger().info("Copying Forestry Centrifuge recipes to GT Centrifuge");
+            IntegrationModule.logger.info("Copying Forestry Centrifuge recipes to GT Centrifuge");
             GCYLRCombRecipes.initForestryCombs();
         }
     }
