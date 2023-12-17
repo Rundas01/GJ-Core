@@ -8,4 +8,4 @@ and multiblock machines, _a lot_ of new materials, a revisioned nuclear system, 
 
 Join our Discord [**here!**](https://discord.gg/bWSWuYvURP)
 
-Gregicality Legacy Reimagined requires [**GregTech CE: Unofficial**](https://github.com/GregTechCEu/GregTech), [**Gregicality Multiblocks**](https://github.com/GregTechCEu/gregicality-multiblocks) [**CodeChickenLib**](https://www.curseforge.com/minecraft/mc-mods/codechicken-lib-1-8).
+Gregicality Legacy Reimagined requires [**GregTech CE: Unofficial**](https://github.com/GregTechCEu/GregTech), [**Gregicality Multiblocks**](https://github.com/GregTechCEu/gregicality-multiblocks) and [**CodeChickenLib**](https://www.curseforge.com/minecraft/mc-mods/codechicken-lib-1-8).

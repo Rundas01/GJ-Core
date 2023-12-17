@@ -8,9 +8,10 @@ import gregtech.api.unification.ore.OrePrefix;
 import java.util.function.Predicate;
 
 public class GCYLROrePrefix {
-    public static final OrePrefix nuclearFuel;
-    public static final OrePrefix depletedNuclearFuel;
-    static {
+    public static OrePrefix nuclearFuel;
+    public static OrePrefix depletedNuclearFuel;
+
+    public static void init() {
         nuclearFuel = new OrePrefix("nuclearFuel", -1L, null, GCYLRMaterialIconTypes.nuclearFuel, 1L, GCYLROrePrefix.Conditions.hasNuclearProperty);
         depletedNuclearFuel = new OrePrefix("depletedNuclearFuel", -1L, null, GCYLRMaterialIconTypes.nuclearFuel, 1L, GCYLROrePrefix.Conditions.hasNuclearProperty);
     }
