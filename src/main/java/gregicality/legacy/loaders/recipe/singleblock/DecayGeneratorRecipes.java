@@ -6,8 +6,8 @@ import gregtech.api.unification.material.Material;
 import net.minecraft.item.ItemStack;
 
 import static gregicality.legacy.api.recipe.GCYLRRecipeMaps.DECAY_GENERATOR_FUELS;
-import static gregicality.legacy.api.unification.GCYLRIsotopes.*;
-import static gregicality.legacy.api.unification.properties.GCYLRPropertyKey.NUCLEAR;
+import static gregicality.legacy.api.unification.material.GCYLRIsotopes.*;
+import static gregicality.legacy.api.unification.properties.GCYLRPropertyKeys.NUCLEAR;
 import static gregtech.api.GTValues.*;
 import static gregtech.api.unification.ore.OrePrefix.*;
 

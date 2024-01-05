@@ -1,9 +1,10 @@
 package gregicality.legacy.common;
 
 import gregicality.legacy.GregicalityLegacyReimagined;
-import gregicality.legacy.api.unification.GCYLRElements;
-import gregicality.legacy.api.unification.GCYLRMaterialFlagAddition;
-import gregicality.legacy.api.unification.GCYLRMaterials;
+import gregicality.legacy.api.fluids.GeneratedFluidHandler;
+import gregicality.legacy.api.unification.material.GCYLRElements;
+import gregicality.legacy.api.unification.material.GCYLRMaterialFlagAddition;
+import gregicality.legacy.api.unification.material.GCYLRMaterials;
 import gregtech.api.unification.material.event.MaterialEvent;
 import gregtech.api.unification.material.event.PostMaterialEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -29,6 +30,7 @@ public final class GCYLREventHandlers {
 
     @SubscribeEvent
     public static void registerMaterialsPost(PostMaterialEvent event) {
+        GeneratedFluidHandler.init();
         GCYLRMaterialFlagAddition.initLate();
     }
 }

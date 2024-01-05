@@ -1,6 +1,6 @@
 package gregicality.legacy.loaders.recipe.multiblock;
 
-import gregicality.legacy.api.unification.GCYLRIsotopes;
+import gregicality.legacy.api.unification.material.GCYLRIsotopes;
 import gregicality.legacy.api.unification.properties.NuclearProperty;
 import gregicality.legacy.common.GCYLRConfigHolder;
 import gregtech.api.unification.OreDictUnifier;
@@ -11,9 +11,9 @@ import java.util.List;
 
 import static gregicality.legacy.api.recipe.GCYLRRecipeMaps.BREEDER_REACTOR_RECIPES;
 import static gregicality.legacy.api.recipe.GCYLRRecipeMaps.FISSION_REACTOR_RECIPES;
-import static gregicality.legacy.api.unification.GCYLRIsotopes.getBetaMinusDecayMaterial;
-import static gregicality.legacy.api.unification.GCYLRIsotopes.nuclearMaterials;
-import static gregicality.legacy.api.unification.properties.GCYLRPropertyKey.NUCLEAR;
+import static gregicality.legacy.api.unification.material.GCYLRIsotopes.getBetaMinusDecayMaterial;
+import static gregicality.legacy.api.unification.material.GCYLRIsotopes.nuclearMaterials;
+import static gregicality.legacy.api.unification.properties.GCYLRPropertyKeys.NUCLEAR;
 import static gregtech.api.unification.material.properties.PropertyKey.FLUID;
 import static gregtech.api.unification.material.properties.PropertyKey.INGOT;
 import static gregtech.api.unification.ore.OrePrefix.ingot;

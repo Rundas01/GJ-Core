@@ -3,6 +3,7 @@ package gregicality.legacy.common;
 import java.util.Objects;
 import java.util.function.Function;
 
+import gregicality.legacy.integration.forestry.ForestryModule;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
@@ -11,6 +12,7 @@ import net.minecraftforge.common.config.Config;
 import net.minecraftforge.common.config.ConfigManager;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.registries.IForgeRegistry;
@@ -26,6 +28,8 @@ import gregicality.legacy.loaders.recipe.GCYLRRecipeLoader;
 public class CommonProxy {
 
     public void preLoad() {}
+
+    public void onLoad() {}
 
     @SubscribeEvent
     public static void syncConfigValues(ConfigChangedEvent.OnConfigChangedEvent event) {
@@ -50,6 +54,9 @@ public class CommonProxy {
 
         registry.register(createItemBlock(GCYLRMetaBlocks.UNIQUE_CASING, VariantItemBlock::new));
         registry.register(createItemBlock(GCYLRMetaBlocks.LARGE_MULTIBLOCK_CASING, VariantItemBlock::new));
+        if(Loader.isModLoaded("forestry")){
+            ForestryModule.registerItems(event);
+        }
     }
 
     private static <T extends Block> ItemBlock createItemBlock(T block, Function<T, ItemBlock> producer) {

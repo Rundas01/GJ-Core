@@ -1,0 +1,43 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "model": "minecraft:cube_all",
+    "textures": {
+      "all": "gregtech:blocks/rendering_error"
+    }
+  },
+  "variants": {
+    "variant": {
+      "advanced_fusion_coil_mk1": {
+        "model": "minecraft:cube_all",
+        "textures": {
+          "all": "gregtech:blocks/casings/advanced_fusion_coil/advanced_fusion_coil_mk1"
+        }
+      },
+      "advanced_fusion_coil_mk2": {
+        "model": "minecraft:cube_all",
+        "textures": {
+          "all": "gregtech:blocks/casings/advanced_fusion_coil/advanced_fusion_coil_mk2"
+        }
+      },
+      "advanced_fusion_coil_mk3": {
+        "model": "minecraft:cube_all",
+        "textures": {
+          "all": "gregtech:blocks/casings/advanced_fusion_coil/advanced_fusion_coil_mk3"
+        }
+      },
+      "advanced_fusion_coil_mk4": {
+        "model": "minecraft:cube_all",
+        "textures": {
+          "all": "gregtech:blocks/casings/advanced_fusion_coil/advanced_fusion_coil_mk4"
+        }
+      },
+      "advanced_fusion_coil_mk5": {
+        "model": "minecraft:cube_all",
+        "textures": {
+          "all": "gregtech:blocks/casings/advanced_fusion_coil/advanced_fusion_coil_mk5"
+        }
+      }
+    }
+  }
+}

@@ -1,5 +1,6 @@
 package gregicality.legacy.api.recipe;
 
+import gregicality.legacy.api.recipe.builders.AdvancedFusionRecipeBuilder;
 import gregicality.legacy.common.GCYLRConfigHolder;
 import gregtech.api.gui.GuiTextures;
 import gregtech.api.gui.widgets.ProgressWidget;
@@ -8,7 +9,8 @@ import gregtech.api.recipes.builders.FuelRecipeBuilder;
 import gregtech.api.recipes.builders.SimpleRecipeBuilder;
 import gregtech.core.sound.GTSoundEvents;
 
-import static gregtech.api.recipes.RecipeMaps.CHEMICAL_RECIPES;
+import static gregtech.api.recipes.RecipeMaps.ARC_FURNACE_RECIPES;
+import static gregtech.api.recipes.RecipeMaps.FUSION_RECIPES;
 
 public final class GCYLRRecipeMaps {
 
@@ -18,11 +20,39 @@ public final class GCYLRRecipeMaps {
     public static RecipeMap<SimpleRecipeBuilder> BIO_REACTOR_RECIPES;
     public static RecipeMap<SimpleRecipeBuilder> FISSION_REACTOR_RECIPES;
     public static RecipeMap<SimpleRecipeBuilder> BREEDER_REACTOR_RECIPES;
+    public static RecipeMap<AdvancedFusionRecipeBuilder> ADVANCED_FUSION_RECIPES;
     public static RecipeMap<SimpleRecipeBuilder> LARGE_MIXER_RECIPES;
+    public static RecipeMap<SimpleRecipeBuilder> FLOTATION_RECIPES;
+    public static RecipeMap<SimpleRecipeBuilder> METALLURGIC_REACTION_SMELTER_RECIPES;
+    public static RecipeMap<SimpleRecipeBuilder> ADVANCED_ARC_RECIPES;
+    public static RecipeMap<SimpleRecipeBuilder> ROASTING_RECIPES;
 
     private GCYLRRecipeMaps() {}
 
     public static void init() {
+
+        if(GCYLRConfigHolder.recipes.realisticRecipes){
+            FLOTATION_RECIPES = new RecipeMap<>("flotation_cell", 4, 2,
+                    4, 2, new SimpleRecipeBuilder(), false)
+                    .setProgressBar(GuiTextures.PROGRESS_BAR_CRYSTALLIZATION, ProgressWidget.MoveType.HORIZONTAL)
+                    .setSound(GTSoundEvents.CHEMICAL_REACTOR);
+
+            METALLURGIC_REACTION_SMELTER_RECIPES = new RecipeMap<>("metallurgic_reaction_smelter", 3, 2,
+                    3, 2, new SimpleRecipeBuilder(), false)
+                    .setProgressBar(GuiTextures.PROGRESS_BAR_ARC_FURNACE, ProgressWidget.MoveType.HORIZONTAL)
+                    .setSound(GTSoundEvents.FURNACE);
+
+            ADVANCED_ARC_RECIPES = new RecipeMap<>("advanced_arc_furnace", 4, 2,
+                    4, 2, new SimpleRecipeBuilder(), false)
+                    .setProgressBar(GuiTextures.PROGRESS_BAR_ARC_FURNACE, ProgressWidget.MoveType.HORIZONTAL)
+                    .setSmallRecipeMap(ARC_FURNACE_RECIPES)
+                    .setSound(GTSoundEvents.ARC);
+
+            ROASTING_RECIPES = new RecipeMap<>("roasting_oven", 3, 3,
+                    3, 3, new SimpleRecipeBuilder(), false)
+                    .setProgressBar(GuiTextures.PROGRESS_BAR_ARC_FURNACE, ProgressWidget.MoveType.HORIZONTAL)
+                    .setSound(GTSoundEvents.ARC);
+        }
 
         DECAY_GENERATOR_FUELS = new RecipeMap<>("decay_generator", 2, 1,
                 1, 1, new FuelRecipeBuilder(), false)
@@ -37,8 +67,13 @@ public final class GCYLRRecipeMaps {
         BIO_REACTOR_RECIPES = new RecipeMap<>("bio_reactor", 3, 3,
                 5, 2, new SimpleRecipeBuilder(), false)
                 .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, ProgressWidget.MoveType.HORIZONTAL)
-                .setSound(GTSoundEvents.CHEMICAL_REACTOR)
-                .setSmallRecipeMap(CHEMICAL_RECIPES);
+                .setSound(GTSoundEvents.CHEMICAL_REACTOR);
+
+        ADVANCED_FUSION_RECIPES = new RecipeMap<>("advanced_fusion_reactor", 0, 0,
+                3, 3, new AdvancedFusionRecipeBuilder(), false)
+                .setProgressBar(GuiTextures.PROGRESS_BAR_FUSION, ProgressWidget.MoveType.HORIZONTAL)
+                .setSound(GTSoundEvents.ARC)
+                .setSmallRecipeMap(FUSION_RECIPES);
 
         ISOTOPIC_STABILIZER_RECIPES = new RecipeMap<>("isotopic_stabilizer", 1, 1,
                 1, 1, new SimpleRecipeBuilder(), false)

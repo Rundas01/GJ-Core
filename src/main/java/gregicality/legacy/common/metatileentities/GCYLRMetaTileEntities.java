@@ -1,7 +1,7 @@
 package gregicality.legacy.common.metatileentities;
 
-import gregicality.legacy.common.metatileentities.multiblock.electric.MetaTileEntityBioReactor;
-import gregicality.legacy.common.metatileentities.multiblock.electric.MetaTileEntityNuclearReactor;
+import gregicality.legacy.common.GCYLRConfigHolder;
+import gregicality.legacy.common.metatileentities.multiblock.electric.*;
 import gregicality.legacy.common.metatileentities.singleblock.generator.MetaTileEntityDecayGenerator;
 import gregtech.api.GTValues;
 import gregtech.api.metatileentity.SimpleGeneratorMetaTileEntity;
@@ -20,6 +20,11 @@ public final class GCYLRMetaTileEntities {
     public static SimpleMachineMetaTileEntity[] CHEMICAL_DEHYDRATOR = new SimpleMachineMetaTileEntity[GTValues.V.length - 1];
     public static MetaTileEntityBioReactor BIO_REACTOR;
     public static MetaTileEntityNuclearReactor NUCLEAR_REACTOR;
+    public static MetaTileEntityAdvancedFusionReactor ADVANCED_FUSION_REACTOR;
+    public static MetaTileEntityMetallurgicRefinery METALLURGIC_REACTION_SMELTER;
+    public static MetaTileEntityFlotationCell FLOTATION_CELL;
+    public static MetaTileEntityAdvancedArcFurnace ADVANCED_ARC_FURNACE;
+    public static MetaTileEntityRoastingOven ROASTING_OVEN;
 
     private GCYLRMetaTileEntities() {}
 
@@ -33,5 +38,12 @@ public final class GCYLRMetaTileEntities {
         // Multiblocks
         BIO_REACTOR = registerMetaTileEntity(2102, new MetaTileEntityBioReactor(gcylrId("bio_reactor")));
         NUCLEAR_REACTOR = registerMetaTileEntity(2103, new MetaTileEntityNuclearReactor(gcylrId("nuclear_reactor"),9));
+        ADVANCED_FUSION_REACTOR = registerMetaTileEntity(2104, new MetaTileEntityAdvancedFusionReactor(gcylrId("advanced_fusion_reactor"),GTValues.UHV));
+        if(GCYLRConfigHolder.recipes.realisticRecipes){
+            METALLURGIC_REACTION_SMELTER = registerMetaTileEntity(2105, new MetaTileEntityMetallurgicRefinery(gcylrId("metallurgic_reaction_smelter")));
+            FLOTATION_CELL = registerMetaTileEntity(2106, new MetaTileEntityFlotationCell(gcylrId("flotation_cell")));
+            ADVANCED_ARC_FURNACE = registerMetaTileEntity(2107, new MetaTileEntityAdvancedArcFurnace(gcylrId("advanced_arc_furnace")));
+            ROASTING_OVEN = registerMetaTileEntity(2108, new MetaTileEntityRoastingOven(gcylrId("roasting_oven")));
+        }
     }
 }

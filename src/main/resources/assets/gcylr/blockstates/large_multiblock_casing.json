@@ -13,6 +13,18 @@
         "textures": {
           "all": "gregtech:blocks/casings/large_multiblock_casing/bio_casing"
         }
+      },
+      "flotation_casing": {
+        "model": "minecraft:cube_all",
+        "textures": {
+          "all": "gregtech:blocks/casings/large_multiblock_casing/flotation_casing"
+        }
+      },
+      "carbon_electrode": {
+        "model": "minecraft:cube_all",
+        "textures": {
+          "all": "gregtech:blocks/casings/large_multiblock_casing/carbon_electrode"
+        }
       }
     }
   }

@@ -6,8 +6,8 @@ import gregtech.api.unification.material.Material;
 import net.minecraft.item.ItemStack;
 
 import static gregicality.legacy.api.recipe.GCYLRRecipeMaps.ISOTOPIC_STABILIZER_RECIPES;
-import static gregicality.legacy.api.unification.GCYLRIsotopes.nuclearMaterials;
-import static gregicality.legacy.api.unification.properties.GCYLRPropertyKey.NUCLEAR;
+import static gregicality.legacy.api.unification.material.GCYLRIsotopes.nuclearMaterials;
+import static gregicality.legacy.api.unification.properties.GCYLRPropertyKeys.NUCLEAR;
 import static gregtech.api.GTValues.LV;
 import static gregtech.api.GTValues.V;
 import static gregtech.api.unification.ore.OrePrefix.ingot;

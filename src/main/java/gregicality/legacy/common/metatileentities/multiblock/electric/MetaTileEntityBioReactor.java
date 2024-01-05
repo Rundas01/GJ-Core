@@ -74,7 +74,7 @@ public class MetaTileEntityBioReactor extends GCYMRecipeMapMultiblockController 
         return FactoryBlockPattern.start()
                 .aisle("#XXX#", "#CCC#", "#GGG#", "#CCC#", "#XXX#")
                 .aisle("XXXXX", "CAAAC", "GAAAG", "CAAAC", "XXXXX")
-                .aisle("XXXXX", "CAAAC", "GAAAG", "CAAAC", "XXMXX")
+                .aisle("XXXXX", "CAAAC", "GAAAG", "CAAAC", "XXXXX")
                 .aisle("XXXXX", "CAAAC", "GAAAG", "CAAAC", "XXXXX")
                 .aisle("#XSX#", "#CCC#", "#GGG#", "#CCC#", "#XXX#")
                 .where('S', selfPredicate())
@@ -83,7 +83,6 @@ public class MetaTileEntityBioReactor extends GCYMRecipeMapMultiblockController 
                                 .or(autoAbilities(true, true, true, true, true, true, false)))
                 .where('C', blocks(Blocks.GLASS))
                 .where('G', states(getCasingState2()))
-                .where('M', abilities(MultiblockAbility.MUFFLER_HATCH))
                 .where('A', air())
                 .where('#', any())
                 .build();

@@ -4,6 +4,7 @@ import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
@@ -25,6 +26,11 @@ public class BlockLargeMultiblockCasing extends VariantBlock<BlockLargeMultibloc
     }
 
     @Override
+    public @NotNull BlockRenderLayer getRenderLayer() {
+        return BlockRenderLayer.SOLID;
+    }
+
+    @Override
     public boolean canCreatureSpawn(@NotNull IBlockState state, @NotNull IBlockAccess world, @NotNull BlockPos pos,
                                     @NotNull EntityLiving.SpawnPlacementType type) {
         return false;
@@ -32,7 +38,9 @@ public class BlockLargeMultiblockCasing extends VariantBlock<BlockLargeMultibloc
 
     public enum CasingType implements IStringSerializable {
 
-        BIO_CASING("bio_casing");
+        BIO_CASING("bio_casing"),
+        CARBON_ELECTRODE("carbon_electrode"),
+        FLOTATION_CASING("flotation_casing");
 
         private final String name;
 

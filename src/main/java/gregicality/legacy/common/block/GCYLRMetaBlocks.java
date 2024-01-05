@@ -1,5 +1,6 @@
 package gregicality.legacy.common.block;
 
+import gregicality.legacy.common.block.blocks.BlockAdvancedFusionCoil;
 import net.minecraft.block.Block;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.IBlockState;
@@ -22,10 +23,13 @@ public final class GCYLRMetaBlocks {
 
     public static BlockUniqueCasing UNIQUE_CASING;
     public static BlockLargeMultiblockCasing LARGE_MULTIBLOCK_CASING;
+    public static BlockAdvancedFusionCoil ADVANCED_FUSION_COIL;
 
     public static void init() {
         UNIQUE_CASING = new BlockUniqueCasing();
         UNIQUE_CASING.setRegistryName("unique_casing");
+        ADVANCED_FUSION_COIL = new BlockAdvancedFusionCoil();
+        ADVANCED_FUSION_COIL.setRegistryName("advanced_fusion_coil");
         LARGE_MULTIBLOCK_CASING = new BlockLargeMultiblockCasing();
         LARGE_MULTIBLOCK_CASING.setRegistryName("large_multiblock_casing");
     }
@@ -34,6 +38,7 @@ public final class GCYLRMetaBlocks {
     public static void registerItemModels() {
         UNIQUE_CASING.onModelRegister();
         registerItemModel(LARGE_MULTIBLOCK_CASING);
+        registerItemModel(ADVANCED_FUSION_COIL);
     }
 
     @SideOnly(Side.CLIENT)

@@ -1,11 +1,9 @@
 package gregicality.legacy.loaders.recipe.multiblock;
 
-import net.minecraft.init.Items;
-
-import static gregicality.legacy.api.recipe.GCYLRRecipeMaps.*;
-import static gregtech.api.GTValues.*;
-import static gregtech.api.unification.material.Materials.*;
-import static gregtech.api.unification.ore.OrePrefix.*;
+import static gregicality.legacy.api.recipe.GCYLRRecipeMaps.BIO_REACTOR_RECIPES;
+import static gregicality.legacy.api.unification.material.GCYLRBacteriaMaterials.*;
+import static gregicality.legacy.api.unification.material.GCYLROrganicMaterials.*;
+import static gregtech.api.unification.ore.OrePrefix.dust;
 
 public final class BioReactorRecipes {
 
@@ -13,10 +11,9 @@ public final class BioReactorRecipes {
 
     public static void init() {
         BIO_REACTOR_RECIPES.recipeBuilder()
-                .input(dust, Copper)
-                .input(dust, Tin)
-                .fluidInputs(Lava.getFluid(1000),Water.getFluid(1000))
-                .output(Items.NETHER_STAR, 2)
-                .duration(160).EUt(VA[EV]).buildAndRegister();
+                .input(dust, Glucose, 24)
+                .input(dust, StreptococcusPyogenes)
+                .output(dust, Sorbose, 24)
+                .duration(3200).EUt(120).buildAndRegister();
     }
 }
