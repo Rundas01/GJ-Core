@@ -19,17 +19,17 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 
-import static gregicality.legacy.api.recipe.GCYLRRecipeMaps.ROASTING_RECIPES;
+import static gregicality.legacy.api.recipe.GCYLRRecipeMaps.ORE_CRACKING_RECIPES;
 
-public class MetaTileEntityRoastingOven extends RecipeMapMultiblockController {
+public class MetaTileEntityOreCracker extends RecipeMapMultiblockController {
 
-    public MetaTileEntityRoastingOven(ResourceLocation metaTileEntityId) {
-        super(metaTileEntityId, ROASTING_RECIPES);
+    public MetaTileEntityOreCracker(ResourceLocation metaTileEntityId) {
+        super(metaTileEntityId, ORE_CRACKING_RECIPES);
     }
 
     @Override
     public MetaTileEntity createMetaTileEntity(IGregTechTileEntity iGregTechTileEntity) {
-        return new MetaTileEntityRoastingOven(metaTileEntityId);
+        return new MetaTileEntityOreCracker(metaTileEntityId);
     }
 
     @Override

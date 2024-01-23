@@ -1,8 +1,10 @@
 package gregicality.legacy.api.unification.material;
 
 import gregicality.legacy.common.GCYLRConfigHolder;
+import gregtech.api.GregTechAPI;
 import gregtech.api.fluids.FluidBuilder;
 import gregtech.api.unification.material.Material;
+import gregtech.api.unification.material.properties.DustProperty;
 import gregtech.api.unification.material.properties.FluidProperty;
 import gregtech.api.unification.material.properties.PropertyKey;
 import gregtech.api.unification.material.properties.ToolProperty;
@@ -14,8 +16,7 @@ import java.util.List;
 
 import static gregtech.api.fluids.store.FluidStorageKeys.PLASMA;
 import static gregtech.api.unification.material.Materials.*;
-import static gregtech.api.unification.material.info.MaterialFlags.DISABLE_DECOMPOSITION;
-import static gregtech.api.unification.material.info.MaterialFlags.GENERATE_ROD;
+import static gregtech.api.unification.material.info.MaterialFlags.*;
 
 @ApiStatus.Internal
 public final class GCYLRMaterialFlagAddition {
@@ -26,18 +27,12 @@ public final class GCYLRMaterialFlagAddition {
         Sulfur.setProperty(PropertyKey.FLUID, new FluidProperty());
         Calcium.setProperty(PropertyKey.FLUID, new FluidProperty());
         Bromine.setProperty(PropertyKey.FLUID, new FluidProperty());
+        Iodine.setProperty(PropertyKey.DUST, new DustProperty());
         ToolProperty prop = Flint.getProperty(PropertyKey.TOOL);
         prop.setShouldIgnoreCraftingTools(false);
         if(GCYLRConfigHolder.recipes.realisticRecipes){
-            VanadiumMagnetite.addFlags(DISABLE_DECOMPOSITION);
-            Cobaltite.addFlags(DISABLE_DECOMPOSITION);
-            CobaltOxide.addFlags(DISABLE_DECOMPOSITION);
-            ArsenicTrioxide.addFlags(DISABLE_DECOMPOSITION);
-            Bauxite.addFlags(DISABLE_DECOMPOSITION);
-            Barite.addFlags(DISABLE_DECOMPOSITION);
-            BariumSulfide.addFlags(DISABLE_DECOMPOSITION);
-
             Barium.addFlags(GENERATE_ROD);
+            Beryllium.addFlags(GENERATE_ROD);
             Graphite.addFlags(GENERATE_ROD);
         }
     }
@@ -56,6 +51,18 @@ public final class GCYLRMaterialFlagAddition {
             FluidProperty fluidProperty = materialIntegerTuple.getFirst().getProperty(PropertyKey.FLUID);
             if (fluidProperty == null) continue;
             fluidProperty.getStorage().enqueueRegistration(PLASMA, new FluidBuilder().temperature(materialIntegerTuple.getSecond()));
+        }
+        if(GCYLRConfigHolder.recipes.realisticRecipes){
+            for(Material material : GregTechAPI.materialManager.getRegisteredMaterials()){
+                if(material.hasProperty(PropertyKey.ORE)){
+                    if((material != RockSalt) && (material != Salt) && (!material.hasFlag(DECOMPOSITION_BY_CENTRIFUGING))){
+                        material.addFlags(DISABLE_DECOMPOSITION);
+                    }
+                }
+            }
+            CobaltOxide.addFlags(DISABLE_DECOMPOSITION);
+            ArsenicTrioxide.addFlags(DISABLE_DECOMPOSITION);
+            BariumSulfide.addFlags(DISABLE_DECOMPOSITION);
         }
     }
 }

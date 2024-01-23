@@ -11,12 +11,21 @@ public final class GCYLRComplexMaterialLinesMaterials {
         AntimonyLineMaterials.init();
         ArsenicLineMaterials.init();
         BariumLineMaterials.init();
+        BerylliumLineMaterials.init();
+        BismuthLineMaterials.init();
         BromineLineMaterials.init();
+        CalciumLineMaterials.init();
         CobaltLineMaterials.init();
         CopperLineMaterials.init();
         GalliumLineMaterials.init();
-        SiliconSolarGradeLineMaterials.init();
+        IronLineMaterials.init();
+        LithiumLineMaterials.init();
+        MercuryLineMaterials.init();
+        PlatinumLineMaterials.init();
+        ScandiumLineMaterials.init();
+        SiliconLineMaterials.init();
         SilverLineMaterials.init();
+        TitaniumLineMaterials.init();
         VanadiumLineMaterials.init();
     }
 }

@@ -1,7 +1,6 @@
 package gregicality.legacy.loaders.recipe;
 
 import gregicality.legacy.common.GCYLRConfigHolder;
-import gregicality.legacy.loaders.recipe.complexmateriallines.GCYLRComplexMaterialLines;
 import gregicality.legacy.loaders.recipe.multiblock.*;
 import gregicality.legacy.loaders.recipe.singleblock.DecayGeneratorRecipes;
 import gregicality.legacy.loaders.recipe.singleblock.IsotopicStabilizerRecipes;

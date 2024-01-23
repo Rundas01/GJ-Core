@@ -6,32 +6,47 @@ import gregtech.api.unification.material.Material;
 import static gregicality.legacy.api.utils.GCYLRUtil.gcylrId;
 import static gregtech.api.fluids.attribute.FluidAttributes.ACID;
 import static gregtech.api.unification.material.Materials.*;
-import static gregtech.api.unification.material.info.MaterialIconSet.*;
+import static gregtech.api.unification.material.info.MaterialIconSet.DULL;
+import static gregtech.api.unification.material.info.MaterialIconSet.SHINY;
 
 public final class GCYLRUniversalChemicalMaterials {
 
     private GCYLRUniversalChemicalMaterials() {}
-
-    public static Material ImpureSodiumHydroxideSolution;
     public static Material SodiumHydroxideSolution;
     public static Material HydrogenFluoride;
     public static Material HydrogenChloride;
-    public static Material SodiumNitrite;
     public static Material NitrousAcid;
     public static Material CalciumOxide;
     public static Material SulfurDichloride;
     public static Material SodiumSulfate;
     public static Material ChloricAcid;
     public static Material ChlorineMonoxide;
+    public static Material SodiumSilicate;
+    public static Material SodiumSulfateSolution;
+    public static Material AmmoniumBifluoride;
+    public static Material AmmoniumFluoride;
+    public static Material MagnesiumFluoride;
+    public static Material HexafluoroSilicicAcid;
+    public static Material SodiumFluorosilicate;
+    public static Material AluminoSilicaSulfate;
+    public static Material SodiumFluoride;
+    public static Material SodiumFluorideSolution;
+    public static Material SodiumCarbonateSolution;
+    public static Material SodiumBisulfateSolution;
+    public static Material SodiumNitrate;
+    public static Material SodiumNitrite;
+    public static Material SodiumNitrateSolution;
+    public static Material AntimonyPentafluoride;
+    public static Material HexafluoroAntimonicAcid;
+    public static Material PotassiumNitrateSolution;
+    public static Material PotassiumNitrite;
+    public static Material SodiumOxide;
+    public static Material CalciumHydroxide;
+    public static Material PotassiumHydroxide;
+
+
 
     public static void init() {
-
-        ImpureSodiumHydroxideSolution = new Material.Builder(4000, gcylrId("impure_sodium_hydroxide_solution"))
-                .fluid()
-                .color(0x3a4991)
-                .build()
-                .setFormula("?",true);
-
         SodiumHydroxideSolution = new Material.Builder(4001,gcylrId("sodium_hydroxide_solution"))
                 .fluid()
                 .color(SodiumHydroxide.getMaterialRGB()-20)
@@ -94,6 +109,142 @@ public final class GCYLRUniversalChemicalMaterials {
                 .components(Chlorine,1,Oxygen,1)
                 .colorAverage()
                 .build();
+
+        SodiumSilicate = new Material.Builder(4011, gcylrId("sodium_silicate"))
+                .dust()
+                .components(Sodium,4,Silicon,1,Oxygen,4)
+                .colorAverage()
+                .build();
+
+        SodiumSulfateSolution = new Material.Builder(4012, gcylrId("sodium_sulfate_solution"))
+                .fluid()
+                .components(SodiumSulfate,1,Water,1)
+                .colorAverage()
+                .build();
+
+        AmmoniumBifluoride = new Material.Builder(4013, gcylrId("ammonium_bifluoride"))
+                .dust()
+                .components(Nitrogen,1,Fluorine,2,Hydrogen,5)
+                .colorAverage()
+                .build()
+                .setFormula("NH4HF2",true);
+
+        AmmoniumFluoride = new Material.Builder(4014, gcylrId("ammonium_fluoride"))
+                .dust()
+                .components(Nitrogen,1,Hydrogen,4,Fluorine,1)
+                .colorAverage()
+                .build();
+
+        MagnesiumFluoride = new Material.Builder(4015, gcylrId("magnesium_fluoride"))
+                .dust()
+                .components(Magnesium,1,Fluorine,2)
+                .colorAverage()
+                .build();
+
+        HexafluoroSilicicAcid = new Material.Builder(4016, gcylrId("hexafluoro_silicic_acid"))
+                .liquid(new FluidBuilder().attribute(ACID))
+                .components(Hydrogen,2,Silicon,1,Fluorine,6)
+                .colorAverage()
+                .build();
+
+        SodiumFluorosilicate = new Material.Builder(4017, gcylrId("sodium_fluorosilicate"))
+                .dust()
+                .components(Sodium,2,Silicon,1,Fluorine,6)
+                .colorAverage()
+                .build();
+
+        AluminoSilicaSulfate = new Material.Builder(4018, gcylrId("alumino_silica_sulfate"))
+                .dust()
+                .components(Aluminium,2,Silicon,6,Sulfur,3,Oxygen,24)
+                .colorAverage()
+                .build()
+                .setFormula("Al2Si6O12(SO4)3",true);
+
+        SodiumFluoride = new Material.Builder(4019, gcylrId("sodium_fluoride"))
+                .dust()
+                .components(Sodium, 1, Fluorine, 1)
+                .colorAverage()
+                .build();
+
+        SodiumFluorideSolution = new Material.Builder(4020, gcylrId("sodium_fluoride_solution"))
+                .fluid()
+                .components(SodiumFluoride, 1, Water, 1)
+                .colorAverage()
+                .build();
+
+        SodiumNitrate = new Material.Builder(4021, gcylrId("sodium_nitrate"))
+                .dust()
+                .components(Sodium, 1, Nitrogen, 1, Oxygen, 3)
+                .colorAverage()
+                .build();
+
+        SodiumNitrite = new Material.Builder(4022, gcylrId("sodium_nitrite"))
+                .dust()
+                .components(Sodium, 1, Nitrogen, 1, Oxygen, 2)
+                .colorAverage()
+                .build();
+
+        SodiumNitrateSolution = new Material.Builder(4023, gcylrId("sodium_nitrate_solution"))
+                .fluid()
+                .components(SodiumNitrate, 1, Water, 1)
+                .colorAverage()
+                .build();
+
+        SodiumBisulfateSolution = new Material.Builder(4024, gcylrId("sodium_bisulfate_solution"))
+                .fluid()
+                .colorAverage()
+                .components(SodiumBisulfate,1,Water,1)
+                .build();
+
+        SodiumCarbonateSolution = new Material.Builder(4025, gcylrId("sodium_carbonate_solution"))
+                .fluid()
+                .color(0x91919b)
+                .components(SodaAsh,1,Water,1)
+                .build();
+
+        AntimonyPentafluoride = new Material.Builder(4026, gcylrId("antimony_pentafluoride"))
+                .fluid()
+                .colorAverage()
+                .components(Antimony,1,Fluorine,5)
+                .build();
+
+        HexafluoroAntimonicAcid = new Material.Builder(4027, gcylrId("hexafluoro_antimonic_acid"))
+                .liquid(new FluidBuilder().attribute(ACID))
+                .colorAverage()
+                .components(AntimonyPentafluoride,1,HydrogenFluoride,1)
+                .build();
+
+        PotassiumNitrateSolution = new Material.Builder(4029,gcylrId("potassium_nitrate_solution"))
+                .fluid()
+                .colorAverage()
+                .components(Saltpeter,1,Water,1)
+                .build();
+
+        PotassiumNitrite = new Material.Builder(4030,gcylrId("potassium_nitrite"))
+                .dust()
+                .colorAverage()
+                .components(Potassium,1,Nitrogen,1,Oxygen,2)
+                .build();
+
+        SodiumOxide = new Material.Builder(4031,gcylrId("sodium_oxide"))
+                .dust()
+                .colorAverage()
+                .components(Sodium,2,Oxygen,1)
+                .build();
+
+        CalciumHydroxide = new Material.Builder(4032,gcylrId("calcium_hydroxide"))
+                .dust()
+                .colorAverage()
+                .components(Calcium,1,Oxygen,2,Hydrogen,2)
+                .build()
+                .setFormula("Ca(OH)2",true);
+
+        PotassiumHydroxide = new Material.Builder(4033,gcylrId("potassium_hydroxide"))
+                .dust()
+                .colorAverage()
+                .components(Potassium,1,Oxygen,1,Hydrogen,1)
+                .build();
+
 
         /*Polyimide = new Material.Builder(3216,gcylrId("polyimide"))
                 .ingot()

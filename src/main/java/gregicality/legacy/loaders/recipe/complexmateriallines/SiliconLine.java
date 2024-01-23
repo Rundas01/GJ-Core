@@ -1,12 +1,12 @@
 package gregicality.legacy.loaders.recipe.complexmateriallines;
 
-import static gregicality.legacy.api.unification.material.materiallines.SiliconSolarGradeLineMaterials.*;
+import static gregicality.legacy.api.unification.material.materiallines.SiliconLineMaterials.*;
 import static gregtech.api.recipes.RecipeMaps.CHEMICAL_RECIPES;
 import static gregtech.api.unification.material.Materials.*;
 import static gregtech.api.unification.ore.OrePrefix.dust;
 
-public class SiliconSolarGradeLine {
-    private SiliconSolarGradeLine() {}
+public class SiliconLine {
+    private SiliconLine() {}
 
     public static void init() {
         //HCl + Cl2 + Si -> HSiCl3
@@ -31,7 +31,7 @@ public class SiliconSolarGradeLine {
                 .input(dust,Sodium,4)
                 .fluidInputs(SiliconTetrachloride.getFluid(1000))
                 .output(dust,Salt,4)
-                .output(dust,SiliconSG)
+                .output(dust,HighPuritySilicon)
                 .EUt(30)
                 .duration(100)
                 .buildAndRegister();

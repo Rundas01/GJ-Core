@@ -2,7 +2,6 @@ package gregicality.legacy.api.unification.material;
 
 import gregtech.api.unification.material.Material;
 
-import static gregicality.legacy.api.unification.material.GCYLRMaterials.*;
 import static gregicality.legacy.api.utils.GCYLRUtil.gcylrId;
 import static gregtech.api.unification.material.Materials.*;
 import static gregtech.api.unification.material.info.MaterialIconSet.*;
@@ -18,7 +17,6 @@ public final class GCYLROrganicMaterials {
     public static Material Xylose;
     public static Material Glucosamine;
     public static Material MethylIsobutylCarbinol;
-    public static Material LauricAcid;
 
     public static void init() {
         Cellulose = new Material.Builder(3210,gcylrId("cellulose"))
@@ -67,12 +65,6 @@ public final class GCYLROrganicMaterials {
                 .fluid()
                 .components(Carbon, 6, Hydrogen, 14, Oxygen, 1)
                 .color(0x79c4c7)
-                .build();
-
-        LauricAcid = new Material.Builder(3217,gcylrId("lauric_acid"))
-                .fluid()
-                .components(Carbon, 12, Hydrogen, 24, Oxygen, 2)
-                .color(0xe39c32)
                 .build();
 
         /*Polyimide = new Material.Builder(3216,gcylrId("polyimide"))

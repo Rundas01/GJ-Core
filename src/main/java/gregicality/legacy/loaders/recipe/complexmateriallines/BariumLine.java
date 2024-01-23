@@ -1,103 +1,71 @@
 package gregicality.legacy.loaders.recipe.complexmateriallines;
 
-import static gregicality.legacy.api.recipe.GCYLRRecipeMaps.FLOTATION_RECIPES;
-import static gregicality.legacy.api.recipe.GCYLRRecipeMaps.ROASTING_RECIPES;
-import static gregicality.legacy.api.unification.material.GCYLRMiscMaterials.Wastewater;
+import static gregicality.legacy.api.recipe.GCYLRRecipeMaps.CHEMICAL_DEHYDRATOR_RECIPES;
 import static gregicality.legacy.api.unification.material.GCYLROreMaterials.Witherite;
-import static gregicality.legacy.api.unification.material.GCYLROrganicMaterials.LauricAcid;
-import static gregicality.legacy.api.unification.material.GCYLROrganicMaterials.MethylIsobutylCarbinol;
 import static gregicality.legacy.api.unification.material.GCYLRUniversalChemicalMaterials.*;
-import static gregicality.legacy.api.unification.material.materiallines.AluminiumLineMaterials.AluminiumOxide;
+import static gregicality.legacy.api.unification.material.materiallines.AluminiumLineMaterials.AluminiumIIIOxide;
 import static gregicality.legacy.api.unification.material.materiallines.BariumLineMaterials.*;
+import static gregicality.legacy.api.unification.material.materiallines.LithiumLineMaterials.LithiumOxide;
 import static gregtech.api.GTValues.*;
 import static gregtech.api.recipes.RecipeMaps.*;
 import static gregtech.api.unification.material.Materials.*;
-import static gregtech.api.unification.ore.OrePrefix.dust;
-import static gregtech.api.unification.ore.OrePrefix.stick;
+import static gregtech.api.unification.ore.OrePrefix.*;
 
 public class BariumLine {
     private BariumLine(){}
 
     public static void init(){
-        //HYDROXIDE ROUTE VIA ROASTING
-        //Barite Roasting
-        ROASTING_RECIPES.recipeBuilder()
-                .input(dust,Barite,6)
-                .fluidInputs(SodiumHydroxideSolution.getFluid(1000))
-                .output(dust,SodiumSulfate,7)
-                .output(dust,BariumHydroxide,5)
-                .fluidOutputs(ImpureBariumSlag.getFluid(1000))
-                .fluidInputs(Steam.getFluid(1000))
-                .EUt(VA[HV])
-                .duration(80)
-                .buildAndRegister();
-
-        //Witherite Roasting
-        ROASTING_RECIPES.recipeBuilder()
-                .input(dust,Witherite,5)
-                .output(dust,BariumOxide,2)
-                .fluidOutputs(CarbonDioxide.getFluid(1000))
-                .fluidOutputs(ImpureBariumSlag.getFluid(1000))
-                .EUt(VA[HV])
-                .duration(40)
-                .buildAndRegister();
-
-        //Slag Flotation
-        FLOTATION_RECIPES.recipeBuilder()
-                .fluidInputs(ImpureBariumSlag.getFluid(2000))
-                .notConsumable(MethylIsobutylCarbinol.getFluid(100))
-                .notConsumable(LauricAcid.getFluid(100))
-                .fluidOutputs(BariumSlag.getFluid(1000))
-                .fluidOutputs(BariumWaste.getFluid(1000))
-                .EUt(VA[HV])
-                .duration(80)
-                .buildAndRegister();
-
+        //ELEMENT ACQUISITION
         //Slag Separation
         CENTRIFUGE_RECIPES.recipeBuilder()
-                .fluidInputs(BariumSlag.getFluid(1000))
-                .output(dust,Barite)
-                .output(dust,Witherite)
-                .fluidOutputs(Wastewater.getFluid(1000))
+                .fluidInputs(BariumSlag.getFluid(1000),DistilledWater.getFluid(1000))
+                .output(dustImpure,Barium)
+                .chancedOutput(dustImpure,Barium,1,8750,800)
+                .chancedOutput(dustImpure,Barium,1,7500,700)
+                .chancedOutput(dustImpure,Barium,1,6250,600)
+                .chancedOutput(dustImpure,Barium,1,5000,500)
+                .chancedOutput(dustImpure,Barium,1,3750,400)
+                .fluidOutputs(BariumWaste.getFluid(100))
                 .EUt(VA[LV])
                 .duration(20)
                 .buildAndRegister();
 
-        //Hydroxide Treating with H2S
-        CHEMICAL_RECIPES.recipeBuilder()
-                .input(dust,BariumHydroxide,5)
-                .fluidInputs(HydrogenSulfide.getFluid(1000))
-                .output(dust,BariumSulfide,2)
-                .fluidOutputs(Water.getFluid(2000))
-                .EUt(VA[MV])
-                .duration(60)
+        CHEMICAL_DEHYDRATOR_RECIPES.recipeBuilder()
+                .fluidInputs(BariumWaste.getFluid(1000))
+                .chancedOutput(dustImpure,Barium,1,7500,750)
+                .chancedOutput(dustImpure,Barium,1,5000,500)
+                .chancedOutput(dustImpure,Barium,1,2500,250)
+                .EUt(VA[LV])
+                .duration(20)
                 .buildAndRegister();
 
-        //REDUCTION ROUTE VIA EBF AND CHEMREACTOR
-        //Blasting Barite
-        BLAST_RECIPES.recipeBuilder()
-                .input(dust,Barite)
-                .input(dust,Carbon,2)
-                .output(dust,BariumSulfide,2)
-                .fluidOutputs(CarbonDioxide.getFluid(2000))
-                .EUt(VA[HV])
-                .duration(240)
-                .blastFurnaceTemp(3000)
-                .buildAndRegister();
-
-        //Barium Sulfide -> Barium Carbonate
+        //Desulfurizing of Barium Sulfide
+        //BaS + 2 H2CO3 = Ba(CO3)2 + H2S
         CHEMICAL_RECIPES.recipeBuilder()
                 .input(dust,BariumSulfide,2)
-                .fluidInputs(DistilledWater.getFluid(1000),CarbonDioxide.getFluid(1000))
-                .output(dust,BariumCarbonate,5)
+                .fluidInputs(CarbonicAcid.getFluid(2000))
+                .output(dust,BariumCarbonate,9)
                 .fluidOutputs(HydrogenSulfide.getFluid(1000))
-                .EUt(VA[MV])
-                .duration(60)
+                .EUt(VA[LV])
+                .duration(380)
                 .buildAndRegister();
 
-        //Barium Carbonate Blasting
+        //(Redox) Reactions in the EBF
+        //Sulfate Decomposition
+        //BaSO4 = BaS + 2 O2
         BLAST_RECIPES.recipeBuilder()
-                .input(dust,BariumCarbonate,5)
+                .input(dust,Barite,6)
+                .output(dust,BariumSulfide,2)
+                .fluidOutputs(Oxygen.getFluid(4000))
+                .EUt(VA[HV])
+                .duration(300)
+                .blastFurnaceTemp(2000)
+                .buildAndRegister();
+
+        //Carbonate Decomposition
+        //BaCO3 = BaO + CO2
+        BLAST_RECIPES.recipeBuilder()
+                .input(dust,Witherite,5)
                 .output(dust,BariumOxide,2)
                 .fluidOutputs(CarbonDioxide.getFluid(1000))
                 .EUt(VA[HV])
@@ -106,24 +74,13 @@ public class BariumLine {
                 .buildAndRegister();
 
         //Barium Oxide Reduction
+        //BaO + 2 Li = Ba + Li2O
         BLAST_RECIPES.recipeBuilder()
-                .input(dust,BariumOxide,6)
-                .input(dust,Aluminium,2)
-                .circuitMeta(2)
-                .output(dust,Barium,3)
-                .output(dust,AluminiumOxide,5)
-                .EUt(VA[HV])
-                .duration(200)
-                .blastFurnaceTemp(2000)
-                .buildAndRegister();
-
-        BLAST_RECIPES.recipeBuilder()
-                .input(dust,BariumOxide,4)
-                .input(dust,Silicon)
-                .circuitMeta(3)
-                .output(dust,Barium,2)
-                .output(dust,SiliconDioxide,3)
-                .EUt(VA[HV])
+                .input(dust,BariumOxide,3)
+                .input(dust,Lithium,2)
+                .output(dust,Barium)
+                .output(dust,LithiumOxide,3)
+                .EUt(VA[EV])
                 .duration(200)
                 .blastFurnaceTemp(2000)
                 .buildAndRegister();

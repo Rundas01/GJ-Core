@@ -24,7 +24,7 @@ public final class GCYLRMetaTileEntities {
     public static MetaTileEntityMetallurgicRefinery METALLURGIC_REACTION_SMELTER;
     public static MetaTileEntityFlotationCell FLOTATION_CELL;
     public static MetaTileEntityAdvancedArcFurnace ADVANCED_ARC_FURNACE;
-    public static MetaTileEntityRoastingOven ROASTING_OVEN;
+    public static MetaTileEntityOreCracker ORE_CRACKER;
 
     private GCYLRMetaTileEntities() {}
 
@@ -43,7 +43,7 @@ public final class GCYLRMetaTileEntities {
             METALLURGIC_REACTION_SMELTER = registerMetaTileEntity(2105, new MetaTileEntityMetallurgicRefinery(gcylrId("metallurgic_reaction_smelter")));
             FLOTATION_CELL = registerMetaTileEntity(2106, new MetaTileEntityFlotationCell(gcylrId("flotation_cell")));
             ADVANCED_ARC_FURNACE = registerMetaTileEntity(2107, new MetaTileEntityAdvancedArcFurnace(gcylrId("advanced_arc_furnace")));
-            ROASTING_OVEN = registerMetaTileEntity(2108, new MetaTileEntityRoastingOven(gcylrId("roasting_oven")));
+            ORE_CRACKER = registerMetaTileEntity(2108, new MetaTileEntityOreCracker(gcylrId("ore_cracker")));
         }
     }
 }

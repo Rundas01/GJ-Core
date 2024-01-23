@@ -12,13 +12,13 @@ public class BromineLineMaterials {
     public static Material SodiumBromideSolution;
 
     public static void init(){
-        SodiumBromide = new Material.Builder(3637, gcylrId("sodium_bromide"))
+        SodiumBromide = new Material.Builder(3690, gcylrId("sodium_bromide"))
                 .dust()
                 .components(Sodium, 1, Bromine, 1)
                 .colorAverage()
                 .build();
 
-        SodiumBromideSolution = new Material.Builder(3638, gcylrId("sodium_bromide_solution"))
+        SodiumBromideSolution = new Material.Builder(3691, gcylrId("sodium_bromide_solution"))
                 .fluid()
                 .components(SodiumBromide, 1, Water, 1)
                 .colorAverage()

@@ -5,6 +5,7 @@ import gregicality.legacy.common.GCYLRConfigHolder;
 import gregtech.api.gui.GuiTextures;
 import gregtech.api.gui.widgets.ProgressWidget;
 import gregtech.api.recipes.RecipeMap;
+import gregtech.api.recipes.builders.BlastRecipeBuilder;
 import gregtech.api.recipes.builders.FuelRecipeBuilder;
 import gregtech.api.recipes.builders.SimpleRecipeBuilder;
 import gregtech.core.sound.GTSoundEvents;
@@ -25,15 +26,15 @@ public final class GCYLRRecipeMaps {
     public static RecipeMap<SimpleRecipeBuilder> FLOTATION_RECIPES;
     public static RecipeMap<SimpleRecipeBuilder> METALLURGIC_REACTION_SMELTER_RECIPES;
     public static RecipeMap<SimpleRecipeBuilder> ADVANCED_ARC_RECIPES;
-    public static RecipeMap<SimpleRecipeBuilder> ROASTING_RECIPES;
+    public static RecipeMap<BlastRecipeBuilder> ORE_CRACKING_RECIPES;
 
     private GCYLRRecipeMaps() {}
 
     public static void init() {
 
         if(GCYLRConfigHolder.recipes.realisticRecipes){
-            FLOTATION_RECIPES = new RecipeMap<>("flotation_cell", 4, 2,
-                    4, 2, new SimpleRecipeBuilder(), false)
+            FLOTATION_RECIPES = new RecipeMap<>("flotation_cell", 0, 0,
+                    2, 4, new SimpleRecipeBuilder(), false)
                     .setProgressBar(GuiTextures.PROGRESS_BAR_CRYSTALLIZATION, ProgressWidget.MoveType.HORIZONTAL)
                     .setSound(GTSoundEvents.CHEMICAL_REACTOR);
 
@@ -48,8 +49,8 @@ public final class GCYLRRecipeMaps {
                     .setSmallRecipeMap(ARC_FURNACE_RECIPES)
                     .setSound(GTSoundEvents.ARC);
 
-            ROASTING_RECIPES = new RecipeMap<>("roasting_oven", 3, 3,
-                    3, 3, new SimpleRecipeBuilder(), false)
+            ORE_CRACKING_RECIPES = new RecipeMap<>("ore_cracking", 1,4,
+                    3, 5, new BlastRecipeBuilder(), false)
                     .setProgressBar(GuiTextures.PROGRESS_BAR_ARC_FURNACE, ProgressWidget.MoveType.HORIZONTAL)
                     .setSound(GTSoundEvents.ARC);
         }

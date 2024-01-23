@@ -2,6 +2,7 @@ package gregicality.legacy.api.unification.material;
 
 import gregtech.api.unification.material.Material;
 
+import static gregicality.legacy.api.utils.GCYLRUtil.convertRGB2Hex;
 import static gregicality.legacy.api.utils.GCYLRUtil.gcylrId;
 import static gregtech.api.unification.material.Materials.*;
 import static gregtech.api.unification.material.info.MaterialFlags.*;
@@ -26,12 +27,10 @@ public class GCYLROreMaterials {
     public static Material Smithsonite;
     public static Material Arsenopyrite;
     public static Material Acanthite;
-    public static Material Pyrargyrite;
     public static Material Stephanite;
     public static Material Proustite;
     public static Material Celestine;
     public static Material Strontianite;
-    public static Material Witherite;
     public static Material Wolframite;
     public static Material Rhodplumsite;
     public static Material Bowieite;
@@ -43,12 +42,9 @@ public class GCYLROreMaterials {
     public static Material Crookesite;
     public static Material Dilithium;
     public static Material Anthracite;
-    public static Material Phosphorite;
     public static Material Sperrylite;
     public static Material Kernite;
     public static Material Colemanite;
-    public static Material Ulexite;
-    public static Material Carnallite;
     public static Material Kainite;
     public static Material Kieserite;
     public static Material Polyhalite;
@@ -73,7 +69,6 @@ public class GCYLROreMaterials {
     public static Material Orpiment;
     public static Material Braggite;
     public static Material Stannite;
-    public static Material Euxenite;
     public static Material Xenotime;
     public static Material Caliche;
     public static Material Lauterite;
@@ -82,8 +77,10 @@ public class GCYLROreMaterials {
     public static Material Rhodochrosite;
     public static Material Carnotite;
     public static Material Cryolite;
+    public static Material Bertrandite;
+    public static Material Phenakite;
+    public static Material Witherite;
     public static void register() {
-
         Petalite = new Material.Builder(7000, gcylrId("petalite"))
                 .dust().ore()
                 .flags(NO_SMELTING)
@@ -103,9 +100,8 @@ public class GCYLROreMaterials {
                 .dust().ore()
                 .flags(NO_SMELTING)
                 .color(0xb38969)
-                .components(Scandium, 1, Yttrium, 1, Silicon, 2, Oxygen, 7)
-                .build()
-                .setFormula("(Sc,Y)2Si2O7", true);
+                .components(Scandium, 2, Silicon, 2, Oxygen, 7)
+                .build();
 
         Perovskite = new Material.Builder(7003, gcylrId("perovskite"))
                 .gem().ore()
@@ -203,14 +199,6 @@ public class GCYLROreMaterials {
                 .components(Silver, 2, Sulfur, 1)
                 .build();
 
-        Pyrargyrite = new Material.Builder(7015, gcylrId("pyrargyrite"))
-                .dust().ore()
-                .flags(NO_SMELTING)
-                .iconSet(SHINY)
-                .color(0x362a2a)
-                .components(Silver, 3, Antimony, 1, Sulfur, 3)
-                .build();
-
         Stephanite = new Material.Builder(7016, gcylrId("stephanite"))
                 .dust().ore()
                 .flags(NO_SMELTING)
@@ -241,13 +229,6 @@ public class GCYLROreMaterials {
                 .color(0xe3d3af)
                 .iconSet(SHINY)
                 .components(Strontium, 1, Carbon, 1, Oxygen, 3)
-                .build();
-
-        Witherite = new Material.Builder(7020, gcylrId("witherite"))
-                .dust().ore()
-                .flags(NO_SMELTING)
-                .color(0xd1d0bc)
-                .components(Barium, 1, Carbon, 1, Oxygen, 3)
                 .build();
 
         Wolframite = new Material.Builder(7021, gcylrId("wolframite"))
@@ -333,12 +314,6 @@ public class GCYLROreMaterials {
                 .flags(FLAMMABLE, NO_SMELTING, NO_SMASHING, MORTAR_GRINDABLE)
                 .build();
 
-        Phosphorite = new Material.Builder(7035, gcylrId("phosphorite"))
-                .dust()
-                .iconSet(SHINY)
-                .color(0x8a6e42)
-                .build();
-
         Sperrylite = new Material.Builder(7036, gcylrId("sperrylite"))
                 .gem().ore()
                 .components(Platinum, 1, Arsenic, 2)
@@ -359,21 +334,6 @@ public class GCYLROreMaterials {
                 .components(Calcium, 2, Boron, 6, Oxygen, 11, Water, 5)
                 .build()
                 .setFormula("Ca2B6O11 * (H2O)5", true);
-
-        Ulexite = new Material.Builder(7039, gcylrId("ulexite"))
-                .dust()
-                .color(0xc2aba1)
-                .components(Sodium, 1, Calcium, 1, Boron, 5, Oxygen, 12, Hydrogen, 6, Water, 5)
-                .build()
-                .setFormula("NaCaB5O6(OH)6 * (H2O)5", true);
-
-        Carnallite = new Material.Builder(7040, gcylrId("carnallite"))
-                .dust()
-                .iconSet(SHINY)
-                .color(0xffffff)
-                .components(Potassium, 1, Magnesium, 1, Chlorine, 3, Water, 6)
-                .build()
-                .setFormula("KCl.MgCl2 * (H2O)6", true);
 
         Kainite = new Material.Builder(7041, gcylrId("kainite"))
                 .dust()
@@ -491,7 +451,7 @@ public class GCYLROreMaterials {
                 .color(0x30251f)
                 .components(Iron, 1, Oxygen, 2, Hydrogen, 1)
                 .build()
-                .setFormula("α-FeO(OH)", true);
+                .setFormula("FeO(OH)", true);
 
         Hydrozincite = new Material.Builder(7057, gcylrId("hydrozincite"))
                 .dust()
@@ -548,13 +508,6 @@ public class GCYLROreMaterials {
                 .components(Copper, 2, Iron, 1, Tin, 1, Sulfur, 4)
                 .build();
 
-        Euxenite = new Material.Builder(7065, gcylrId("euxenite"))
-                .dust()
-                .color(0x9c973e)
-                .components(Yttrium, 1, Calcium, 1, Cerium, 1, Thorium, 1, Niobium, 1, Tantalum, 1, Titanium, 1, Oxygen, 6)
-                .build()
-                .setFormula("(Y,Ca,Ce,U,Th)(Nb,Ta,Ti)2O6", true);
-
         Xenotime = new Material.Builder(7066, gcylrId("xenotime"))
                 .dust()
                 .iconSet(SHINY)
@@ -604,10 +557,30 @@ public class GCYLROreMaterials {
                 .build()
                 .setFormula("K2(UO2)2(VO4)2 * 3H2O", true);
 
-        Cryolite = new Material.Builder(3611, gcylrId("cryolite"))
+        Cryolite = new Material.Builder(7073, gcylrId("cryolite"))
                 .fluid().dust().ore()
                 .components(Sodium, 3, Aluminium, 1, Fluorine, 6)
                 .color(0x2497a6)
+                .build();
+
+        Bertrandite = new Material.Builder(7074, gcylrId("bertrandite"))
+                .ore()
+                .components(Beryllium,4,Silicon,2,Hydrogen,2,Oxygen,9)
+                .color(convertRGB2Hex(50,0,50))
+                .build()
+                .setFormula("Be4Si2O7(OH)2",true);
+
+        Phenakite = new Material.Builder(7075, gcylrId("phenakite"))
+                .ore()
+                .components(Beryllium,2,Silicon,1,Oxygen,4)
+                .color(Silver.getMaterialRGB())
+                .build();
+
+        Witherite = new Material.Builder(7076, gcylrId("witherite"))
+                .dust().ore()
+                .flags(NO_SMELTING)
+                .color(0xd1d0bc)
+                .components(Barium, 1, Carbon, 1, Oxygen, 3)
                 .build();
     }
 }
