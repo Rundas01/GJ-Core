@@ -1,13 +1,10 @@
 package gregsjourney.api.unification.material;
 
-import gregtech.api.fluids.store.FluidStorageKey;
-import gregtech.api.fluids.store.FluidStorageKeys;
 import gregtech.api.unification.material.properties.FluidProperty;
 import gregtech.api.unification.material.properties.OreProperty;
-import org.jetbrains.annotations.ApiStatus;
-
 import gregtech.api.unification.material.properties.PropertyKey;
 import gregtech.api.unification.material.properties.ToolProperty;
+import org.jetbrains.annotations.ApiStatus;
 
 import static gregtech.api.unification.material.Materials.*;
 import static gregtech.api.unification.material.info.MaterialFlags.GENERATE_ROD;
@@ -32,6 +29,7 @@ public class GJMaterialFlagAddition {
         Bismuth.addFlags(GENERATE_ROD);
         Boron.setProperty(PropertyKey.ORE,new OreProperty());
         Bromine.setProperty(PropertyKey.FLUID,new FluidProperty());
+        Caesium.setProperty(PropertyKey.ORE,new OreProperty());
     }
 
     public static void initLate() {}

@@ -178,7 +178,7 @@ public class ArsenicLine {
         //As2O3 + 6 Li = 2 As + 3 Li2O
         REDOX_RECIPES.recipeBuilder()
                 .input(dust,ArsenicTrioxide,5)
-                .input(dust,Lithium,6)
+                .input(dust,HighPurityLithium,6)
                 .output(dust,Arsenic,2)
                 .output(dust,LithiumOxide,9)
                 .EUt(VA[MV])
@@ -188,7 +188,7 @@ public class ArsenicLine {
         //As2O3 + 3 Mg = 2 As + 3 MgO
         REDOX_RECIPES.recipeBuilder()
                 .input(dust,ArsenicTrioxide,5)
-                .input(dust,Magnesium,3)
+                .input(dust,HighPurityMagnesium,3)
                 .output(dust,Arsenic,2)
                 .output(dust,Magnesia)
                 .EUt(VA[MV])
@@ -198,7 +198,7 @@ public class ArsenicLine {
         //As2O3 + 2 Al = 2 As + Al2O3
         REDOX_RECIPES.recipeBuilder()
                 .input(dust,ArsenicTrioxide,5)
-                .input(dust,Aluminium,2)
+                .input(dust,HighPurityAluminium,2)
                 .output(dust,Arsenic,2)
                 .output(dust,AluminiumIIIOxide,5)
                 .EUt(VA[HV])
@@ -208,21 +208,11 @@ public class ArsenicLine {
         //2 As2O3 + 3 Si = 4 As + 3 SiO2
         REDOX_RECIPES.recipeBuilder()
                 .input(dust,ArsenicTrioxide,10)
-                .input(dust,Carbon,3)
+                .input(dust,HighPuritySilicon,3)
                 .output(dust,Arsenic,4)
                 .output(dust,SiliconDioxide,9)
                 .EUt(VA[EV])
                 .duration(800)
-                .buildAndRegister();
-
-        //2 As2O3 + 3 C = 4 As + 3 CO2
-        REDOX_RECIPES.recipeBuilder()
-                .input(dust,ArsenicTrioxide,10)
-                .input(dust,Carbon,3)
-                .output(dust,Arsenic,4)
-                .fluidOutputs(CarbonDioxide.getFluid(3000))
-                .EUt(VA[IV])
-                .duration(1000)
                 .buildAndRegister();
 
         //As2O5 + 10 Li = 2 As + 5 Li2O
