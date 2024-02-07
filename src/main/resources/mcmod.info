@@ -1,7 +1,7 @@
 [{
-  "modid": "gcylr",
-  "name": "Gregicality Legacy Reimagined",
-  "description": "Multiblock Machines module of Gregicality.",
+  "modid": "gj",
+  "name": "Greg's Journey",
+  "description": "Coremod for the Modpack Greg's Journey.",
   "version": "${version}",
   "mcversion": "${mcversion}",
   "authorList": [
@@ -9,5 +9,5 @@
   ],
   "credits": "GregoriusT for making GregTech and textures, Gregtech CEu Dev Team for help in development and especially TechLord22 for GCYM which has been used as a template.",
 
-  "dependencies": ["codechickenlib", "gregtech", "gcym"]
+  "dependencies": ["codechickenlib", "gregtech", "gcym", "gcylr", "forestry", "thaumcraft", "astralsorcery", "galacticraft"]
 }]
