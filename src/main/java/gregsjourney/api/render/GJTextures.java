@@ -1,30 +1,21 @@
 package gregsjourney.api.render;
 
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.relauncher.Side;
-
 import gregtech.client.renderer.texture.cube.OrientedOverlayRenderer;
-import gregtech.client.renderer.texture.cube.SimpleOverlayRenderer;
 
-import gregsjourney.GregsJourney;
-
-@Mod.EventBusSubscriber(modid = GregsJourney.MODID, value = Side.CLIENT)
 public final class GJTextures {
-
-    // Multiblock Controllers
-    public static OrientedOverlayRenderer BIO_REACTOR_OVERLAY;
-    public static SimpleOverlayRenderer BIO_CASING;
-    public static OrientedOverlayRenderer FLOTATION_OVERLAY;
-    public static OrientedOverlayRenderer REDOX_FURNACE_OVERLAY;
-
     private GJTextures() {}
-
-    public static void preInit() {
-        // Multiblock Controllers
-        BIO_REACTOR_OVERLAY = new OrientedOverlayRenderer("multiblock/bio_reactor");
-        FLOTATION_OVERLAY = new OrientedOverlayRenderer("multiblock/flotation_cell");
-        REDOX_FURNACE_OVERLAY = new OrientedOverlayRenderer("multiblock/redox_furnace");
-        // Casings
-        BIO_CASING = new SimpleOverlayRenderer("casings/large_multiblock_casing/bio_casing");
-    }
+    // Singleblocks
+    public static final OrientedOverlayRenderer BATCH_OVERLAY = new OrientedOverlayRenderer("singleblock/batch_reactor");
+    public static final OrientedOverlayRenderer BUBBLE_OVERLAY = new OrientedOverlayRenderer("singleblock/bubble_column_reactor");
+    public static final OrientedOverlayRenderer MIXING_OVERLAY = new OrientedOverlayRenderer("singleblock/mixing_reactor");
+    public static final OrientedOverlayRenderer CATALYTIC_OVERLAY = new OrientedOverlayRenderer("singleblock/catalytic_reactor");
+    public static final OrientedOverlayRenderer ROASTER_OVERLAY = new OrientedOverlayRenderer("singleblock/roaster");
+    public static final OrientedOverlayRenderer POLYMERIZER_OVERLAY = new OrientedOverlayRenderer("singleblock/polymerizer");
+    // Multiblock Controllers
+    public static final OrientedOverlayRenderer FLOTATION_OVERLAY = new OrientedOverlayRenderer("multiblock/flotation_cell");
+    public static final OrientedOverlayRenderer HEAT_EXCHANGER_OVERLAY = new OrientedOverlayRenderer("multiblock/heat_exchanger");
+    public static final OrientedOverlayRenderer ADVANCED_ELECTROLYZER_OVERLAY = new OrientedOverlayRenderer("multiblock/advanced_electrolyzer");
+    public static final OrientedOverlayRenderer ADVANCED_COMBUSTION_TURBINE_OVERLAY = new OrientedOverlayRenderer("multiblock/advanced_combustion_turbine");
+    public static final OrientedOverlayRenderer ADVANCED_STEAM_TURBINE_OVERLAY = new OrientedOverlayRenderer("multiblock/advanced_steam_turbine");
+    public static final OrientedOverlayRenderer CRUCIBLE_OVERLAY = new OrientedOverlayRenderer("multiblock/crucible");
 }

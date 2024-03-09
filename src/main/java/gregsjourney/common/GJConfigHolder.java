@@ -15,7 +15,8 @@ public class GJConfigHolder {
     public static GJOptions options = new GJOptions();
 
     public static class GJOptions {
-        @Config.Comment({"Za Handozawarudo", "Default: true" })
+
+        @Config.Comment({ "Za Handozawarudo", "Default: true" })
         public boolean test = true;
     }
 }

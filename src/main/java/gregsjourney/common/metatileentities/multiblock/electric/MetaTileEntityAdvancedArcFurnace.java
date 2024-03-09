@@ -49,7 +49,8 @@ public class MetaTileEntityAdvancedArcFurnace extends RecipeMapMultiblockControl
                                 .setMinGlobalLimited(28)
                                 .or(autoAbilities()))
                 .where('C',
-                        states(GJMetaBlocks.LARGE_MULTIBLOCK_CASING.getState(BlockLargeMultiblockCasing.CasingType.CARBON_ELECTRODE)))
+                        states(GJMetaBlocks.LARGE_MULTIBLOCK_CASING
+                                .getState(BlockLargeMultiblockCasing.CasingType.CARBON_ELECTRODE)))
                 .where('D', states(MetaBlocks.BOILER_CASING.getState((BlockBoilerCasing.BoilerCasingType.STEEL_PIPE))))
                 .where('E',
                         states(MetaBlocks.BOILER_FIREBOX_CASING

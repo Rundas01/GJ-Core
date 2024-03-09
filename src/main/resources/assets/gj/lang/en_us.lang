@@ -1,20 +1,39 @@
 # singleblocks
+gj.machine.bee_hatch_hv.name=Advanced Bee Hatch
+gj.machine.bee_hatch_ev.name=Advanced Bee Hatch II
+gj.machine.bee_hatch_iv.name=Elite Bee Hatch
+gj.machine.bee_hatch_luv.name=Elite Bee Hatch II
+gj.machine.bee_hatch_zpm.name=Elite Bee Hatch III
+gj.machine.bee_hatch_uv.name=Ultimate Bee Hatch
+gj.machine.bee_hatch_uhv.name=Ultimate Bee Hatch II
+gj.machine.heat_hatch.name=Crucible Heat Hatch
 
 # singleblock descriptions
+gj.machine.bee_hatch.info=A special hatch to be used in the §eIndustrial Alveary§r. Can hold §e%s Queens§r.
+gj.machine.bubble_column_reactor.info=This kind of chemical reactor houses reactions when a gas traverses a liquid.
+gj.machine.mixing_reactor.info=This kind of chemical reactor houses reactions that take place when 2 gases, 2 liquids or a solid and a liquid are mixed together. Not to be confused with the Mixer though, since no chemical reactions happen in that machine.
+gj.machine.catalytic_reactor.info=A special chemical reactor which is responsible for each reaction that requires a catalyst in order to take place. Organic chemists love this machine.
+gj.machine.batch_reactor.info=This reactor houses all remaining reactions which don't fit into the other reactors.
+gj.machine.polymerizer.info=A specialized machine for producing polymers.
+gj.machine.roaster.info=Your best friend when it comes to ore processing. It treats the dusts of compound ores with different substances to enable further processing.
+gj.machine.crucible.info=A simple earlygame multiblock to convert any kind of stone into lava. Stone supplied in the Input Bus will be consumed and converted to an internal stone mass. To start the lava production, you need to supply a fluid which is at least as hot as lava in the Heat Hatch. The conversion factor is calculated via this formula: (fluid temperature - lava temperature + 1)/Math.floorDiv(amount of fluid in Heat Hatch, 1000).
+gj.machine.heat_hatch.info=A special hatch to be used in the §eCrucible§r. Can hold §e§r%s L§r of fluids with a temperature at least as high as lava.
 
 # multiblocks
 gj.machine.flotation_cell.name=Flotation Cell
-gj.machine.metallurgic_reaction_smelter.name=Metallurgic Reaction Smelter
+gj.machine.advanced_large_combustion_turbine.name=Advanced Large Combustion Turbine
+gj.machine.advanced_large_steam_turbine.name=Advanced Large Steam Turbine
 gj.machine.advanced_arc_furnace.name=Advanced Arc Furnace
-gj.machine.ore_cracker.name=Ore Cracker
-gj.machine.redox_furnace.name=Redox Furnace
+gj.machine.mega_alveary.name=Industrial Alveary
+gj.machine.advanced_electrolyzer.name=Electrolytic Chamber
+gj.machine.crucible.name=Crucible
 
 # multiblock descriptions
 gj.multiblock.flotation_cell.description=A multiblock machine which separates composite ore slags into element slags.
-gj.multiblock.ore_cracker.description=A multiblock furnace which cracks ores into processable compounds using different acids or bases as the cracking agent.
 gj.multiblock.advanced_arc_furnace.description=A multiblock advanced Arc Furnace capable of working with more inputs than the singleblock.
-gj.multiblock.redox_furnace.description=A specialized multiblock furnace to house all kinds of redox reactions.
-gj.multiblock.metallurgic_reaction_smelter.description=This multiblock smelter is an integral machine when it comes to refining elements into their high purity counterpart.
+gj.multiblock.advanced_electrolyzer.description=This multiblock machine houses more complex electrolysis reactions.
+gj.multiblock.heat_exchanger.description=A multiblock machine for transferring thermal energy between fluids. Very useful earlygame to never run out of Steam. Especially effective when used in conjunction with the Crucible.
+gj.multiblock.mega_alveary.description=A highly advanced Alveary, capable of working with 1 Queen for each supplied amp of IV power. Only the products of the §eprimary§r genome will be produced, but purebred bees receive a 10%% production boost. The length of the production cycle is determined as a weighted average of the bee's lifespan by their production speed. Will provide the preferred climate to all bees and make them jubilant. For each supplied amp of LuV power, bees will receive a 5%% production bonus. The working speed of the Queen will have double the effect in this machine. Additionally, in each production cycle, you can supply 1 Royal Jelly per Queen in an Input Bus to increase the production by another 10%%. It's only being consumed if every Queen can receive 1.
 
 # casings
 
@@ -24,62 +43,19 @@ tile.large_multiblock_casing.carbon_electrode.name=Carbon Electrode
 
 # RecipeMaps
 recipemap.flotation_cell.name=Flotation Cell Separating
-recipemap.metallurgic_reaction_smelter.name=Metallurgic Refining
 recipemap.advanced_arc_furnace.name=Advanced Arc Smelting
-recipemap.ore_cracking.name=Ore Cracking
-recipemap.redox_furnace.name=Redox Reacting
+recipemap.roaster.name=Roasting
+recipemap.bubble_column_reactor.name=Bubble Column Reacting
+recipemap.mixing_reactor.name=Mixing Reacting
+recipemap.batch_reactor.name=Batch Reacting
+recipemap.catalytic_reactor.name=Catalytic Reacting
+recipemap.heat_exchanger.name=Heat Exchanging
+recipemap.advanced_electrolyzer.name=Advanced Electrolysis
+recipemap.advanced_steam_fuels.name=Multiblock Steam Turbine
+recipemap.advanced_combustion_fuels.name=Multiblock Combustion Turbine
+recipemap.polymerizer.name=Polymerization
+recipemap.chemical_dehydrator.name=Dehydrating
 
-# Materials
-
-gcylr.material.vanadium_slag=Vanadium Slag
-gcylr.material.sodium_metavanadate=Sodium Metavanadate
-gcylr.material.ammonium_polyvanadate=Ammonium Polyvanadate
-gcylr.material.ammonium_nitrite=Ammonium Nitrite
-gcylr.material.sodium_nitrite=Sodium Nitrite
-gcylr.material.nitrous_acid=Nitrous Acid
-gcylr.material.vanadium_pentoxide=Vanadium Pentoxide
-gcylr.material.calcium_oxide=Calcium Oxide
-gcylr.material.trichloro_silane=Trichloro Silane
-gcylr.material.silane=Silane
-gcylr.material.silicon_tetrachloride=Silicon Tetrachloride
-gcylr.material.high_purity_silicon=High Purity Silicon
-gcylr.material.sodium_hydroxide_solution=Sodium Hydroxide Solution
-gcylr.material.sodium_mercurate=Sodium Mercurate
-gcylr.material.gallium_mercurate=Gallium Mercurate
-gcylr.material.aluminium_mercurate=Aluminium Mercurate
-gcylr.material.bauxite_slurry=Bauxite Slurry
-gcylr.material.amalgamated_bauxite_slurry=Amalgamated Bauxite Slurry
-gcylr.material.clean_amalgamated_bauxite_slurry=Clean Amalgamated Bauxite Slurry
-gcylr.material.sodium_aluminate=Sodium Aluminate
-gcylr.material.impure_sodium_aluminate_solution=Impure Sodium Aluminate Solution
-gcylr.material.sodium_aluminate_solution=Sodium Aluminate Solution
-gcylr.material.aluminium_hydroxide=Aluminium Hydroxide
-gcylr.material.aluminium_oxide=Aluminium Oxide
-gcylr.material.aluminium_trifluoride=Aluminium Trifluoride
-gcylr.material.aluminium_sulfate=Aluminium Sulfate
-gcylr.material.aluminium_sulfate_solution=Aluminium Sulfate Solution
-gcylr.material.sodium_fluoride=Sodium Fluoride
-gcylr.material.iron_iii_oxide=Iron-III-Oxide
-gcylr.material.sodium_fluoride_solution=Sodium Fluoride Solution
-gcylr.material.hydrogen_fluoride=Hydrogen Fluoride
-gcylr.material.cryolite=Cryolite
-gcylr.material.red_mud=Red Mud
-gcylr.material.concentrated_red_mud=Concentrated Red Mud
-gcylr.material.red_mud_slag=Red Mud Slag
-gcylr.material.leached_red_mud_slag=Leached Red Mud Slag
-gcylr.material.impure_soda_ash_solution=Impure Soda Ash Solution
-gcylr.material.impure_sodium_hydroxide_solution=Impure Sodium Hydroxide Solution
-gcylr.material.cobalt_trioxide=Cobalt Trioxide
-gcylr.material.benzoic_acid=Benzoic Acid
-gcylr.material.benzotrichloride=Benzotrichloride
-gcylr.material.benzoyl_chloride=Benzoyl Chloride
-gcylr.material.dibenzoyl_peroxide=Dibenzoyl Peroxide
-gcylr.material.dibenzene=Dibenzene
-gcylr.material.antimony_sulfide=Antimony Sulfide
-gcylr.material.antimony_dross=Antimony Dross
-
-
-# Ore Materials
 
 # Bees
 for.bees.species.stellite100=Stellite-100
@@ -112,5 +88,14 @@ item.gt.comb.titaniumtungstencarbide.name=Titanium Tungsten Carbide Comb
 item.gt.comb.incoloyma976.name=Incoloy-MA976 Comb
 
 # Misc
-gcylr.recipe.coilTier=Required Coil Tier: %s
-gcylr.tile.advanced_fusion_coil.tooltip_tier=Coil Tier: %s
+gj.recipe.coilTier=Required Coil Tier: %s
+gj.tile.advanced_fusion_coil.tooltip_tier=Coil Tier: %s
+gj.mutation.condition.dim=Required Dimension: %s
+gj.mutation.block_of=Block of
+gj.machine.tooltip.ia_qc=Queen Count: %s
+gj.machine.tooltip.ia_mqc=Maximum Queen Count: %s
+gj.machine.tooltip.ia_cc=Current Consumption: %s EU/t
+gj.machine.tooltip.ia_mod=Current Voltage Speed Modifier: %s%%
+gj.machine.tooltip.ia_cycle=Current Cycle: %s seconds
+gj.machine.crucible.stone_amount=Stone Amount: %s of 64000
+gj.machine.crucible.modifier=Lava Production: %s L per Second

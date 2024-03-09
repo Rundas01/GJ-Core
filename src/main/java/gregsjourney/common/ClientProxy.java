@@ -1,12 +1,13 @@
 package gregsjourney.common;
 
-import gregsjourney.common.block.GJMetaBlocks;
+import gregsjourney.common.integration.forestry.ForestryModule;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 
 import gregsjourney.api.render.GJTextures;
+import gregsjourney.common.block.GJMetaBlocks;
 
 @Mod.EventBusSubscriber(Side.CLIENT)
 public class ClientProxy extends CommonProxy {
@@ -14,7 +15,6 @@ public class ClientProxy extends CommonProxy {
     @Override
     public void preLoad() {
         super.preLoad();
-        GJTextures.preInit();
     }
 
     @Override
@@ -28,10 +28,6 @@ public class ClientProxy extends CommonProxy {
     @SubscribeEvent
     public static void registerModels(ModelRegistryEvent event) {
         GJMetaBlocks.registerItemModels();
-        /*
-         * if(Loader.isModLoaded("forestry")) {
-         * ForestryModule.registerModels(event);
-         * }
-         */
+        ForestryModule.registerModels(event);
     }
 }

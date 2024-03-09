@@ -3,8 +3,7 @@ package gregsjourney.common;
 import java.util.Objects;
 import java.util.function.Function;
 
-import gregsjourney.common.block.GJMetaBlocks;
-import gregtech.api.block.VariantItemBlock;
+import gregsjourney.common.integration.forestry.ForestryModule;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
@@ -17,8 +16,11 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.registries.IForgeRegistry;
 
+import gregtech.api.block.VariantItemBlock;
+
 import gregsjourney.GregsJourney;
 import gregsjourney.api.utils.GJLog;
+import gregsjourney.common.block.GJMetaBlocks;
 import gregsjourney.loaders.recipe.GJRecipeLoader;
 
 @Mod.EventBusSubscriber(modid = GregsJourney.MODID)
@@ -40,6 +42,8 @@ public class CommonProxy {
         GJLog.logger.info("Registering blocks...");
         IForgeRegistry<Block> registry = event.getRegistry();
         registry.register(GJMetaBlocks.LARGE_MULTIBLOCK_CASING);
+        registry.register(GJMetaBlocks.ALTERNATOR_COIL);
+        registry.register(GJMetaBlocks.TURBINE_ROTOR);
     }
 
     @SubscribeEvent
@@ -47,11 +51,10 @@ public class CommonProxy {
         GJLog.logger.info("Registering Items...");
         IForgeRegistry<Item> registry = event.getRegistry();
         registry.register(createItemBlock(GJMetaBlocks.LARGE_MULTIBLOCK_CASING, VariantItemBlock::new));
-        /*
-         * if(Loader.isModLoaded("forestry")){
-         * ForestryModule.registerItems(event);
-         * }
-         */
+        registry.register(createItemBlock(GJMetaBlocks.ALTERNATOR_COIL, VariantItemBlock::new));
+        registry.register(createItemBlock(GJMetaBlocks.TURBINE_ROTOR, VariantItemBlock::new));
+
+         ForestryModule.registerItems(event);
     }
 
     private static <T extends Block> ItemBlock createItemBlock(T block, Function<T, ItemBlock> producer) {

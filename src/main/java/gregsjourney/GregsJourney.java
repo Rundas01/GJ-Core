@@ -1,6 +1,6 @@
 package gregsjourney;
 
-import gregsjourney.common.block.GJMetaBlocks;
+import gregsjourney.common.integration.forestry.ForestryModule;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.*;
@@ -12,6 +12,7 @@ import gregtech.GTInternalTags;
 import gregsjourney.api.recipe.GJRecipeMaps;
 import gregsjourney.api.utils.GJLog;
 import gregsjourney.common.CommonProxy;
+import gregsjourney.common.block.GJMetaBlocks;
 import gregsjourney.common.metatileentities.GJMetaTileEntities;
 
 @Mod(modid = GregsJourney.MODID,
@@ -35,32 +36,19 @@ public class GregsJourney {
         GJMetaBlocks.init();
         GJRecipeMaps.init();
         GJMetaTileEntities.init();
-
-        /*
-         * if(Loader.isModLoaded("forestry")){
-         * ForestryModule.preInit(event);
-         * }
-         */
+        ForestryModule.preInit(event);
 
         proxy.preLoad();
     }
 
     @Mod.EventHandler
     public void init(@NotNull FMLInitializationEvent event) {
-        /*
-         * if(Loader.isModLoaded("forestry")){
-         * ForestryModule.init(event);
-         * }
-         */
+        ForestryModule.init(event);
     }
 
     @Mod.EventHandler
     public void postInit(FMLPostInitializationEvent event) {
-        /*
-         * if(Loader.isModLoaded("forestry")){
-         * ForestryModule.postInit(event);
-         * }
-         */
+        ForestryModule.postInit(event);
     }
 
     @Mod.EventHandler

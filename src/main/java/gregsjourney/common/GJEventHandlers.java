@@ -10,7 +10,6 @@ import gregtech.api.unification.material.event.MaterialEvent;
 import gregtech.api.unification.material.event.PostMaterialEvent;
 
 import gregsjourney.GregsJourney;
-import gregsjourney.api.unification.material.GJElements;
 import gregsjourney.api.unification.material.GJMaterialFlagAddition;
 import gregsjourney.api.unification.material.GJMaterials;
 
@@ -22,7 +21,7 @@ public final class GJEventHandlers {
 
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     public static void registerElements(MaterialEvent event) {
-        GJElements.init();
+
     }
 
     @SubscribeEvent(priority = EventPriority.HIGH)

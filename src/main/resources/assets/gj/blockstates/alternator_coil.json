@@ -1,0 +1,15 @@
+{
+  "forge_marker" : 1,
+  "defaults": {
+    "model": "minecraft:cube_all",
+    "textures": {
+      "all": "gregtech:blocks/rendering_error"
+    }
+  },
+  "variants" : {
+    "facing=north,variant=copper": { "model": "gj:alternator_coil/copper" },
+    "facing=south,variant=copper": { "model": "gj:alternator_coil/copper", "y": 180 },
+    "facing=west,variant=copper": { "model": "gj:alternator_coil/copper", "y": 270 },
+    "facing=east,variant=copper": { "model": "gj:alternator_coil/copper", "y": 90 }
+  }
+}

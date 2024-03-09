@@ -55,7 +55,8 @@ public class MetaTileEntityFlotationCell extends RecipeMapMultiblockController {
                                 .or(autoAbilities(true, true, true, true, true, true, false)))
                 .where('B', states(MetaBlocks.BOILER_CASING.getState(BlockBoilerCasing.BoilerCasingType.STEEL_PIPE)))
                 .where('D',
-                        states(GJMetaBlocks.LARGE_MULTIBLOCK_CASING.getState(BlockLargeMultiblockCasing.CasingType.FLOTATION_CASING)))
+                        states(GJMetaBlocks.LARGE_MULTIBLOCK_CASING
+                                .getState(BlockLargeMultiblockCasing.CasingType.FLOTATION_CASING)))
                 .where('E',
                         states(MetaBlocks.TURBINE_CASING.getState(BlockTurbineCasing.TurbineCasingType.STEEL_GEARBOX)))
                 .where(' ', any())
