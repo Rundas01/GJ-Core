@@ -1,7 +1,14 @@
 package gregsjourney.common.metatileentities.multiblock.electric;
 
-import gregsjourney.api.recipe.NoEnergyMultiblockRecipeLogic;
-import gregsjourney.api.render.GJTextures;
+import static gregsjourney.common.recipe.GJRecipeMaps.HEAT_EXCHANGER_RECIPES;
+
+import javax.annotation.Nonnull;
+
+import net.minecraft.client.resources.I18n;
+import net.minecraft.util.ResourceLocation;
+
+import org.jetbrains.annotations.NotNull;
+
 import gregtech.api.metatileentity.MetaTileEntity;
 import gregtech.api.metatileentity.interfaces.IGregTechTileEntity;
 import gregtech.api.metatileentity.multiblock.IMultiblockPart;
@@ -14,13 +21,9 @@ import gregtech.client.renderer.texture.Textures;
 import gregtech.common.blocks.BlockBoilerCasing;
 import gregtech.common.blocks.BlockMetalCasing;
 import gregtech.common.blocks.MetaBlocks;
-import net.minecraft.client.resources.I18n;
-import net.minecraft.util.ResourceLocation;
-import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nonnull;
-
-import static gregsjourney.api.recipe.GJRecipeMaps.HEAT_EXCHANGER_RECIPES;
+import gregsjourney.api.recipe.NoEnergyMultiblockRecipeLogic;
+import gregsjourney.api.render.GJTextures;
 
 public class MetaTileEntityHeatExchanger extends RecipeMapMultiblockController {
 

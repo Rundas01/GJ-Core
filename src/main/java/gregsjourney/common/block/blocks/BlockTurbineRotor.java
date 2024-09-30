@@ -1,8 +1,7 @@
 package gregsjourney.common.block.blocks;
 
-import gregsjourney.api.block.IBlockOrientable;
-import gregtech.api.block.IStateHarvestLevel;
-import gregtech.api.block.VariantBlock;
+import javax.annotation.Nonnull;
+
 import net.minecraft.block.SoundType;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
@@ -13,10 +12,15 @@ import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-import javax.annotation.Nonnull;
+import gregtech.api.block.IStateHarvestLevel;
+import gregtech.api.block.VariantBlock;
 
-public class BlockTurbineRotor extends VariantBlock<BlockTurbineRotor.BlockTurbineRotorType> implements IBlockOrientable {
-    public BlockTurbineRotor(){
+import gregsjourney.api.block.IBlockOrientable;
+
+public class BlockTurbineRotor extends VariantBlock<BlockTurbineRotor.BlockTurbineRotorType>
+                               implements IBlockOrientable {
+
+    public BlockTurbineRotor() {
         super(net.minecraft.block.material.Material.IRON);
         setTranslationKey("turbine_rotor");
         setHardness(5.0f);
@@ -27,14 +31,14 @@ public class BlockTurbineRotor extends VariantBlock<BlockTurbineRotor.BlockTurbi
     }
 
     @Override
-    public IBlockState getStateForPlacement(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer)
-    {
-        return super.getStateForPlacement(worldIn, pos, facing, hitX, hitY, hitZ, meta, placer).withProperty(FACING, placer.getHorizontalFacing().getOpposite());
+    public IBlockState getStateForPlacement(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY,
+                                            float hitZ, int meta, EntityLivingBase placer) {
+        return super.getStateForPlacement(worldIn, pos, facing, hitX, hitY, hitZ, meta, placer).withProperty(FACING,
+                placer.getHorizontalFacing().getOpposite());
     }
 
     @Override
-    public IBlockState getStateFromMeta(int meta)
-    {
+    public IBlockState getStateFromMeta(int meta) {
         int i = meta / 4;
         int j = meta % 4 + 2;
 
@@ -46,8 +50,7 @@ public class BlockTurbineRotor extends VariantBlock<BlockTurbineRotor.BlockTurbi
     }
 
     @Override
-    public int getMetaFromState(IBlockState state)
-    {
+    public int getMetaFromState(IBlockState state) {
         int i = state.getValue(this.VARIANT).ordinal();
         int j = state.getValue(FACING).getIndex();
         return j - 2 + i * 4;
@@ -62,7 +65,7 @@ public class BlockTurbineRotor extends VariantBlock<BlockTurbineRotor.BlockTurbi
     }
 
     public ItemStack getItemVariant(BlockTurbineRotor.BlockTurbineRotorType variant, int amount) {
-        return new ItemStack(this, amount, variant.ordinal() * 4) ;
+        return new ItemStack(this, amount, variant.ordinal() * 4);
     }
 
     public int damageDropped(@Nonnull IBlockState state) {
@@ -70,6 +73,7 @@ public class BlockTurbineRotor extends VariantBlock<BlockTurbineRotor.BlockTurbi
     }
 
     public enum BlockTurbineRotorType implements IStringSerializable, IStateHarvestLevel {
+
         STEEL("steel", 1);
 
         private final String name;

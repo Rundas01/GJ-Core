@@ -7,9 +7,10 @@ import static gregtech.api.GTValues.VA;
 import static gregtech.api.recipes.RecipeMaps.GAS_COLLECTOR_RECIPES;
 
 public class GasGasGas {
-    private GasGasGas(){}
 
-    public static void init(){
+    private GasGasGas() {}
+
+    public static void init() {
         GAS_COLLECTOR_RECIPES.recipeBuilder()
                 .circuitMeta(4)
                 .fluidOutputs(MarsAtmosphere.getFluid(10000))
@@ -135,7 +136,7 @@ public class GasGasGas {
                 .fluidOutputs(CetiAtmosphere.getFluid(10000))
                 .EUt(VA[MV])
                 .duration(200)
-                //.dimension(CETI.getDimension())
+                // .dimension(CETI.getDimension())
                 .buildAndRegister();
 
         GAS_COLLECTOR_RECIPES.recipeBuilder()

@@ -1,8 +1,7 @@
 package gregsjourney.common.block.blocks;
 
-import gregsjourney.api.block.IBlockOrientable;
-import gregtech.api.block.IStateHarvestLevel;
-import gregtech.api.block.VariantBlock;
+import javax.annotation.Nonnull;
+
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.BlockStateContainer;
@@ -13,11 +12,16 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+
 import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nonnull;
+import gregtech.api.block.IStateHarvestLevel;
+import gregtech.api.block.VariantBlock;
 
-public class BlockAlternatorCoil extends VariantBlock<BlockAlternatorCoil.AlternatorCoilType> implements IBlockOrientable {
+import gregsjourney.api.block.IBlockOrientable;
+
+public class BlockAlternatorCoil extends VariantBlock<BlockAlternatorCoil.AlternatorCoilType>
+                                 implements IBlockOrientable {
 
     public BlockAlternatorCoil() {
         super(Material.IRON);
@@ -29,8 +33,10 @@ public class BlockAlternatorCoil extends VariantBlock<BlockAlternatorCoil.Altern
         setDefaultState(getState(AlternatorCoilType.COPPER).withProperty(FACING, EnumFacing.NORTH));
     }
 
-    public @NotNull IBlockState getStateForPlacement(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
-        return super.getStateForPlacement(worldIn, pos, facing, hitX, hitY, hitZ, meta, placer).withProperty(FACING, placer.getHorizontalFacing().getOpposite());
+    public @NotNull IBlockState getStateForPlacement(World worldIn, BlockPos pos, EnumFacing facing, float hitX,
+                                                     float hitY, float hitZ, int meta, EntityLivingBase placer) {
+        return super.getStateForPlacement(worldIn, pos, facing, hitX, hitY, hitZ, meta, placer).withProperty(FACING,
+                placer.getHorizontalFacing().getOpposite());
     }
 
     @Override
@@ -69,6 +75,7 @@ public class BlockAlternatorCoil extends VariantBlock<BlockAlternatorCoil.Altern
     }
 
     public enum AlternatorCoilType implements IStringSerializable, IStateHarvestLevel {
+
         COPPER("copper", 1);
 
         private final String name;

@@ -1,6 +1,5 @@
 package gregsjourney;
 
-import gregsjourney.common.integration.forestry.ForestryModule;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.*;
@@ -9,11 +8,12 @@ import org.jetbrains.annotations.NotNull;
 
 import gregtech.GTInternalTags;
 
-import gregsjourney.api.recipe.GJRecipeMaps;
 import gregsjourney.api.utils.GJLog;
 import gregsjourney.common.CommonProxy;
 import gregsjourney.common.block.GJMetaBlocks;
 import gregsjourney.common.metatileentities.GJMetaTileEntities;
+import gregsjourney.common.recipe.GJRecipeMaps;
+import gregsjourney.integration.forestry.ForestryModule;
 
 @Mod(modid = GregsJourney.MODID,
      name = GregsJourney.NAME,
@@ -27,7 +27,7 @@ public class GregsJourney {
 
     @SidedProxy(modId = MODID,
                 clientSide = "gregsjourney.common.ClientProxy",
-                serverSide = "gregsjourney.legacy.common.CommonProxy")
+                serverSide = "gregsjourney.common.CommonProxy")
     public static CommonProxy proxy;
 
     @Mod.EventHandler

@@ -1,16 +1,21 @@
 package gregsjourney.api.utils;
 
-import forestry.apiculture.blocks.BlockAlveary;
-import forestry.apiculture.blocks.BlockAlvearyType;
-import forestry.core.items.ItemBlockForestry;
 import gregsjourney.GregsJourney;
+import gregsjourney.api.unification.property.CrystallizationProperty;
+import gregsjourney.api.unification.property.DistillationProperty;
+import gregsjourney.api.unification.property.GJMaterialFlags;
+import gregsjourney.api.unification.property.GJPropertyKeys;
+import gregtech.api.GregTechAPI;
+import gregtech.api.fluids.FluidBuilder;
+import gregtech.api.fluids.store.FluidStorageKey;
+import gregtech.api.fluids.store.FluidStorageKeys;
 import gregtech.api.recipes.Recipe;
 import gregtech.api.recipes.RecipeMap;
 import gregtech.api.unification.OreDictUnifier;
 import gregtech.api.unification.material.Material;
-import gregtech.api.unification.ore.OrePrefix;
+import gregtech.api.unification.material.properties.FluidProperty;
+import gregtech.api.unification.material.properties.PropertyKey;
 import gregtech.api.unification.stack.MaterialStack;
-import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.FluidStack;
@@ -19,10 +24,13 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
+
+import static gregtech.api.unification.ore.OrePrefix.dust;
 
 public final class GJUtil {
+
     private GJUtil() {}
+
     public static @NotNull ResourceLocation gjId(@NotNull String path) {
         return new ResourceLocation(GregsJourney.MODID, path);
     }
@@ -44,88 +52,223 @@ public final class GJUtil {
         return color;
     }
 
-    private static Recipe find(RecipeMap<?> recipeMap, @Nullable Long voltage, List<ItemStack> items, List<FluidStack> fluids) {
+    public static int weightedAvgColor(MaterialStack[] stacks) {
+        int color = 0;
+        for (MaterialStack stack : stacks) {
+            color += stack.material.getMaterialRGB() * stack.amount;
+        }
+        color /= stacks.length;
+        return color;
+    }
+
+    private static Recipe find(RecipeMap<?> recipeMap, @Nullable Long voltage, List<ItemStack> items,
+                               List<FluidStack> fluids) {
         if (items == null || items.isEmpty()) items = Collections.emptyList();
         if (fluids == null || fluids.isEmpty()) fluids = Collections.emptyList();
-        if (voltage != null){
+        if (voltage != null) {
             return recipeMap.findRecipe(voltage, items, fluids, true);
         }
         return recipeMap.findRecipe(voltage, items, fluids, false);
     }
 
-    public static void removeByInput(RecipeMap<?> recipeMap, @Nullable Long voltage, List<ItemStack> items, List<FluidStack> fluids) {
-        Recipe recipe = find(recipeMap ,voltage, items, fluids);
+    public static void removeByInput(RecipeMap<?> recipeMap, @Nullable Long voltage, List<ItemStack> items,
+                                     List<FluidStack> fluids) {
+        Recipe recipe = find(recipeMap, voltage, items, fluids);
         if (recipe == null) {
             return;
         }
         recipeMap.removeRecipe(recipe);
     }
 
-    public static FluidStack molaricFluidStack(Material fluid, int molarity){
-        return fluid.getFluid(1000 * molarity);
-    }
-
-    public static ItemStack molaricItemStack(Material material, int molarity, OrePrefix prefix){
-        return OreDictUnifier.get(prefix, material, getAmounts(material.getMaterialComponents()) * molarity);
-    }
-
-    public static ItemStack molaricDustStack(Material material, int molarity){
-        return molaricItemStack(material, molarity, OrePrefix.dust);
-    }
-
-    public static ItemStack molaricIngotStack(Material material, int molarity){
-        return molaricItemStack(material, molarity, OrePrefix.ingot);
-    }
-
-    public static int getAmounts(List<MaterialStack> materialStacks){
-        int a = 0;
-        for(MaterialStack stack : materialStacks){
-            a += stack.amount;
+    public static void setupFluidType(Material mat, FluidStorageKey key, int temp) {
+        if (mat.getProperty(PropertyKey.FLUID) == null) {
+            FluidProperty property = new FluidProperty();
+            property.getStorage().enqueueRegistration(key, new FluidBuilder().temperature(temp));
+            mat.setProperty(PropertyKey.FLUID, property);
+        } else {
+            FluidProperty property = mat.getProperty(PropertyKey.FLUID);
+            if (property.getStorage().getQueuedBuilder(key) != null) {
+                property.getStorage().getQueuedBuilder(key).temperature(temp);
+            } else {
+                property.getStorage().enqueueRegistration(key, new FluidBuilder().temperature(temp));
+            }
         }
-        return a;
+        if (mat.getProperty(PropertyKey.FLUID).getStorage().getQueuedBuilder(FluidStorageKeys.LIQUID) == null) {
+            setupFluidType(mat, FluidStorageKeys.LIQUID, temp);
+        }
     }
 
-    public enum Dimensions{
-        MOON(-28),
-        MARS(-29),
-        PHOBOS(-1012),
-        DEIMOS(-1013),
-        CERES(-1007),
-        MERCURY(-1005),
-        VENUS(-31),
-        ASTEROIDS(-30),
-        EUROPA(-1017),
-        IO(-1014),
-        GANYMEDE(-1016),
-        CALLISTO(-1022),
-        ENCELADUS(-1017),
-        TITAN(-1018),
-        MIRANDA(-1024),
-        OBERON(-1019),
-        PROTEUS(-1020),
-        TRITON(-1021),
-        PLUTO(-1008),
-        HAUMEA(-1023),
-        MAKEMAKE(-1011),
-        PROXIMA(-1025),
-        BARNADA(-1030),
-        BARNADAC1(-1031),
-        BARNADAC2(-1032),
-        //TODO: Tau Ceti Dim ID
-        CHALOS(-2543),
-        DIONA(-2542),
-        FRONOS(-2545),
-        NIBIRU(-2544),
-        KOENTUS(-2642);
+    public static void setupFluidType(Material mat, FluidStorageKey key) {
+        setupFluidType(mat, key, 300);
+    }
+
+    public static void setTemperature(Material material, int temp) {
+        material.getFluid().setTemperature(temp);
+    }
+
+    public static ItemStack molaricDust(String material, int moles) {
+        Material mat = getFromString(material);
+        assert mat != null;
+        return OreDictUnifier.get(dust, mat, moles * getToalComponentAmounts(mat));
+    }
+
+    public static ItemStack molaricDust(String material) {
+        return molaricDust(material, 1);
+    }
+
+    public static FluidStack molaricFluid(String material, int moles, boolean moleIs144) {
+        Material mat = getFromString(material);
+        assert mat != null;
+        if (moleIs144) {
+            return mat.getFluid(moles * 144);
+        }
+        return mat.getFluid(moles * 1000);
+    }
+
+    public static FluidStack molaricFluid(String material, int moles) {
+        return molaricFluid(material, moles, false);
+    }
+
+    public static FluidStack molaricFluid(String material) {
+        return molaricFluid(material, 1, false);
+    }
+
+    public static FluidStack molaricFluid(String material, boolean moleIs144) {
+        return molaricFluid(material, 1, moleIs144);
+    }
+
+    public static int getToalComponentAmounts(Material material) {
+        int amounts = 0;
+        for (MaterialStack stack : material.getMaterialComponents()) {
+            amounts += stack.amount;
+        }
+        return amounts;
+    }
+
+    public static int getComponentAmount(Material material, Material component) {
+        for (MaterialStack stack : material.getMaterialComponents()) {
+            if (stack.material == component) {
+                return (int) stack.amount;
+            }
+        }
+        return 0;
+    }
+
+    public static @Nullable Material getFromString(String name) {
+        for (Material material : GregTechAPI.materialManager.getRegisteredMaterials()) {
+            if (material.getName().equals(name)) {
+                return material;
+            }
+        }
+        return null;
+    }
+
+    public static @Nullable Material getSolidMaterialFromSolution(Material material) {
+        for (MaterialStack stack : material.getMaterialComponents()) {
+            if (!stack.material.hasFlag(GJMaterialFlags.SOLVENT)) {
+                return stack.material;
+            }
+        }
+        return null;
+    }
+
+    public static @Nullable Material getLiquidMaterialFromSolution(Material material) {
+        for (MaterialStack stack : material.getMaterialComponents()) {
+            if (stack.material.hasFlag(GJMaterialFlags.SOLVENT)) {
+                return stack.material;
+            }
+        }
+        return null;
+    }
+
+    private static void addDistillationProperty(Material material, int tier) {
+        if (!material.hasFlag(GJMaterialFlags.DISTILLABLE)) {
+            material.addFlags(GJMaterialFlags.DISTILLABLE);
+        }
+        material.setProperty(GJPropertyKeys.DISTILLATION_PROPERTY_KEY, new DistillationProperty(tier));
+    }
+
+    private static void addCrystallizationProperty(Material material, Material crystallizedSolution, int tier) {
+        if (!material.hasFlag(GJMaterialFlags.CRYSTALLIZABLE)) {
+            material.addFlags(GJMaterialFlags.CRYSTALLIZABLE);
+        }
+        material.setProperty(GJPropertyKeys.CRYSTALLIZATION_PROPERTY_KEY, new CrystallizationProperty(crystallizedSolution, tier));
+    }
+
+    public static MaterialStack[] convertComponents(Object... args) {
+        MaterialStack[] materialStacks = new MaterialStack[args.length/2];
+        for (int i = 0; i < args.length/2; i++) {
+            materialStacks[i] = new MaterialStack((Material) args[2 * i], Long.parseLong(String.valueOf(args[2 * i + 1])));
+        }
+        return materialStacks;
+    }
+
+    public static String getFormula(MaterialStack[] stacks) {
+        StringBuilder formula = new StringBuilder();
+        for (MaterialStack stack : stacks) {
+            formula.append("(");
+            formula.append(stack.material.getChemicalFormula());
+            formula.append(")");
+            formula.append(stack.amount);
+        }
+        return formula.toString();
+    }
+
+    public enum Dimensions {
+
+        MOON(-28, "Luna"),
+        MARS(-29, "Mars"),
+        PHOBOS(-1012, "Phobos"),
+        DEIMOS(-1013, "Phobos"),
+        CERES(-1007, "Ceres"),
+        MERCURY(-1005, "Mercury"),
+        VENUS(-31, "Venus"),
+        ASTEROIDS(-30, "Asteroid Belt"),
+        EUROPA(-1017, "Europa"),
+        IO(-1014, "Io"),
+        GANYMEDE(-1016, "Ganymede"),
+        CALLISTO(-1022, "Callisto"),
+        ENCELADUS(-1017, "Enceladus"),
+        TITAN(-1018, "Titan"),
+        MIRANDA(-1024, "Miranda"),
+        OBERON(-1019, "Oberon"),
+        PROTEUS(-1020, "Proteus"),
+        TRITON(-1021, "Triton"),
+        PLUTO(-1008, "Pluto"),
+        HAUMEA(-1023, "Haumea"),
+        MAKEMAKE(-1011, "Makemake"),
+        PROXIMA(-1025, "Proxima"),
+        BARNADA(-1030, "Barnada"),
+        BARNADAC1(-1031, "Barnada C1"),
+        BARNADAC2(-1032, "Barnada C2"),
+        // TODO: Tau Ceti Dim ID
+        // TODO: Centauri Dim ID
+        CHALOS(-2543, "Chalos"),
+        DIONA(-2542, "Diona"),
+        FRONOS(-2545, "Fronos"),
+        NIBIRU(-2544, "Nibiru"),
+        KOENTUS(-2642, "Koentus"),
+        ERIS(-21, "Eris"),
+        IAPETUS(-1511, "Iapetus"),
+        KEPLER(-22, "Kepler-22-B"),
+        RHEA(-1507, "Rhea"),
+        TITANIA(-1510, "Titania"),
+        UNDERGARDEN(138, "Undergarden");
 
         private final int dimension;
+        private final String name;
 
-        Dimensions(int dim) {
+        Dimensions(int dim, String name) {
             this.dimension = dim;
+            this.name = name;
         }
 
         public int getDimension() {
             return dimension;
+        }
+
+        public String getName() {
+            return name;
         }
     }
 }

@@ -1,7 +1,5 @@
 package gregsjourney.common.block;
 
-import gregsjourney.common.block.blocks.BlockAlternatorCoil;
-import gregsjourney.common.block.blocks.BlockTurbineRotor;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
@@ -14,7 +12,9 @@ import org.jetbrains.annotations.NotNull;
 
 import gregtech.common.blocks.MetaBlocks;
 
+import gregsjourney.common.block.blocks.BlockAlternatorCoil;
 import gregsjourney.common.block.blocks.BlockLargeMultiblockCasing;
+import gregsjourney.common.block.blocks.BlockTurbineRotor;
 
 public class GJMetaBlocks {
 

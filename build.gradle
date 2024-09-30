@@ -935,7 +935,6 @@ tasks.register('generateChangelog') {
         }
     }
 }
-
 if (cfApiKey.isPresent() || deploymentDebug.toBoolean()) {
     apply plugin: 'net.darkhax.curseforgegradle'
     //noinspection UnnecessaryQualifiedReference

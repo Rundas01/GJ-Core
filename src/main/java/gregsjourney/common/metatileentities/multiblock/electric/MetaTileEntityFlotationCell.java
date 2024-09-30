@@ -1,7 +1,7 @@
 package gregsjourney.common.metatileentities.multiblock.electric;
 
-import static gregsjourney.api.recipe.GJRecipeMaps.FLOTATION_RECIPES;
 import static gregsjourney.api.render.GJTextures.FLOTATION_OVERLAY;
+import static gregsjourney.common.recipe.GJRecipeMaps.FLOTATION_RECIPES;
 
 import javax.annotation.Nonnull;
 

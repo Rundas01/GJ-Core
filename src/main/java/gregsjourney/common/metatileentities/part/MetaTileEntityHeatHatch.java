@@ -1,21 +1,8 @@
 package gregsjourney.common.metatileentities.part;
 
-import gregsjourney.api.metatileentity.multiblock.GJMultiblockAbility;
-import gregsjourney.api.utils.GJLog;
-import gregsjourney.common.metatileentities.multiblock.electric.MetaTileEntityCrucible;
-import gregtech.api.capability.IFilter;
-import gregtech.api.capability.impl.FilteredItemHandler;
-import gregtech.api.capability.impl.FluidTankList;
-import gregtech.api.capability.impl.NotifiableFluidTank;
-import gregtech.api.gui.GuiTextures;
-import gregtech.api.gui.ModularUI;
-import gregtech.api.gui.widgets.*;
-import gregtech.api.metatileentity.MetaTileEntity;
-import gregtech.api.metatileentity.interfaces.IGregTechTileEntity;
-import gregtech.api.metatileentity.multiblock.IMultiblockAbilityPart;
-import gregtech.api.metatileentity.multiblock.MultiblockAbility;
-import gregtech.api.unification.material.Materials;
-import gregtech.common.metatileentities.multi.multiblockpart.MetaTileEntityMultiblockNotifiablePart;
+import java.util.List;
+import java.util.function.Consumer;
+
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -29,19 +16,45 @@ import net.minecraftforge.fluids.IFluidTank;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.ItemStackHandler;
+
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.List;
-import java.util.function.Consumer;
+import gregtech.api.capability.IFilter;
+import gregtech.api.capability.impl.FilteredItemHandler;
+import gregtech.api.capability.impl.FluidTankList;
+import gregtech.api.capability.impl.NotifiableFluidTank;
+import gregtech.api.gui.GuiTextures;
+import gregtech.api.gui.ModularUI;
+import gregtech.api.gui.widgets.AdvancedTextWidget;
+import gregtech.api.gui.widgets.FluidContainerSlotWidget;
+import gregtech.api.gui.widgets.ImageWidget;
+import gregtech.api.gui.widgets.SlotWidget;
+import gregtech.api.metatileentity.MetaTileEntity;
+import gregtech.api.metatileentity.interfaces.IGregTechTileEntity;
+import gregtech.api.metatileentity.multiblock.IMultiblockAbilityPart;
+import gregtech.api.metatileentity.multiblock.MultiblockAbility;
+import gregtech.api.unification.material.Materials;
+import gregtech.client.renderer.texture.Textures;
+import gregtech.client.renderer.texture.cube.SimpleOverlayRenderer;
+import gregtech.common.metatileentities.multi.multiblockpart.MetaTileEntityMultiblockNotifiablePart;
 
-public class MetaTileEntityHeatHatch extends MetaTileEntityMultiblockNotifiablePart implements IMultiblockAbilityPart<IFluidTank> {
+import codechicken.lib.render.CCRenderState;
+import codechicken.lib.render.pipeline.IVertexOperation;
+import codechicken.lib.vec.Matrix4;
+import gregsjourney.api.metatileentity.multiblock.GJMultiblockAbility;
+import gregsjourney.api.widget.HeatHatchTankWidget;
+import gregsjourney.common.metatileentities.multiblock.electric.MetaTileEntityCrucible;
+
+public class MetaTileEntityHeatHatch extends MetaTileEntityMultiblockNotifiablePart
+                                     implements IMultiblockAbilityPart<IFluidTank> {
+
     public MetaTileEntityCrucible controller;
     private final HeatHatchFluidTank fluidTank;
 
     public MetaTileEntityHeatHatch(ResourceLocation metaTileEntityId, int tier) {
         super(metaTileEntityId, tier, false);
-        fluidTank = new HeatHatchFluidTank(1000 * tier, this);
+        fluidTank = new HeatHatchFluidTank(1000 * getTier(), this);
         initializeInventory();
     }
 
@@ -56,8 +69,9 @@ public class MetaTileEntityHeatHatch extends MetaTileEntityMultiblockNotifiableP
     }
 
     @Override
-    public void addInformation(ItemStack stack, @Nullable World player, @NotNull List<String> tooltip, boolean advanced) {
-        tooltip.add(I18n.format("gj.machine.heat_hatch.info",Integer.toString(getTier() * 1000)));
+    public void addInformation(ItemStack stack, @Nullable World player, @NotNull List<String> tooltip,
+                               boolean advanced) {
+        tooltip.add(I18n.format("gj.machine.heat_hatch.info", Integer.toString(getTier() * 1000)));
     }
 
     @Override
@@ -68,10 +82,10 @@ public class MetaTileEntityHeatHatch extends MetaTileEntityMultiblockNotifiableP
     public ModularUI.Builder createTankUI(IFluidTank fluidTank, String title, EntityPlayer entityPlayer) {
         // Create base builder/widget references
         ModularUI.Builder builder = ModularUI.defaultBuilder();
-        TankWidget tankWidget;
+        HeatHatchTankWidget tankWidget;
 
         // Add input/output-specific widgets
-        tankWidget = new TankWidget(fluidTank, 69, 52, 18, 18)
+        tankWidget = new HeatHatchTankWidget(fluidTank, 69, 52, 18, 18)
                 .setAlwaysShowFull(true).setDrawHoveringText(false).setContainerClicking(true, true);
 
         builder.image(7, 16, 81, 55, GuiTextures.DISPLAY)
@@ -90,7 +104,7 @@ public class MetaTileEntityHeatHatch extends MetaTileEntityMultiblockNotifiableP
                 .bindPlayerInventory(entityPlayer.inventory);
     }
 
-    private Consumer<List<ITextComponent>> getFluidNameText(TankWidget tankWidget) {
+    private Consumer<List<ITextComponent>> getFluidNameText(HeatHatchTankWidget tankWidget) {
         return (list) -> {
             TextComponentTranslation translation = tankWidget.getFluidTextComponent();
             if (translation != null) {
@@ -99,7 +113,7 @@ public class MetaTileEntityHeatHatch extends MetaTileEntityMultiblockNotifiableP
         };
     }
 
-    private Consumer<List<ITextComponent>> getFluidAmountText(TankWidget tankWidget) {
+    private Consumer<List<ITextComponent>> getFluidAmountText(HeatHatchTankWidget tankWidget) {
         return (list) -> {
             String fluidAmount = tankWidget.getFormattedFluidAmount();
             if (!fluidAmount.isEmpty()) {
@@ -109,8 +123,20 @@ public class MetaTileEntityHeatHatch extends MetaTileEntityMultiblockNotifiableP
     }
 
     @Override
+    public void renderMetaTileEntity(CCRenderState renderState, Matrix4 translation, IVertexOperation[] pipeline) {
+        super.renderMetaTileEntity(renderState, translation, pipeline);
+        if (shouldRenderOverlay()) {
+            SimpleOverlayRenderer renderer = isExportHatch ? Textures.PIPE_OUT_OVERLAY : Textures.PIPE_IN_OVERLAY;
+            renderer.renderSided(getFrontFacing(), renderState, translation, pipeline);
+            SimpleOverlayRenderer overlay = isExportHatch ? Textures.FLUID_HATCH_OUTPUT_OVERLAY :
+                    Textures.FLUID_HATCH_INPUT_OVERLAY;
+            overlay.renderSided(getFrontFacing(), renderState, translation, pipeline);
+        }
+    }
+
+    @Override
     public void registerAbilities(List<IFluidTank> abilityList) {
-        abilityList.add(this.fluidTank);
+        abilityList.add(fluidTank);
     }
 
     @Override
@@ -124,6 +150,11 @@ public class MetaTileEntityHeatHatch extends MetaTileEntityMultiblockNotifiableP
     }
 
     @Override
+    protected FluidTankList createExportFluidHandler() {
+        return new FluidTankList(false);
+    }
+
+    @Override
     protected IItemHandlerModifiable createImportItemHandler() {
         return new FilteredItemHandler(this).setFillPredicate(
                 FilteredItemHandler.getCapabilityFilter(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY));
@@ -134,7 +165,16 @@ public class MetaTileEntityHeatHatch extends MetaTileEntityMultiblockNotifiableP
         return new ItemStackHandler(1);
     }
 
-    public void setController(MetaTileEntityCrucible controller){
+    @Override
+    public void update() {
+        super.update();
+        if (!getWorld().isRemote) {
+            fillInternalTankFromFluidContainer(fluidTank);
+            fillContainerFromInternalTank(fluidTank);
+        }
+    }
+
+    public void setController(MetaTileEntityCrucible controller) {
         this.controller = controller;
     }
 
@@ -146,14 +186,14 @@ public class MetaTileEntityHeatHatch extends MetaTileEntityMultiblockNotifiableP
 
         @Override
         public int fillInternal(FluidStack resource, boolean doFill) {
-            if(!test(resource)) return 0;
+            if (!test(resource)) return 0;
             return super.fillInternal(resource, doFill);
         }
 
         @Override
         public void onContentsChanged() {
             super.onContentsChanged();
-            if(MetaTileEntityHeatHatch.this.controller == null){
+            if (MetaTileEntityHeatHatch.this.controller == null) {
                 return;
             }
             MetaTileEntityHeatHatch.this.controller.setSmeltingModifier(MetaTileEntityHeatHatch.this.controller);

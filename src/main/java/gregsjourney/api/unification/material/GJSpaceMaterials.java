@@ -1,15 +1,16 @@
 package gregsjourney.api.unification.material;
 
-import gregtech.api.unification.material.Material;
-
-import static gregsjourney.api.unification.material.GJMiscMaterials.SulfurSilicate;
 import static gregsjourney.api.utils.GJUtil.gjId;
 import static gregtech.api.unification.material.Materials.*;
 import static gregtech.api.unification.material.info.MaterialFlags.DECOMPOSITION_BY_CENTRIFUGING;
 import static gregtech.api.unification.material.info.MaterialFlags.DISABLE_DECOMPOSITION;
 
+import gregtech.api.unification.material.Material;
+
 public class GJSpaceMaterials {
-    private GJSpaceMaterials(){}
+
+    private GJSpaceMaterials() {}
+
     public static Material MarsAtmosphere;
     public static Material PhobosStone;
     public static Material DeimosStone;
@@ -48,8 +49,12 @@ public class GJSpaceMaterials {
     public static Material FronosAtmosphere;
     public static Material NibiruAtmosphere;
     public static Material KoentusAtmosphere;
+    public static Material RheaStone;
+    public static Material ErisStone;
+    public static Material IapetusStone;
+    public static Material TitaniaStone;
 
-    public static void init(){
+    public static void init() {
         MarsAtmosphere = new Material.Builder(10000, gjId("mars_atmosphere"))
                 .gas()
                 .colorAverage()
@@ -102,7 +107,7 @@ public class GJSpaceMaterials {
         IoStone = new Material.Builder(10007, gjId("io_stone"))
                 .dust()
                 .colorAverage()
-                .components(Chalcopyrite, 1, SulfurSilicate, 1, SiliconDioxide, 2)
+                .components(Chalcopyrite, 1, SiliconDioxide, 2)
                 .flags(DECOMPOSITION_BY_CENTRIFUGING)
                 .build();
 
@@ -302,7 +307,7 @@ public class GJSpaceMaterials {
                 .flags(DECOMPOSITION_BY_CENTRIFUGING)
                 .build();
 
-        NibiruAtmosphere = new Material.Builder(10034, gjId("bnibiru_atmosphere"))
+        NibiruAtmosphere = new Material.Builder(10034, gjId("nibiru_atmosphere"))
                 .gas()
                 .colorAverage()
                 .components(Hydrogen, 70, Helium, 2, Oxygen, 20, Water, 8)
@@ -316,5 +321,32 @@ public class GJSpaceMaterials {
                 .flags(DECOMPOSITION_BY_CENTRIFUGING)
                 .build();
 
+        RheaStone = new Material.Builder(10036, gjId("rhea_stone"))
+                .dust()
+                .colorAverage()
+                .components(Phosphate, 1, PhosphorusPentoxide, 1, SiliconDioxide, 2)
+                .flags(DECOMPOSITION_BY_CENTRIFUGING)
+                .build();
+
+        IapetusStone = new Material.Builder(10037, gjId("iapetus_stone"))
+                .dust()
+                .colorAverage()
+                .components(Phosphate, 1, PhosphorusPentoxide, 1, SiliconDioxide, 2)
+                .flags(DECOMPOSITION_BY_CENTRIFUGING)
+                .build();
+
+        TitaniaStone = new Material.Builder(10038, gjId("titania_stone"))
+                .dust()
+                .colorAverage()
+                .components(Phosphate, 1, PhosphorusPentoxide, 1, SiliconDioxide, 2)
+                .flags(DECOMPOSITION_BY_CENTRIFUGING)
+                .build();
+
+        ErisStone = new Material.Builder(10039, gjId("eris_stone"))
+                .dust()
+                .colorAverage()
+                .components(Phosphate, 1, PhosphorusPentoxide, 1, SiliconDioxide, 2)
+                .flags(DECOMPOSITION_BY_CENTRIFUGING)
+                .build();
     }
 }

@@ -1,11 +1,17 @@
 package gregsjourney.common.metatileentities.part;
 
-import codechicken.lib.render.CCRenderState;
-import codechicken.lib.render.pipeline.IVertexOperation;
-import codechicken.lib.vec.Matrix4;
-import forestry.api.apiculture.BeeManager;
-import forestry.api.apiculture.EnumBeeType;
-import gregsjourney.api.metatileentity.multiblock.GJMultiblockAbility;
+import java.util.List;
+
+import net.minecraft.client.resources.I18n;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.World;
+import net.minecraftforge.items.IItemHandlerModifiable;
+
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import gregtech.api.capability.impl.NotifiableItemStackHandler;
 import gregtech.api.gui.GuiTextures;
 import gregtech.api.gui.ModularUI;
@@ -20,24 +26,22 @@ import gregtech.api.metatileentity.multiblock.RecipeMapMultiblockController;
 import gregtech.api.util.ItemStackHashStrategy;
 import gregtech.client.renderer.texture.Textures;
 import gregtech.common.metatileentities.multi.multiblockpart.MetaTileEntityMultiblockNotifiablePart;
-import net.minecraft.client.resources.I18n;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.World;
-import net.minecraftforge.items.IItemHandlerModifiable;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
-import java.util.List;
+import codechicken.lib.render.CCRenderState;
+import codechicken.lib.render.pipeline.IVertexOperation;
+import codechicken.lib.vec.Matrix4;
+import forestry.api.apiculture.BeeManager;
+import forestry.api.apiculture.EnumBeeType;
+import gregsjourney.api.metatileentity.multiblock.GJMultiblockAbility;
 
-public class MetaTileEntityBeeHatch extends MetaTileEntityMultiblockNotifiablePart implements IMultiblockAbilityPart<IItemHandlerModifiable> {
+public class MetaTileEntityBeeHatch extends MetaTileEntityMultiblockNotifiablePart
+                                    implements IMultiblockAbilityPart<IItemHandlerModifiable> {
 
     private final IItemHandlerModifiable beeHandler;
 
     public MetaTileEntityBeeHatch(ResourceLocation metaTileEntityId, int tier) {
         super(metaTileEntityId, tier, false);
-        this.beeHandler = new LimitedImportHandler(this,tier);
+        this.beeHandler = new LimitedImportHandler(this, tier);
         initializeInventory();
     }
 
@@ -63,18 +67,21 @@ public class MetaTileEntityBeeHatch extends MetaTileEntityMultiblockNotifiablePa
 
     @Override
     protected ModularUI createUI(EntityPlayer entityPlayer) {
-        ModularUI.Builder builder = ModularUI.builder(GuiTextures.BACKGROUND, 176, 112 + 18 * getTier()).label(10, 5, getMetaFullName());
+        ModularUI.Builder builder = ModularUI.builder(GuiTextures.BACKGROUND, 176, 112 + 18 * getTier()).label(10, 5,
+                getMetaFullName());
         int halfwidth = 88, offset;
         for (int i = 0; i < getTier(); i++) {
-            offset = -9*getTier();
+            offset = -9 * getTier();
             for (int j = 0; j < getTier(); j++) {
-                builder.widget(new BlockableSlotWidget(beeHandler, i*getTier()+j, halfwidth+offset, 18*(1+i), true, true)
-                        .setIsBlocked(this::isSlotBlocked)
-                        .setBackgroundTexture(GuiTextures.SLOT));
+                builder.widget(new BlockableSlotWidget(beeHandler, i * getTier() + j, halfwidth + offset, 18 * (1 + i),
+                        true, true)
+                                .setIsBlocked(this::isSlotBlocked)
+                                .setBackgroundTexture(GuiTextures.SLOT));
                 offset += 18;
             }
         }
-        return builder.bindPlayerInventory(entityPlayer.inventory, GuiTextures.SLOT, 7, 18 * getTier() + 30).build(getHolder(), entityPlayer);
+        return builder.bindPlayerInventory(entityPlayer.inventory, GuiTextures.SLOT, 7, 18 * getTier() + 30)
+                .build(getHolder(), entityPlayer);
     }
 
     @Override
@@ -95,7 +102,7 @@ public class MetaTileEntityBeeHatch extends MetaTileEntityMultiblockNotifiablePa
     @Override
     public void addInformation(ItemStack stack, @Nullable World player, List<String> tooltip, boolean advanced) {
         super.addInformation(stack, player, tooltip, advanced);
-        tooltip.add(I18n.format("gj.machine.bee_hatch.info",Integer.toString(getBeeLimit())));
+        tooltip.add(I18n.format("gj.machine.bee_hatch.info", Integer.toString(getBeeLimit())));
     }
 
     @Override

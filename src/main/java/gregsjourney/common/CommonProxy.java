@@ -3,7 +3,6 @@ package gregsjourney.common;
 import java.util.Objects;
 import java.util.function.Function;
 
-import gregsjourney.common.integration.forestry.ForestryModule;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
@@ -21,6 +20,7 @@ import gregtech.api.block.VariantItemBlock;
 import gregsjourney.GregsJourney;
 import gregsjourney.api.utils.GJLog;
 import gregsjourney.common.block.GJMetaBlocks;
+import gregsjourney.integration.forestry.ForestryModule;
 import gregsjourney.loaders.recipe.GJRecipeLoader;
 
 @Mod.EventBusSubscriber(modid = GregsJourney.MODID)
@@ -44,6 +44,8 @@ public class CommonProxy {
         registry.register(GJMetaBlocks.LARGE_MULTIBLOCK_CASING);
         registry.register(GJMetaBlocks.ALTERNATOR_COIL);
         registry.register(GJMetaBlocks.TURBINE_ROTOR);
+
+        ForestryModule.registerBlocks(event);
     }
 
     @SubscribeEvent
@@ -54,7 +56,7 @@ public class CommonProxy {
         registry.register(createItemBlock(GJMetaBlocks.ALTERNATOR_COIL, VariantItemBlock::new));
         registry.register(createItemBlock(GJMetaBlocks.TURBINE_ROTOR, VariantItemBlock::new));
 
-         ForestryModule.registerItems(event);
+        ForestryModule.registerItems(event);
     }
 
     private static <T extends Block> ItemBlock createItemBlock(T block, Function<T, ItemBlock> producer) {
@@ -66,10 +68,6 @@ public class CommonProxy {
     @SubscribeEvent()
     public static void registerRecipes(RegistryEvent.Register<IRecipe> event) {
         GJLog.logger.info("Registering recipes...");
-
-        // Main recipe registration
-        // This is called AFTER GregTech registers recipes, so
-        // anything here is safe to call removals in
         GJRecipeLoader.init();
     }
 }

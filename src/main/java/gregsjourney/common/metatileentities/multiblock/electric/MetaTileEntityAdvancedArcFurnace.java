@@ -1,6 +1,6 @@
 package gregsjourney.common.metatileentities.multiblock.electric;
 
-import static gregsjourney.api.recipe.GJRecipeMaps.ADVANCED_ARC_RECIPES;
+import static gregsjourney.common.recipe.GJRecipeMaps.ADVANCED_ARC_RECIPES;
 import static gregtech.client.renderer.texture.Textures.ARC_FURNACE_OVERLAY;
 
 import javax.annotation.Nonnull;
