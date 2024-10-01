@@ -1,10 +1,7 @@
 package gregsjourney.api.utils;
 
 import gregsjourney.GregsJourney;
-import gregsjourney.api.unification.property.CrystallizationProperty;
-import gregsjourney.api.unification.property.DistillationProperty;
 import gregsjourney.api.unification.property.GJMaterialFlags;
-import gregsjourney.api.unification.property.GJPropertyKeys;
 import gregtech.api.GregTechAPI;
 import gregtech.api.fluids.FluidBuilder;
 import gregtech.api.fluids.store.FluidStorageKey;
