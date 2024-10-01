@@ -181,25 +181,30 @@ public final class GJUtil {
         return null;
     }
 
-    private static void addDistillationProperty(Material material, int tier) {
-        if (!material.hasFlag(GJMaterialFlags.DISTILLABLE)) {
-            material.addFlags(GJMaterialFlags.DISTILLABLE);
-        }
-        material.setProperty(GJPropertyKeys.DISTILLATION_PROPERTY_KEY, new DistillationProperty(tier));
-    }
-
-    private static void addCrystallizationProperty(Material material, Material crystallizedSolution, int tier) {
-        if (!material.hasFlag(GJMaterialFlags.CRYSTALLIZABLE)) {
-            material.addFlags(GJMaterialFlags.CRYSTALLIZABLE);
-        }
-        material.setProperty(GJPropertyKeys.CRYSTALLIZATION_PROPERTY_KEY, new CrystallizationProperty(crystallizedSolution, tier));
-    }
-
     public static MaterialStack[] convertComponents(Object... args) {
-        MaterialStack[] materialStacks = new MaterialStack[args.length/2];
-        for (int i = 0; i < args.length/2; i++) {
-            materialStacks[i] = new MaterialStack((Material) args[2 * i], Long.parseLong(String.valueOf(args[2 * i + 1])));
+        MaterialStack[] materialStacks = new MaterialStack[args.length / 2];
+
+        for (int i = 0; i < args.length / 2; i++) {
+            Object first = args[2 * i];
+            Object second = args[2 * i + 1];
+
+            if (first instanceof Material) {
+                long quantity;
+                // Check if the second argument is a Material (consecutive materials case)
+                if (second instanceof Material) {
+                    // If consecutive Materials, set quantity to 1
+                    quantity = 1;
+                } else {
+                    // Otherwise, parse the second argument as the quantity
+                    quantity = Long.parseLong(String.valueOf(second));
+                }
+
+                materialStacks[i] = new MaterialStack((Material) first, quantity);
+            } else {
+                throw new IllegalArgumentException("Expected Material at position " + (2 * i));
+            }
         }
+
         return materialStacks;
     }
 
