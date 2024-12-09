@@ -16,5 +16,6 @@ public class GJMaterials {
         GJMiscMaterials.init();
         // 10000-11000
         GJSpaceMaterials.init();
+        GJNuclearMaterials.init();
     }
 }

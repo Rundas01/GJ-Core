@@ -13,19 +13,19 @@ import org.jetbrains.annotations.NotNull;
 import gregtech.common.blocks.MetaBlocks;
 
 import gregsjourney.common.block.blocks.BlockAlternatorCoil;
-import gregsjourney.common.block.blocks.BlockLargeMultiblockCasing;
+import gregsjourney.common.block.blocks.GJLargeMultiblockCasings;
 import gregsjourney.common.block.blocks.BlockTurbineRotor;
 
 public class GJMetaBlocks {
 
     private GJMetaBlocks() {}
 
-    public static BlockLargeMultiblockCasing LARGE_MULTIBLOCK_CASING;
+    public static GJLargeMultiblockCasings LARGE_MULTIBLOCK_CASING;
     public static BlockAlternatorCoil ALTERNATOR_COIL;
     public static BlockTurbineRotor TURBINE_ROTOR;
 
     public static void init() {
-        LARGE_MULTIBLOCK_CASING = new BlockLargeMultiblockCasing();
+        LARGE_MULTIBLOCK_CASING = new GJLargeMultiblockCasings();
         LARGE_MULTIBLOCK_CASING.setRegistryName("large_multiblock_casing");
         ALTERNATOR_COIL = new BlockAlternatorCoil();
         ALTERNATOR_COIL.setRegistryName("alternator_coil");

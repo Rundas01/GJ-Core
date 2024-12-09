@@ -330,7 +330,7 @@ public class MetaTileEntityIndustrialAlveary extends RecipeMapMultiblockControll
 
     private void calculateShouldProduce(ItemStack product, Float chance, List<ItemStack> products,
                                         RecipeMapMultiblockController controller, IBee bee) {
-        if (Math.random() < chance + computeModifier(controller, bee)) {
+        if (Math.random() < chance) {
             products.add(product.copy());
         }
     }

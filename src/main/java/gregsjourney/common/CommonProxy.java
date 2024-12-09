@@ -12,13 +12,14 @@ import net.minecraftforge.common.config.ConfigManager;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.registries.IForgeRegistry;
 
 import gregtech.api.block.VariantItemBlock;
 
 import gregsjourney.GregsJourney;
-import gregsjourney.api.utils.GJLog;
+import gregsjourney.utils.GJLog;
 import gregsjourney.common.block.GJMetaBlocks;
 import gregsjourney.integration.forestry.ForestryModule;
 import gregsjourney.loaders.recipe.GJRecipeLoader;
@@ -65,7 +66,7 @@ public class CommonProxy {
         return itemBlock;
     }
 
-    @SubscribeEvent()
+    @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void registerRecipes(RegistryEvent.Register<IRecipe> event) {
         GJLog.logger.info("Registering recipes...");
         GJRecipeLoader.init();

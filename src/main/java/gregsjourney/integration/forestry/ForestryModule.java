@@ -22,7 +22,7 @@ import gregtech.integration.forestry.ForestryConfig;
 
 import forestry.api.core.ForestryAPI;
 import forestry.core.items.IColoredItem;
-import gregsjourney.api.utils.GJLog;
+import gregsjourney.utils.GJLog;
 import gregsjourney.integration.forestry.bees.GTBeeDefinition;
 import gregsjourney.integration.forestry.frames.GJFrameType;
 import gregsjourney.integration.forestry.frames.GJItemFrame;

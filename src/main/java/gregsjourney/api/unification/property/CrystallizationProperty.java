@@ -6,7 +6,8 @@ import gregtech.api.unification.material.properties.IMaterialProperty;
 import gregtech.api.unification.material.properties.MaterialProperties;
 import gregtech.api.unification.material.properties.PropertyKey;
 
-public @Desugar record CrystallizationProperty(Material crystallizedSolution, int tier) implements IMaterialProperty {
+public @Desugar
+record CrystallizationProperty(Material crystallizedSolution, int tier) implements IMaterialProperty {
 
     @Override
     public void verifyProperty(MaterialProperties properties) {

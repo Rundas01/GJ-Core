@@ -25,7 +25,7 @@ import gregtech.common.blocks.BlockTurbineCasing;
 import gregtech.common.blocks.MetaBlocks;
 
 import gregsjourney.common.block.GJMetaBlocks;
-import gregsjourney.common.block.blocks.BlockLargeMultiblockCasing;
+import gregsjourney.common.block.blocks.GJLargeMultiblockCasings;
 
 public class MetaTileEntityFlotationCell extends RecipeMapMultiblockController {
 
@@ -56,7 +56,7 @@ public class MetaTileEntityFlotationCell extends RecipeMapMultiblockController {
                 .where('B', states(MetaBlocks.BOILER_CASING.getState(BlockBoilerCasing.BoilerCasingType.STEEL_PIPE)))
                 .where('D',
                         states(GJMetaBlocks.LARGE_MULTIBLOCK_CASING
-                                .getState(BlockLargeMultiblockCasing.CasingType.FLOTATION_CASING)))
+                                .getState(GJLargeMultiblockCasings.CasingType.FLOTATION_CASING)))
                 .where('E',
                         states(MetaBlocks.TURBINE_CASING.getState(BlockTurbineCasing.TurbineCasingType.STEEL_GEARBOX)))
                 .where(' ', any())

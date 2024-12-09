@@ -1,26 +1,34 @@
 package gregsjourney.common.metatileentities;
 
-import static gregsjourney.api.utils.GJUtil.gjId;
-import static gregtech.api.util.GTUtility.defaultTankSizeFunction;
-import static gregtech.common.metatileentities.MetaTileEntities.registerMetaTileEntity;
-
-import java.util.function.Function;
-
+import gregsjourney.api.metatileentity.singleblock.MetaTileEntityGeneratorWithOutput;
+import gregsjourney.api.metatileentity.singleblock.SteamMetaTileEntityWithGhostCircuit;
+import gregsjourney.api.render.GJTextures;
+import gregsjourney.api.widget.SteamProgressIndicator;
+import gregsjourney.common.metatileentities.multiblock.electric.*;
+import gregsjourney.common.metatileentities.multiblock.primitive.MetaTileEntityCrucible;
+import gregsjourney.common.metatileentities.multiblock.primitive.MetaTileEntityHeatExchanger;
+import gregsjourney.common.metatileentities.part.MetaTileEntityBeeHatch;
+import gregsjourney.common.metatileentities.part.MetaTileEntityCoolantHatch;
+import gregsjourney.common.metatileentities.part.MetaTileEntityHeatHatch;
+import gregsjourney.common.recipe.GJRecipeMaps;
+import gregsjourney.utils.GJUtil;
 import gregtech.api.GTValues;
+import gregtech.api.metatileentity.SimpleGeneratorMetaTileEntity;
 import gregtech.api.metatileentity.SimpleMachineMetaTileEntity;
 import gregtech.api.recipes.RecipeMap;
+import gregtech.api.recipes.RecipeMaps;
+import gregtech.api.util.GTUtility;
 import gregtech.client.renderer.ICubeRenderer;
 import gregtech.client.renderer.texture.Textures;
 import gregtech.common.blocks.BlockTurbineCasing;
 import gregtech.common.blocks.MetaBlocks;
 
-import gregsjourney.api.render.GJTextures;
-import gregsjourney.api.utils.GJUtil;
-import gregsjourney.common.metatileentities.multiblock.electric.*;
-import gregsjourney.common.metatileentities.multiblock.electric.MetaTileEntityCrucible;
-import gregsjourney.common.metatileentities.part.MetaTileEntityBeeHatch;
-import gregsjourney.common.metatileentities.part.MetaTileEntityHeatHatch;
-import gregsjourney.common.recipe.GJRecipeMaps;
+import java.util.function.Function;
+
+import static gregsjourney.utils.GJUtil.gjId;
+import static gregtech.api.util.GTUtility.defaultTankSizeFunction;
+import static gregtech.api.util.GTUtility.largeTankSizeFunction;
+import static gregtech.common.metatileentities.MetaTileEntities.registerMetaTileEntity;
 
 public final class GJMetaTileEntities {
 
@@ -37,8 +45,13 @@ public final class GJMetaTileEntities {
             1];
     public static SimpleMachineMetaTileEntity[] POLYMERIZER = new SimpleMachineMetaTileEntity[GTValues.V.length - 1];
     public static SimpleMachineMetaTileEntity[] CRYSTALLIZER = new SimpleMachineMetaTileEntity[GTValues.V.length - 1];
-    public static MetaTileEntityBeeHatch[] BEE_HATCH = new MetaTileEntityBeeHatch[7];
+    public static SimpleMachineMetaTileEntity[] CHEMICAL_DEHYDRATOR = new SimpleMachineMetaTileEntity[GTValues.V.length - 1];
+    public static SimpleGeneratorMetaTileEntity[] DECAY_GENERATOR = new SimpleGeneratorMetaTileEntity[5];
+    public static SimpleMachineMetaTileEntity[] DECAY_HASTENER = new SimpleMachineMetaTileEntity[GTValues.V.length - 1];
+    public static SimpleMachineMetaTileEntity[] ISOTOPIC_STABILIZER = new SimpleMachineMetaTileEntity[GTValues.V.length - 1];
+    public static MetaTileEntityBeeHatch[] BEE_HATCH = new MetaTileEntityBeeHatch[6];
     public static MetaTileEntityHeatHatch HEAT_HATCH;
+    public static MetaTileEntityCoolantHatch[] COOLANT_HATCH = new MetaTileEntityCoolantHatch[6];
     public static MetaTileEntityCrucible CRUCIBLE;
     public static MetaTileEntityAdvancedArcFurnace ADVANCED_ARC_FURNACE;
     public static MetaTileEntityFlotationCell FLOTATION_CELL;
@@ -50,6 +63,7 @@ public final class GJMetaTileEntities {
     public static MetaTileEntityCombProcessor COMB_PROCESSOR;
     public static MetaTileEntityClarificationPlant CLARIFICATION_PLANT;
     public static MetaTileEntityReactionFurnace REACTION_FURNACE;
+    public static MetaTileEntityNuclearReactor NUCLEAR_REACTOR;
 
     private static void registerSimpleMetaTileEntity(SimpleMachineMetaTileEntity[] machines, int startId, String name,
                                                      RecipeMap<?> map, ICubeRenderer texture, boolean hasFrontFacing,
@@ -58,10 +72,15 @@ public final class GJMetaTileEntities {
                 texture, hasFrontFacing, GJUtil::gjId, tankScalingFunction);
     }
 
+    private static void registerSimpleSteamMetaTileEntity(SteamMetaTileEntityWithGhostCircuit[] machines, int startId, String name, RecipeMap<?> recipeMap, SteamProgressIndicator progressIndicator, ICubeRenderer texture, boolean isBricked) {
+        machines[0] = registerMetaTileEntity(startId, new SteamMetaTileEntityWithGhostCircuit(gjId(String.format("%s.bronze", name)), recipeMap, progressIndicator, texture, isBricked, false));
+        machines[1] = registerMetaTileEntity(startId + 1, new SteamMetaTileEntityWithGhostCircuit(gjId(String.format("%s.steel", name)), recipeMap, progressIndicator, texture, isBricked, true));
+    }
+
     public static void init() {
         // Singleblocks
         registerSimpleMetaTileEntity(ROASTER, 2200, "roaster", GJRecipeMaps.ROASTING_RECIPES,
-                GJTextures.ROASTER_OVERLAY, true, defaultTankSizeFunction);
+                GJTextures.ROASTER_OVERLAY, true, largeTankSizeFunction);
         registerSimpleMetaTileEntity(BATCH_REACTOR, 2215, "batch_reactor", GJRecipeMaps.BATCH_REACTOR_RECIPES,
                 GJTextures.BATCH_OVERLAY, true, defaultTankSizeFunction);
         registerSimpleMetaTileEntity(GAS_BUBBLE_REACTOR, 2230, "gas_bubble_reactor", GJRecipeMaps.BUBBLE_RECIPES,
@@ -74,40 +93,62 @@ public final class GJMetaTileEntities {
                 GJRecipeMaps.CATALYTIC_REACTOR_RECIPES, GJTextures.CATALYTIC_OVERLAY, true, defaultTankSizeFunction);
         registerSimpleMetaTileEntity(POLYMERIZER, 2290, "polymerizer", GJRecipeMaps.POLYMERIZATION_RECIPES,
                 GJTextures.POLYMERIZER_OVERLAY, true, defaultTankSizeFunction);
-        registerSimpleMetaTileEntity(CRYSTALLIZER, 2305, "crystallizer", GJRecipeMaps.POLYMERIZATION_RECIPES,
-                GJTextures.POLYMERIZER_OVERLAY, true, defaultTankSizeFunction);
-        BEE_HATCH[0] = registerMetaTileEntity(2320, new MetaTileEntityBeeHatch(gjId("bee_hatch_hv"), 3));
-        BEE_HATCH[1] = registerMetaTileEntity(2321, new MetaTileEntityBeeHatch(gjId("bee_hatch_ev"), 4));
-        BEE_HATCH[2] = registerMetaTileEntity(2322, new MetaTileEntityBeeHatch(gjId("bee_hatch_iv"), 5));
-        BEE_HATCH[3] = registerMetaTileEntity(2323, new MetaTileEntityBeeHatch(gjId("bee_hatch_luv"), 6));
-        BEE_HATCH[4] = registerMetaTileEntity(2324, new MetaTileEntityBeeHatch(gjId("bee_hatch_zpm"), 7));
-        BEE_HATCH[5] = registerMetaTileEntity(2325, new MetaTileEntityBeeHatch(gjId("bee_hatch_uv"), 8));
-        BEE_HATCH[6] = registerMetaTileEntity(2326, new MetaTileEntityBeeHatch(gjId("bee_hatch_uhv"), 9));
-        HEAT_HATCH = registerMetaTileEntity(2327, new MetaTileEntityHeatHatch(gjId("heat_hatch"), 1));
+        registerSimpleMetaTileEntity(CRYSTALLIZER, 2305, "crystallizer", GJRecipeMaps.CRYSTALLIZATION_RECIPES,
+                GJTextures.CRYSTALLIZER_OVERLAY, true, defaultTankSizeFunction);
+        registerSimpleMetaTileEntity(CHEMICAL_DEHYDRATOR, 2320, "chemical_dehydrator", GJRecipeMaps.CHEMICAL_DEHYDRATOR_RECIPES,
+                GJTextures.DEHYDRATOR_OVERLAY, true, defaultTankSizeFunction);
+        BEE_HATCH[0] = registerMetaTileEntity(2335, new MetaTileEntityBeeHatch(gjId("bee_hatch.hv"), 3));
+        BEE_HATCH[1] = registerMetaTileEntity(2336, new MetaTileEntityBeeHatch(gjId("bee_hatch.ev"), 4));
+        BEE_HATCH[2] = registerMetaTileEntity(2337, new MetaTileEntityBeeHatch(gjId("bee_hatch.iv"), 5));
+        BEE_HATCH[3] = registerMetaTileEntity(2338, new MetaTileEntityBeeHatch(gjId("bee_hatch.luv"), 6));
+        BEE_HATCH[4] = registerMetaTileEntity(2339, new MetaTileEntityBeeHatch(gjId("bee_hatch.zpm"), 7));
+        BEE_HATCH[5] = registerMetaTileEntity(2340, new MetaTileEntityBeeHatch(gjId("bee_hatch.uv"), 8));
+        HEAT_HATCH = registerMetaTileEntity(2342, new MetaTileEntityHeatHatch(gjId("heat_hatch")));
         // Multiblocks
-        CRUCIBLE = registerMetaTileEntity(2328, new MetaTileEntityCrucible(gjId("crucible")));
-        FLOTATION_CELL = registerMetaTileEntity(2329, new MetaTileEntityFlotationCell(gjId("flotation_cell")));
-        ADVANCED_ARC_FURNACE = registerMetaTileEntity(2330,
+        CRUCIBLE = registerMetaTileEntity(2343, new MetaTileEntityCrucible(gjId("crucible")));
+        FLOTATION_CELL = registerMetaTileEntity(2344, new MetaTileEntityFlotationCell(gjId("flotation_cell")));
+        ADVANCED_ARC_FURNACE = registerMetaTileEntity(2345,
                 new MetaTileEntityAdvancedArcFurnace(gjId("advanced_arc_furnace")));
-        HEAT_EXCHANGER = registerMetaTileEntity(2331,
+        HEAT_EXCHANGER = registerMetaTileEntity(2346,
                 new MetaTileEntityHeatExchanger(gjId("heat_exchanger")));
-        ADVANCED_STEAM_TURBINE = registerMetaTileEntity(2332,
+        ADVANCED_STEAM_TURBINE = registerMetaTileEntity(2347,
                 new MetaTileEntityAdvancedTurbine(gjId("advanced_large_steam_turbine"),
-                        GJRecipeMaps.ADVANCED_STEAM_FUELS, 1,
+                        RecipeMaps.STEAM_TURBINE_FUELS, 1,
                         MetaBlocks.TURBINE_CASING.getState(BlockTurbineCasing.TurbineCasingType.STEEL_TURBINE_CASING),
                         Textures.SOLID_STEEL_CASING, GJTextures.ADVANCED_COMBUSTION_TURBINE_OVERLAY));
-        ADVANCED_COMBUSTION_TURBINE = registerMetaTileEntity(2333,
+        ADVANCED_COMBUSTION_TURBINE = registerMetaTileEntity(2348,
                 new MetaTileEntityAdvancedTurbine(gjId("advanced_large_combustion_turbine"),
                         GJRecipeMaps.ADVANCED_COMBUSTION_FUELS, 2,
                         MetaBlocks.TURBINE_CASING.getState(BlockTurbineCasing.TurbineCasingType.STEEL_TURBINE_CASING),
                         Textures.SOLID_STEEL_CASING, GJTextures.ADVANCED_STEAM_TURBINE_OVERLAY));
-        ADVANCED_ELECTROLYZER = registerMetaTileEntity(2334,
+        ADVANCED_ELECTROLYZER = registerMetaTileEntity(2349,
                 new MetaTileEntityAdvancedElectrolyzer(gjId("advanced_electrolyzer")));
-        MEGA_ALVEARY = registerMetaTileEntity(2335, new MetaTileEntityIndustrialAlveary(gjId("mega_alveary")));
-        COMB_PROCESSOR = registerMetaTileEntity(2336, new MetaTileEntityCombProcessor(gjId("comb_processor")));
-        CLARIFICATION_PLANT = registerMetaTileEntity(2337,
+        MEGA_ALVEARY = registerMetaTileEntity(2350, new MetaTileEntityIndustrialAlveary(gjId("mega_alveary")));
+        COMB_PROCESSOR = registerMetaTileEntity(2351, new MetaTileEntityCombProcessor(gjId("comb_processor")));
+        CLARIFICATION_PLANT = registerMetaTileEntity(2352,
                 new MetaTileEntityClarificationPlant(gjId("clarification_plant")));
-        REACTION_FURNACE = registerMetaTileEntity(2338,
+        REACTION_FURNACE = registerMetaTileEntity(2353,
                 new MetaTileEntityReactionFurnace(gjId("reaction_furnace")));
+        NUCLEAR_REACTOR = registerMetaTileEntity(2354,
+                new MetaTileEntityNuclearReactor(gjId("nuclear_reactor")));
+        //zeugs, dass noch einsortiert werden muss
+        DECAY_GENERATOR[0] = registerMetaTileEntity(2355, new MetaTileEntityGeneratorWithOutput(gjId("decay_generator.lv"), GJRecipeMaps.DECAY_GENERATOR_RECIPES, Textures.STEAM_TURBINE_OVERLAY, 1, GTUtility.steamGeneratorTankSizeFunction));
+        DECAY_GENERATOR[1] = registerMetaTileEntity(2356, new MetaTileEntityGeneratorWithOutput(gjId("decay_generator.mv"), GJRecipeMaps.DECAY_GENERATOR_RECIPES, Textures.STEAM_TURBINE_OVERLAY, 2, GTUtility.steamGeneratorTankSizeFunction));
+        DECAY_GENERATOR[2] = registerMetaTileEntity(2357, new MetaTileEntityGeneratorWithOutput(gjId("decay_generator.hv"), GJRecipeMaps.DECAY_GENERATOR_RECIPES, Textures.STEAM_TURBINE_OVERLAY, 3, GTUtility.steamGeneratorTankSizeFunction));
+        DECAY_GENERATOR[3] = registerMetaTileEntity(2358, new MetaTileEntityGeneratorWithOutput(gjId("decay_generator.ev"), GJRecipeMaps.DECAY_GENERATOR_RECIPES, Textures.STEAM_TURBINE_OVERLAY, 4, GTUtility.steamGeneratorTankSizeFunction));
+        DECAY_GENERATOR[4] = registerMetaTileEntity(2359, new MetaTileEntityGeneratorWithOutput(gjId("decay_generator.iv"), GJRecipeMaps.DECAY_GENERATOR_RECIPES, Textures.STEAM_TURBINE_OVERLAY, 5, GTUtility.steamGeneratorTankSizeFunction));
+
+        registerSimpleMetaTileEntity(DECAY_HASTENER, 2360, "decay_hastener", GJRecipeMaps.DECAY_HASTENER_RECIPES,
+                GJTextures.DECAY_HASTENER_OVERLAY, true, defaultTankSizeFunction);
+
+        registerSimpleMetaTileEntity(ISOTOPIC_STABILIZER, 2375, "isotopic_stabilizer", GJRecipeMaps.ISOTOPIC_STABILIZER_RECIPES,
+                GJTextures.ISOTOPIC_STABILIZER_OVERLAY, true, defaultTankSizeFunction);
+
+        COOLANT_HATCH[0] = registerMetaTileEntity(2390, new MetaTileEntityCoolantHatch(gjId("coolant_hatch.hv"), 3, 1));
+        COOLANT_HATCH[1] = registerMetaTileEntity(2391, new MetaTileEntityCoolantHatch(gjId("coolant_hatch.ev"), 4, 1));
+        COOLANT_HATCH[2] = registerMetaTileEntity(2392, new MetaTileEntityCoolantHatch(gjId("coolant_hatch.iv"), 5, 4));
+        COOLANT_HATCH[3] = registerMetaTileEntity(2393, new MetaTileEntityCoolantHatch(gjId("coolant_hatch.luv"), 6, 4));
+        COOLANT_HATCH[4] = registerMetaTileEntity(2394, new MetaTileEntityCoolantHatch(gjId("coolant_hatch.zpm"), 7, 9));
+        COOLANT_HATCH[5] = registerMetaTileEntity(2395, new MetaTileEntityCoolantHatch(gjId("coolant_hatch.uv"), 8, 9));
     }
 }

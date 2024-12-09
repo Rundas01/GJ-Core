@@ -23,7 +23,7 @@ import gregtech.common.blocks.BlockMetalCasing;
 import gregtech.common.blocks.MetaBlocks;
 
 import gregsjourney.common.block.GJMetaBlocks;
-import gregsjourney.common.block.blocks.BlockLargeMultiblockCasing;
+import gregsjourney.common.block.blocks.GJLargeMultiblockCasings;
 
 public class MetaTileEntityAdvancedArcFurnace extends RecipeMapMultiblockController {
 
@@ -50,7 +50,7 @@ public class MetaTileEntityAdvancedArcFurnace extends RecipeMapMultiblockControl
                                 .or(autoAbilities()))
                 .where('C',
                         states(GJMetaBlocks.LARGE_MULTIBLOCK_CASING
-                                .getState(BlockLargeMultiblockCasing.CasingType.CARBON_ELECTRODE)))
+                                .getState(GJLargeMultiblockCasings.CasingType.CARBON_ELECTRODE)))
                 .where('D', states(MetaBlocks.BOILER_CASING.getState((BlockBoilerCasing.BoilerCasingType.STEEL_PIPE))))
                 .where('E',
                         states(MetaBlocks.BOILER_FIREBOX_CASING

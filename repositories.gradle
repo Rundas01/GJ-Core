@@ -1,5 +1,8 @@
 // Add any additional repositories for your dependencies here
 
 repositories {
-
+    maven {
+        name = "CoFH Maven"
+        url = "https://maven.covers1624.net"
+    }
 }

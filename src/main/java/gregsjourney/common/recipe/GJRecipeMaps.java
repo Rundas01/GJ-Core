@@ -1,6 +1,7 @@
 package gregsjourney.common.recipe;
 
 import gregsjourney.api.recipe.NoEnergyRecipeBuilder;
+import gregsjourney.common.GJConfigHolder;
 import gregtech.api.gui.GuiTextures;
 import gregtech.api.gui.widgets.ProgressWidget;
 import gregtech.api.recipes.RecipeMap;
@@ -24,52 +25,60 @@ public final class GJRecipeMaps {
     public static RecipeMap<SimpleRecipeBuilder> CATALYTIC_REACTOR_RECIPES;
     public static RecipeMap<SimpleRecipeBuilder> POLYMERIZATION_RECIPES;
     public static RecipeMap<SimpleRecipeBuilder> CRYSTALLIZATION_RECIPES;
-    public static RecipeMap<SimpleRecipeBuilder> COMB_RECIPES;
+    public static RecipeMap<FuelRecipeBuilder> DECAY_GENERATOR_RECIPES;
+    public static RecipeMap<SimpleRecipeBuilder> ISOTOPIC_STABILIZER_RECIPES;
+    public static RecipeMap<SimpleRecipeBuilder> DECAY_HASTENER_RECIPES;
+
 
     // Multiblock
+    public static RecipeMap<SimpleRecipeBuilder> COMB_RECIPES;
     public static RecipeMap<SimpleRecipeBuilder> FLOTATION_RECIPES;
     public static RecipeMap<SimpleRecipeBuilder> ADVANCED_ARC_RECIPES;
-    public static RecipeMap<FuelRecipeBuilder> ADVANCED_STEAM_FUELS;
     public static RecipeMap<FuelRecipeBuilder> ADVANCED_COMBUSTION_FUELS;
     public static RecipeMap<SimpleRecipeBuilder> ADVANCED_ELECTROLYZER_RECIPES;
     public static RecipeMap<NoEnergyRecipeBuilder> HEAT_EXCHANGER_RECIPES;
     public static RecipeMap<SimpleRecipeBuilder> CLARIFYING_RECIPES;
     public static RecipeMap<SimpleRecipeBuilder> REACTION_FURNACE_RECIPES;
+    public static RecipeMap<NoEnergyRecipeBuilder> FISSION_REACTOR_RECIPES;
+    public static RecipeMap<NoEnergyRecipeBuilder> BREEDER_REACTOR_RECIPES;
+    public static RecipeMap<SimpleRecipeBuilder> FUEL_REPROCESSOR_RECIPES;
 
     public static void init() {
+
         // Singleblock
+
         CHEMICAL_DEHYDRATOR_RECIPES = new RecipeMap<>("chemical_dehydrator", 2, 9,
                 2, 3, new SimpleRecipeBuilder(), false)
                         .setProgressBar(GuiTextures.PROGRESS_BAR_CRYSTALLIZATION, ProgressWidget.MoveType.HORIZONTAL)
                         .setSound(GTSoundEvents.CHEMICAL_REACTOR);
 
-        ROASTING_RECIPES = new RecipeMap<>("roaster", 2, 9,
-                2, 9, new SimpleRecipeBuilder(), false)
+        ROASTING_RECIPES = new RecipeMap<>("roaster", 2, 6,
+                2, 6, new SimpleRecipeBuilder(), false)
                         .setProgressBar(GuiTextures.PROGRESS_BAR_ARC_FURNACE, ProgressWidget.MoveType.HORIZONTAL)
                         .setSound(GTSoundEvents.FURNACE);
 
-        BATCH_REACTOR_RECIPES = new RecipeMap<>("batch_reactor", 3, 9,
-                3, 9, new SimpleRecipeBuilder(), false)
+        BATCH_REACTOR_RECIPES = new RecipeMap<>("batch_reactor", 3, 6,
+                3, 6, new SimpleRecipeBuilder(), false)
                         .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, ProgressWidget.MoveType.HORIZONTAL)
                         .setSound(GTSoundEvents.CHEMICAL_REACTOR);
 
-        BUBBLE_RECIPES = new RecipeMap<>("gas_bubble_reactor", 0, 0,
-                2, 2, new SimpleRecipeBuilder(), false)
+        BUBBLE_RECIPES = new RecipeMap<>("gas_bubble_reactor", 0, 3,
+                2, 3, new SimpleRecipeBuilder(), false)
                         .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, ProgressWidget.MoveType.HORIZONTAL)
                         .setSound(GTSoundEvents.CHEMICAL_REACTOR);
 
-        DISSOLUTION_REACTOR_RECIPES = new RecipeMap<>("dissolution_reactor", 1, 2,
-                1, 2, new SimpleRecipeBuilder(), false)
+        DISSOLUTION_REACTOR_RECIPES = new RecipeMap<>("dissolution_reactor", 1, 3,
+                1, 3, new SimpleRecipeBuilder(), false)
                         .setProgressBar(GuiTextures.PROGRESS_BAR_MIXER, ProgressWidget.MoveType.CIRCULAR)
                         .setSound(GTSoundEvents.CHEMICAL_REACTOR);
 
-        MIXING_REACTOR_RECIPES = new RecipeMap<>("mixing_reactor", 0, 2,
-                2, 2, new SimpleRecipeBuilder(), false)
+        MIXING_REACTOR_RECIPES = new RecipeMap<>("mixing_reactor", 0, 3,
+                2, 3, new SimpleRecipeBuilder(), false)
                         .setProgressBar(GuiTextures.PROGRESS_BAR_MIXER, ProgressWidget.MoveType.CIRCULAR)
                         .setSound(GTSoundEvents.CHEMICAL_REACTOR);
 
-        CATALYTIC_REACTOR_RECIPES = new RecipeMap<>("catalytic_reactor", 2, 2,
-                4, 3, new SimpleRecipeBuilder(), false)
+        CATALYTIC_REACTOR_RECIPES = new RecipeMap<>("catalytic_reactor", 2, 3,
+                3, 3, new SimpleRecipeBuilder(), false)
                         .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, ProgressWidget.MoveType.HORIZONTAL)
                         .setSound(GTSoundEvents.CHEMICAL_REACTOR);
 
@@ -83,14 +92,31 @@ public final class GJRecipeMaps {
                 .setProgressBar(GuiTextures.PROGRESS_BAR_CRYSTALLIZATION, ProgressWidget.MoveType.HORIZONTAL)
                 .setSound(GTSoundEvents.COOLING);
 
-        COMB_RECIPES = new RecipeMap<>("comb_processor", 2, 6,
-                1, 6, new SimpleRecipeBuilder(), false)
-                        .setProgressBar(GuiTextures.PROGRESS_BAR_ARC_FURNACE, ProgressWidget.MoveType.HORIZONTAL)
-                        .setSound(GTSoundEvents.CENTRIFUGE);
+        DECAY_GENERATOR_RECIPES = new RecipeMap<>("decay_generator", 2, 1,
+                1, 1, new FuelRecipeBuilder(), false)
+                .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, ProgressWidget.MoveType.HORIZONTAL)
+                .setSound(GTSoundEvents.SCIENCE);
+
+        ISOTOPIC_STABILIZER_RECIPES = new RecipeMap<>("isotopic_stabilizer", 1, 1,
+                1, 1, new SimpleRecipeBuilder(), false)
+                .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, ProgressWidget.MoveType.HORIZONTAL)
+                .setSound(GTSoundEvents.SCIENCE);
+
+        DECAY_HASTENER_RECIPES = new RecipeMap<>("decay_hastener", 2, 1,
+                1, 1, new SimpleRecipeBuilder(), false)
+                .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, ProgressWidget.MoveType.HORIZONTAL)
+                .setSound(GTSoundEvents.SCIENCE);
+
 
         // Multiblock
+
+        COMB_RECIPES = new RecipeMap<>("comb_processor", 2, 6,
+                1, 6, new SimpleRecipeBuilder(), false)
+                .setProgressBar(GuiTextures.PROGRESS_BAR_ARC_FURNACE, ProgressWidget.MoveType.HORIZONTAL)
+                .setSound(GTSoundEvents.CENTRIFUGE);
+
         FLOTATION_RECIPES = new RecipeMap<>("flotation_cell", 0, 0,
-                2, 4, new SimpleRecipeBuilder(), false)
+                3, 6, new SimpleRecipeBuilder(), false)
                         .setProgressBar(GuiTextures.PROGRESS_BAR_CRYSTALLIZATION, ProgressWidget.MoveType.HORIZONTAL)
                         .setSound(GTSoundEvents.CHEMICAL_REACTOR);
 
@@ -105,18 +131,13 @@ public final class GJRecipeMaps {
                         .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, ProgressWidget.MoveType.HORIZONTAL)
                         .setSound(GTSoundEvents.BOILER);
 
-        ADVANCED_STEAM_FUELS = new RecipeMap<>("advanced_steam_fuels", 0, 0,
-                1, 1, new FuelRecipeBuilder(), false)
-                        .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, ProgressWidget.MoveType.HORIZONTAL)
-                        .setSound(GTSoundEvents.TURBINE);
-
         ADVANCED_COMBUSTION_FUELS = new RecipeMap<>("advanced_combustion_fuels", 0, 0,
                 2, 3, new FuelRecipeBuilder(), false)
                         .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, ProgressWidget.MoveType.HORIZONTAL)
                         .setSound(GTSoundEvents.COMBUSTION);
 
-        ADVANCED_ELECTROLYZER_RECIPES = new RecipeMap<>("advanced_electrolyzer", 3, 3,
-                3, 3, new SimpleRecipeBuilder(), false)
+        ADVANCED_ELECTROLYZER_RECIPES = new RecipeMap<>("advanced_electrolyzer", 3, 6,
+                3, 6, new SimpleRecipeBuilder(), false)
                         .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, ProgressWidget.MoveType.HORIZONTAL)
                         .setSound(GTSoundEvents.ELECTROLYZER);
 
@@ -125,14 +146,27 @@ public final class GJRecipeMaps {
                         .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, ProgressWidget.MoveType.HORIZONTAL)
                         .setSound(GTSoundEvents.BATH);
 
-        REACTION_FURNACE_RECIPES = new RecipeMap<>("reaction_furnace", 3, 9,
-                3, 9, new SimpleRecipeBuilder(), false)
+        REACTION_FURNACE_RECIPES = new RecipeMap<>("reaction_furnace", 3, 6,
+                3, 6, new SimpleRecipeBuilder(), false)
                         .setProgressBar(GuiTextures.PROGRESS_BAR_ARC_FURNACE, ProgressWidget.MoveType.HORIZONTAL)
                         .setSound(GTSoundEvents.FURNACE);
 
+        FISSION_REACTOR_RECIPES = new RecipeMap<>("fission_reactor", 2, 3,
+                0, 0, new NoEnergyRecipeBuilder(), false)
+                .setProgressBar(GuiTextures.PROGRESS_BAR_ARC_FURNACE, ProgressWidget.MoveType.HORIZONTAL)
+                .setSound(GTSoundEvents.SCIENCE);
+
+        BREEDER_REACTOR_RECIPES = new RecipeMap<>("breeder_reactor", 3, 3,
+                0, 0, new NoEnergyRecipeBuilder(), false)
+                .setProgressBar(GuiTextures.PROGRESS_BAR_ARC_FURNACE, ProgressWidget.MoveType.HORIZONTAL)
+                .setSound(GTSoundEvents.SCIENCE);
+
+        FUEL_REPROCESSOR_RECIPES = new RecipeMap<>("fuel_reprocessor", 1, GJConfigHolder.options.maxFuelSplit,
+                0, GJConfigHolder.options.maxFuelSplit, new SimpleRecipeBuilder(), false)
+                .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, ProgressWidget.MoveType.HORIZONTAL)
+                .setSound(GTSoundEvents.SCIENCE);
+
         //Change Recipe Maps
-        BLAST_RECIPES.setMaxFluidInputs(2);
-        BLAST_RECIPES.setMaxFluidOutputs(3);
         PYROLYSE_RECIPES.setMaxFluidOutputs(2);
         CENTRIFUGE_RECIPES.setMaxFluidInputs(2);
         COMPRESSOR_RECIPES.setMaxFluidInputs(1);

@@ -1,7 +1,7 @@
 package gregsjourney.loaders.recipe.singleblock;
 
 import static gregsjourney.api.unification.material.GJSpaceMaterials.*;
-import static gregsjourney.api.utils.GJUtil.Dimensions.*;
+import static gregsjourney.utils.GJUtil.Dimensions.*;
 import static gregtech.api.GTValues.MV;
 import static gregtech.api.GTValues.VA;
 import static gregtech.api.recipes.RecipeMaps.GAS_COLLECTOR_RECIPES;

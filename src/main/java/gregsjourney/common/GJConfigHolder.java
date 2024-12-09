@@ -15,8 +15,9 @@ public class GJConfigHolder {
     public static GJOptions options = new GJOptions();
 
     public static class GJOptions {
-
-        @Config.Comment({ "Za Handozawarudo", "Default: true" })
-        public boolean test = true;
+        @Config.Comment({ "Into up to how many smaller cores an isotope can be split in the Fission- and Breeder Reactors. Obviously > 1. Has a huge impact on startup time, so be careful!", "Default: 3" })
+        public int maxFuelSplit = 3;
+        @Config.Comment({ "How many different fission reactions a material can have. Max 24. Has a large impact on the Breeder Reactor especially!", "Default: 5" })
+        public int maxFissionReactions = 5;
     }
 }

@@ -1,6 +1,6 @@
 package gregsjourney.api.unification.material;
 
-import static gregsjourney.api.utils.GJUtil.gjId;
+import static gregsjourney.utils.GJUtil.gjId;
 import static gregtech.api.unification.material.Materials.*;
 import static gregtech.api.unification.material.info.MaterialFlags.DECOMPOSITION_BY_CENTRIFUGING;
 import static gregtech.api.unification.material.info.MaterialFlags.DISABLE_DECOMPOSITION;

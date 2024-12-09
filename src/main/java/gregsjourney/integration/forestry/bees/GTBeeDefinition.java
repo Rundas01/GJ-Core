@@ -49,7 +49,7 @@ import forestry.apiculture.items.EnumHoneyComb;
 import forestry.core.ModuleCore;
 import forestry.core.genetics.alleles.AlleleHelper;
 import forestry.core.genetics.alleles.EnumAllele;
-import gregsjourney.api.utils.GJUtil;
+import gregsjourney.utils.GJUtil;
 import gregsjourney.integration.forestry.bees.mutation.DimensionMutationCondition;
 import gregsjourney.integration.forestry.item.GJCombType;
 

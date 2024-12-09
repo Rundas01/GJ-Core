@@ -42,14 +42,14 @@ public enum GJCombType {
     GADOLINIUM("gadolinium", 0xDDDDFF, 0xFFBC5E),
     TERBIUM("terbium", 0xFFFFFF, 0xFFBC5E),
     DYSPROSIUM("dysprosium", 0xFFFFEE, 0xFFBC5E),
-    HOLMIUM("dysprosium", 0xFFFFFF, 0xFFBC5E),
-    ERBIUM("dysprosium", 0xEEEEEE, 0xFFBC5E),
-    THULIUM("dysprosium", 0xFFFFFF, 0xFFBC5E),
-    YTTERBIUM("dysprosium", 0xA7A7A7, 0xFFBC5E),
-    LUTETIUM("dysprosium", 0x00AAFF, 0xFFBC5E),
-    HAFNIUM("dysprosium", 0x99999A, 0xFFBC5E),
+    HOLMIUM("holmium", 0xFFFFFF, 0xFFBC5E),
+    ERBIUM("erbium", 0xEEEEEE, 0xFFBC5E),
+    THULIUM("thulium", 0xFFFFFF, 0xFFBC5E),
+    YTTERBIUM("ytterbium", 0xA7A7A7, 0xFFBC5E),
+    LUTETIUM("lutetium", 0x00AAFF, 0xFFBC5E),
+    HAFNIUM("hafnium", 0x99999A, 0xFFBC5E),
     TANTALUM("tantalum", 0x69B7FF, 0xD02001),
-    RHENIUM("dysprosium", 0xB6BAC3, 0xFFBC5E),
+    RHENIUM("rhenium", 0xB6BAC3, 0xFFBC5E),
     QUICKSILVER("quicksilver", 0xE6DCDC, 0xb5b3df),
     THALLIUM("thallium", 0xC1C1DE, 0xB591FF),
     BISMUTH("bismuth", 0x64A0A0, 0xB591FF),
@@ -177,15 +177,7 @@ public enum GJCombType {
     TUNGSTENCARBIDE("tungstencarbide", 0x9C0018, 0xD02001),
     TITANIUMTUNGSTENCARBIDE("titaniumtungstencarbide", 0x9C0018, 0xD02001),
     MOLYBDENUMDISILICIDE("molybdenumdisilicide", 0x9C0018, 0xD02001),
-    HSLASTEEL("hslasteel", 0x9C0018, 0xD02001),
-    // Ender IO
-    REDSTONEALLOY("redstonealloy", 0xB80000, 0xA50808),
-    CONDUCTIVEIRON("conductiveiron", 0x817671, 0xCEADA3),
-    VIBRANTALLOY("vibrantalloy", 0x86A12D, 0xC4F2AE),
-    ENERGETICALLOY("energeticalloy", 0xFF9933, 0xFFAD5C),
-    ELECTRICALSTEEL("electricalsteel", 0x787878, 0xD8D8D8),
-    DARKSTEEL("darksteel", 0x252525, 0x443B44),
-    PULSATINGIRON("pulsatingiron", 0x006600, 0x6DD284);
+    HSLASTEEL("hslasteel", 0x9C0018, 0xD02001);
 
     public static final GJCombType[] VALUES = values();
 

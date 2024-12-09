@@ -8,7 +8,7 @@ import forestry.api.genetics.IAllele;
 import forestry.api.genetics.IGenome;
 import forestry.api.genetics.IMutationCondition;
 import forestry.core.utils.Translator;
-import gregsjourney.api.utils.GJUtil;
+import gregsjourney.utils.GJUtil;
 
 public class DimensionMutationCondition implements IMutationCondition {
 

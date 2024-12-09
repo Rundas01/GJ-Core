@@ -1,11 +1,17 @@
 ## singleblocks
-gj.machine.bee_hatch_hv.name=Advanced Bee Hatch
-gj.machine.bee_hatch_ev.name=Advanced Bee Hatch II
-gj.machine.bee_hatch_iv.name=Elite Bee Hatch
-gj.machine.bee_hatch_luv.name=Elite Bee Hatch II
-gj.machine.bee_hatch_zpm.name=Elite Bee Hatch III
-gj.machine.bee_hatch_uv.name=Ultimate Bee Hatch
-gj.machine.bee_hatch_uhv.name=Ultimate Bee Hatch II
+gj.machine.bee_hatch.hv.name=Advanced Bee Hatch
+gj.machine.bee_hatch.ev.name=Advanced Bee Hatch II
+gj.machine.bee_hatch.iv.name=Elite Bee Hatch
+gj.machine.bee_hatch.luv.name=Elite Bee Hatch II
+gj.machine.bee_hatch.zpm.name=Elite Bee Hatch III
+gj.machine.bee_hatch.uv.name=Ultimate Bee Hatch
+
+gj.machine.coolant_hatch.hv.name=Advanced Coolant Hatch
+gj.machine.coolant_hatch.ev.name=Advanced Coolant Hatch II
+gj.machine.coolant_hatch.iv.name=Elite Coolant Hatch
+gj.machine.coolant_hatch.luv.name=Elite Coolant Hatch II
+gj.machine.coolant_hatch.zpm.name=Elite Coolant Hatch III
+gj.machine.coolant_hatch.uv.name=Ultimate Coolant Hatch
 
 gj.machine.heat_hatch.name=Crucible Heat Hatch
 
@@ -43,22 +49,22 @@ gj.machine.polymerizer.zpm.tooltip=Monomer Converter
 gj.machine.polymerizer.uv.name=Ultimate Polymerizer
 gj.machine.polymerizer.uv.tooltip=Monomer Converter
 
-gj.machine.bubble_column_reactor.lv.name=Basic Bubble Column Reactor
-gj.machine.bubble_column_reactor.lv.tooltip=A Gas traverses a Liquid
-gj.machine.bubble_column_reactor.mv.name=Advanced Bubble Column Reactor
-gj.machine.bubble_column_reactor.mv.tooltip=A Gas traverses a Liquid
-gj.machine.bubble_column_reactor.hv.name=Advanced Bubble Column Reactor II
-gj.machine.bubble_column_reactor.hv.tooltip=A Gas traverses a Liquid
-gj.machine.bubble_column_reactor.ev.name=Advanced Bubble Column Reactor III
-gj.machine.bubble_column_reactor.ev.tooltip=A Gas traverses a Liquid
-gj.machine.bubble_column_reactor.iv.name=Elite Bubble Column Reactor
-gj.machine.bubble_column_reactor.iv.tooltip=A Gas traverses a Liquid
-gj.machine.bubble_column_reactor.luv.name=Elite Bubble Column Reactor II
-gj.machine.bubble_column_reactor.luv.tooltip=A Gas traverses a Liquid
-gj.machine.bubble_column_reactor.zpm.name=Elite Bubble Column Reactor III
-gj.machine.bubble_column_reactor.zpm.tooltip=A Gas traverses a Liquid
-gj.machine.bubble_column_reactor.uv.name=Ultimate Bubble Column Reactor
-gj.machine.bubble_column_reactor.uv.tooltip=A Gas traverses a Liquid
+gj.machine.gas_bubble_reactor.lv.name=Basic Gas Bubble Reactor
+gj.machine.gas_bubble_reactor.lv.tooltip=A Gas traverses a Liquid
+gj.machine.gas_bubble_reactor.mv.name=Advanced Gas Bubble Reactor
+gj.machine.gas_bubble_reactor.mv.tooltip=A Gas traverses a Liquid
+gj.machine.gas_bubble_reactor.hv.name=Advanced Gas Bubble Reactor II
+gj.machine.gas_bubble_reactor.hv.tooltip=A Gas traverses a Liquid
+gj.machine.gas_bubble_reactor.ev.name=Advanced Gas Bubble Reactor III
+gj.machine.gas_bubble_reactor.ev.tooltip=A Gas traverses a Liquid
+gj.machine.gas_bubble_reactor.iv.name=Elite Gas Bubble Reactor
+gj.machine.gas_bubble_reactor.iv.tooltip=A Gas traverses a Liquid
+gj.machine.gas_bubble_reactor.luv.name=Elite Gas Bubble Reactor II
+gj.machine.gas_bubble_reactor.luv.tooltip=A Gas traverses a Liquid
+gj.machine.gas_bubble_reactor.zpm.name=Elite Gas Bubble Reactor III
+gj.machine.gas_bubble_reactor.zpm.tooltip=A Gas traverses a Liquid
+gj.machine.gas_bubble_reactor.uv.name=Ultimate Gas Bubble Reactor
+gj.machine.gas_bubble_reactor.uv.tooltip=A Gas traverses a Liquid
 
 gj.machine.mixing_reactor.lv.name=Basic Mixing Reactor
 gj.machine.mixing_reactor.lv.tooltip=2 Gases or 2 Liquids react with each other. Not to be confused with the Mixer
@@ -128,6 +134,68 @@ gj.machine.batch_reactor.zpm.tooltip=Universal Chemistry Device
 gj.machine.batch_reactor.uv.name=Ultimate Batch Reactor
 gj.machine.batch_reactor.uv.tooltip=Universal Chemistry Device
 
+gj.machine.crystallizer.lv.name=Basic Crystallizer
+gj.machine.crystallizer.lv.tooltip=Prepares Solutions for solid Extractions
+gj.machine.crystallizer.mv.name=Advanced Crystallizer
+gj.machine.crystallizer.mv.tooltip=Prepares Solutions for solid Extractions
+gj.machine.crystallizer.hv.name=Advanced Crystallizer II
+gj.machine.crystallizer.hv.tooltip=Prepares Solutions for solid Extractions
+gj.machine.crystallizer.ev.name=Advanced Crystallizer III
+gj.machine.crystallizer.ev.tooltip=Prepares Solutions for solid Extractions
+gj.machine.crystallizer.iv.name=Elite Crystallizer
+gj.machine.crystallizer.iv.tooltip=Prepares Solutions for solid Extractions
+gj.machine.crystallizer.luv.name=Elite Crystallizer II
+gj.machine.crystallizer.luv.tooltip=Prepares Solutions for solid Extractions
+gj.machine.crystallizer.zpm.name=Elite Crystallizer III
+gj.machine.crystallizer.zpm.tooltip=Prepares Solutions for solid Extractions
+gj.machine.crystallizer.uv.name=Ultimate Crystallizer
+gj.machine.crystallizer.uv.tooltip=Prepares Solutions for solid Extractions
+
+gj.machine.decay_generator.lv.name=Basic Decay Generator
+gj.machine.decay_generator.lv.tooltip=Generates EU from decaying radioactive Substances
+gj.machine.decay_generator.mv.name=Advanced Decay Generator
+gj.machine.decay_generator.mv.tooltip=Generates EU from decaying radioactive Substances
+gj.machine.decay_generator.hv.name=Advanced Decay Generator II
+gj.machine.decay_generator.hv.tooltip=Generates EU from decaying radioactive Substances
+gj.machine.decay_generator.ev.name=Advanced Decay Generator III
+gj.machine.decay_generator.ev.tooltip=Generates EU from decaying radioactive Substances
+gj.machine.decay_generator.iv.name=Elite Decay Generator
+gj.machine.decay_generator.iv.tooltip=Generates EU from decaying radioactive Substances
+
+gj.machine.decay_hastener.lv.name=Basic Decay Hastener
+gj.machine.decay_hastener.lv.tooltip=Accelerates the natural Decay of radioactive Substances
+gj.machine.decay_hastener.mv.name=Advanced Decay Hastener
+gj.machine.decay_hastener.mv.tooltip=Accelerates the natural Decay of radioactive Substances
+gj.machine.decay_hastener.hv.name=Advanced Decay Hastener II
+gj.machine.decay_hastener.hv.tooltip=Accelerates the natural Decay of radioactive Substances
+gj.machine.decay_hastener.ev.name=Advanced Decay Hastener III
+gj.machine.decay_hastener.ev.tooltip=Accelerates the natural Decay of radioactive Substances
+gj.machine.decay_hastener.iv.name=Elite Decay Hastener
+gj.machine.decay_hastener.iv.tooltip=Accelerates the natural Decay of radioactive Substances
+gj.machine.decay_hastener.luv.name=Elite Decay Hastener II
+gj.machine.decay_hastener.luv.tooltip=Accelerates the natural Decay of radioactive Substances
+gj.machine.decay_hastener.zpm.name=Elite Decay Hastener III
+gj.machine.decay_hastener.zpm.tooltip=Accelerates the natural Decay of radioactive Substances
+gj.machine.decay_hastener.uv.name=Ultimate Decay Hastener
+gj.machine.decay_hastener.uv.tooltip=Accelerates the natural Decay of radioactive Substances
+
+gj.machine.isotopic_stabilizer.lv.name=Basic Isotopic Stabilizer
+gj.machine.isotopic_stabilizer.lv.tooltip=Converts unstable Isotopes into stable Isotopes
+gj.machine.isotopic_stabilizer.mv.name=Advanced Isotopic Stabilizer
+gj.machine.isotopic_stabilizer.mv.tooltip=Converts unstable Isotopes into stable Isotopes
+gj.machine.isotopic_stabilizer.hv.name=Advanced Isotopic Stabilizer II
+gj.machine.isotopic_stabilizer.hv.tooltip=Converts unstable Isotopes into stable Isotopes
+gj.machine.isotopic_stabilizer.ev.name=Advanced Isotopic Stabilizer III
+gj.machine.isotopic_stabilizer.ev.tooltip=Converts unstable Isotopes into stable Isotopes
+gj.machine.isotopic_stabilizer.iv.name=Elite Isotopic Stabilizer
+gj.machine.isotopic_stabilizer.iv.tooltip=Converts unstable Isotopes into stable Isotopes
+gj.machine.isotopic_stabilizer.luv.name=Elite Isotopic Stabilizer II
+gj.machine.isotopic_stabilizer.luv.tooltip=Converts unstable Isotopes into stable Isotopes
+gj.machine.isotopic_stabilizer.zpm.name=Elite Isotopic Stabilizer III
+gj.machine.isotopic_stabilizer.zpm.tooltip=Converts unstable Isotopes into stable Isotopes
+gj.machine.isotopic_stabilizer.uv.name=Ultimate Isotopic Stabilizer
+gj.machine.isotopic_stabilizer.uv.tooltip=Converts unstable Isotopes into stable Isotopes
+
 ## singleblock descriptions
 gj.machine.bee_hatch.info=A special hatch to be used in the §eIndustrial Alveary§7. Can hold §e%s Queens§7.
 gj.machine.heat_hatch.info=A special hatch to be used in the §eCrucible§7. Can hold §e%s L§7 of fluids with a temperature at least as high as lava.
@@ -144,8 +212,10 @@ gj.machine.heat_exchanger.name=Heat Exchanger
 gj.machine.comb_processor.name=Bee Comb Processing Plant
 gj.machine.clarification_plant.name=Clarification Plant
 gj.machine.reaction_furnace.name=Reaction Furnace
+gj.machine.nuclear_reactor.name=Nuclear Reactor
 
 ## multiblock descriptions
+gj.multiblock.active_recipe_map=Active Machine Mode: %s
 gj.multiblock.flotation_cell.description=A multiblock machine which separates composite ore slags into element slags.
 gj.multiblock.advanced_arc_furnace.description=A multiblock advanced Arc Furnace capable of working with more inputs than the singleblock.
 gj.multiblock.advanced_electrolyzer.description=This multiblock machine houses more complex electrolysis reactions.
@@ -155,7 +225,9 @@ gj.multiblock.crucible.description=A simple earlygame multiblock to convert any 
 gj.multiblock.comb_processor.description=The multiblock for all bee lovers! This parallelizable machine does a quick job when it comes to processing bee combs in large quantities. GT combs are processed together with crushed ore which yields ALL byproducts from the ore. Hatches can go in all layers on the outer edges on the left and on the right, as well as the inner edges on the front and on the back.
 gj.multiblock.clarification_plant.description=This large multiblock is responsible for treating element slags retrieved from the Flotation Cell.
 gj.multiblock.reaction_furnace.description=In contrast to all the other types of Chemical Reactors which all take care of exergonic reactions, this multiblock furnace houses endergonic reactions, meaning those reactions, where the Gibbs Energy of the products is higher than the Gibbs Energy of the reactants. As a consequence, the reactions don't start on their own and need to receive energy (in form of heat) constantly.
-
+gj.multiblock.nuclear_reactor.description=This advanced multiblock houses Nuclear Fission Reactions. It is able to conduct regular Fission Reactions, where the whole energy from the Fission Process is converted into heat, or Breeding Reactions, where part of the energy is used to produce higher tiers of fuels. The maximum coolant conversion per second equals the tier of the Voltage Control Unit times the coolant's individual conversion factor. Automatically pauses the currently run recipe if the Fluid Input Hatch runs out of Coolant or the currently produced hot Coolant cannot be inserted into the Fluid Output Hatch.
+gj.multiblock.nuclear_reactor.base_coolant_conversion=Base Coolant Conversion: %d L/sec
+gj.multiblock.nuclear_reactor.actual_coolant_conversion=Total Coolant Conversion: %d L/sec
 ## casings
 
 # large multiblock casing
@@ -166,20 +238,35 @@ tile.large_multiblock_casing.carbon_electrode.name=Carbon Electrode
 recipemap.flotation_cell.name=Flotation Cell Separating
 recipemap.advanced_arc_furnace.name=Advanced Arc Smelting
 recipemap.roaster.name=Roasting
-recipemap.bubble_column_reactor.name=Bubble Column Reacting
+recipemap.gas_bubble_reactor.name=Bubble Column Reacting
 recipemap.mixing_reactor.name=Mixing Reacting
 recipemap.batch_reactor.name=Batch Reacting
 recipemap.catalytic_reactor.name=Catalytic Reacting
 recipemap.dissolution_reactor.name=Dissolution Reacting
+recipemap.crystallizer.name=Crystallization
+recipemap.chemical_dehydrator.name=Dehydrating
+recipemap.decay_generator.name=Radioactive Fuels
+recipemap.decay_hastener.name=Decay Hastening
+recipemap.isotopic_stabilizer.name=Isotopic Stabilizing
 recipemap.heat_exchanger.name=Heat Exchanging
 recipemap.advanced_electrolyzer.name=Advanced Electrolysis
 recipemap.advanced_steam_fuels.name=Multiblock Advanced Steam Turbine
 recipemap.advanced_combustion_fuels.name=Multiblock Advanced Combustion Turbine
 recipemap.polymerizer.name=Polymerization
-recipemap.chemical_dehydrator.name=Dehydrating
 recipemap.comb_processor.name=Bee Comb Processing
 recipemap.clarification_plant.name=Clarifying
 recipemap.reaction_furnace.name=Furnace Reacting
+recipemap.fission_reactor.name=Nuclear Fission
+recipemap.breeder_reactor.name=Fuel Breeding
+
+## Items
+item.material.oreprefix.nuclearFuel=%s Fuel Pellet
+item.material.oreprefix.depletedNuclearFuel=Depleted %s Fuel Pellet
+
+## Materials
+gj.coolant_conversion_factor.tooltip=§bCoolant Conversion Factor: %d L/sec
+gj.fluid_voiding_liquid.tooltip=Voidable with the Dumper
+gj.fluid_voiding_gas.tooltip=Voidable with the Smoke Stack
 
 ## Bees
 # GT Elements
@@ -543,3 +630,4 @@ gj.machine.tooltip.ia_mod=Current Voltage Speed Modifier: %s%%
 gj.machine.tooltip.ia_cycle=Current Cycle: %s seconds
 gj.machine.crucible.stone_amount=Stone Amount: %s of 64000
 gj.machine.crucible.modifier=Lava Production: %s L per Second
+gj.machine.crucible.lava_amount=Total Lava in the Output: %s L
