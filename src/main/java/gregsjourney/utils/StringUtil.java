@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Stack;
+import java.util.regex.Pattern;
 
 public class StringUtil {
 
@@ -113,4 +114,6 @@ public class StringUtil {
             }
         }
     }
+
+    public static final Pattern allowedSymbols = Pattern.compile("[a-zA-Z,&|!()* ]+");
 }

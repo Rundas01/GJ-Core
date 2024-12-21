@@ -8,9 +8,8 @@ import gregsjourney.common.metatileentities.multiblock.primitive.MetaTileEntityH
 import gregsjourney.common.metatileentities.part.MetaTileEntityBeeHatch;
 import gregsjourney.common.metatileentities.part.MetaTileEntityCoolantHatch;
 import gregsjourney.common.metatileentities.part.MetaTileEntityHeatHatch;
-import gregsjourney.common.metatileentities.part.OreDictItemBus;
-import gregsjourney.common.metatileentities.singleblock.MetaTileEntityOredictFilteredStacksizeBuffer;
-import gregsjourney.common.metatileentities.singleblock.MetaTileEntityStacksizeBuffer;
+import gregsjourney.common.metatileentities.singleblock.MetaTileEntityOredictFilteredStacksizeItemBuffer;
+import gregsjourney.common.metatileentities.singleblock.MetaTileEntityStacksizeItemBuffer;
 import gregsjourney.common.recipe.GJRecipeMaps;
 import gregsjourney.utils.GJUtil;
 import gregtech.api.GTValues;
@@ -53,10 +52,8 @@ public final class GJMetaTileEntities {
     public static MetaTileEntityBeeHatch[] BEE_HATCH = new MetaTileEntityBeeHatch[6];
     public static MetaTileEntityHeatHatch HEAT_HATCH;
     public static MetaTileEntityCoolantHatch[] COOLANT_HATCH = new MetaTileEntityCoolantHatch[3];
-    public static OreDictItemBus[] OREDICT_INPUT_BUS = new OreDictItemBus[3];
-    public static OreDictItemBus[] OREDICT_OUTPUT_BUS = new OreDictItemBus[3];
-    public static MetaTileEntityStacksizeBuffer STACKSIZE_BUFFER;
-    public static MetaTileEntityOredictFilteredStacksizeBuffer OREDICT_FILTERED_STACKSIZE_BUFFER;
+    public static MetaTileEntityStacksizeItemBuffer STACKSIZE_BUFFER;
+    public static MetaTileEntityOredictFilteredStacksizeItemBuffer OREDICT_FILTERED_STACKSIZE_BUFFER;
     //Multiblock
     public static MetaTileEntityCrucible CRUCIBLE;
     public static MetaTileEntityAdvancedArcFurnace ADVANCED_ARC_FURNACE;
@@ -148,13 +145,7 @@ public final class GJMetaTileEntities {
         COOLANT_HATCH[0] = registerMetaTileEntity(2390, new MetaTileEntityCoolantHatch(gjId("coolant_hatch.luv"), 6, 1));
         COOLANT_HATCH[1] = registerMetaTileEntity(2391, new MetaTileEntityCoolantHatch(gjId("coolant_hatch.zpm"), 7, 4));
         COOLANT_HATCH[2] = registerMetaTileEntity(2392, new MetaTileEntityCoolantHatch(gjId("coolant_hatch.uv"), 8, 9));
-        OREDICT_INPUT_BUS[0] = registerMetaTileEntity(2393, new OreDictItemBus(gjId("oredict_input_bus.lv"), 1, false));
-        OREDICT_INPUT_BUS[1] = registerMetaTileEntity(2394, new OreDictItemBus(gjId("oredict_input_bus.mv"), 2,false));
-        OREDICT_INPUT_BUS[2] = registerMetaTileEntity(2395, new OreDictItemBus(gjId("oredict_input_bus.hv"), 3,false));
-        OREDICT_OUTPUT_BUS[0] = registerMetaTileEntity(2396, new OreDictItemBus(gjId("oredict_output_bus.lv"), 1,true));
-        OREDICT_OUTPUT_BUS[1] = registerMetaTileEntity(2397, new OreDictItemBus(gjId("oredict_output_bus.mv"), 2,true));
-        OREDICT_OUTPUT_BUS[2] = registerMetaTileEntity(2398, new OreDictItemBus(gjId("oredict_output_bus.hv"), 3,true));
-        STACKSIZE_BUFFER = registerMetaTileEntity(2399, new MetaTileEntityStacksizeBuffer(gjId("stacksize_buffer")));
-        OREDICT_FILTERED_STACKSIZE_BUFFER = registerMetaTileEntity(2400, new MetaTileEntityOredictFilteredStacksizeBuffer(gjId("item_filtered_buffer")));
+        STACKSIZE_BUFFER = registerMetaTileEntity(2393, new MetaTileEntityStacksizeItemBuffer(gjId("stacksize_buffer")));
+        OREDICT_FILTERED_STACKSIZE_BUFFER = registerMetaTileEntity(2394, new MetaTileEntityOredictFilteredStacksizeItemBuffer(gjId("oredict_filtered_stacksize_buffer")));
     }
 }

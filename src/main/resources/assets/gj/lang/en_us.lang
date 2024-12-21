@@ -10,12 +10,8 @@ gj.machine.coolant_hatch.luv.name=Coolant Hatch
 gj.machine.coolant_hatch.zpm.name=Quadruple Coolant Hatch
 gj.machine.coolant_hatch.uv.name=Nonuple Coolant Hatch
 
-gj.machine.oredict_input_bus.lv.name=Basic Oredict Input Bus
-gj.machine.oredict_input_bus.mv.name=Advanced Oredict Input Bus
-gj.machine.oredict_input_bus.hv.name=Basic Oredict Input Bus II
-gj.machine.oredict_output_bus.lv.name=Basic Oredict Output Bus
-gj.machine.oredict_output_bus.mv.name=Advanced Oredict Output Bus
-gj.machine.oredict_output_bus.hv.name=Basic Oredict Output Bus II
+gj.machine.oredict_filtered_stacksize_buffer.name=Oredict Filtered Stacksize Buffer
+gj.machine.stacksize_buffer.name=Stacksize Buffer
 
 gj.machine.heat_hatch.name=Crucible Heat Hatch
 

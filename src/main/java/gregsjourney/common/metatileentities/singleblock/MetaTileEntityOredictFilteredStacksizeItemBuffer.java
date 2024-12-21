@@ -5,7 +5,7 @@ import codechicken.lib.render.pipeline.ColourMultiplier;
 import codechicken.lib.render.pipeline.IVertexOperation;
 import codechicken.lib.vec.Matrix4;
 import gregsjourney.api.metatileentity.part.FilteredItemStackHandler;
-import gregsjourney.api.metatileentity.part.IItemCondition;
+import gregsjourney.utils.StringUtil;
 import gregtech.api.capability.impl.ItemHandlerProxy;
 import gregtech.api.gui.GuiTextures;
 import gregtech.api.gui.ModularUI;
@@ -23,55 +23,85 @@ import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.items.IItemHandlerModifiable;
+import net.minecraftforge.oredict.OreDictionary;
 import org.apache.commons.lang3.ArrayUtils;
 import org.jetbrains.annotations.NotNull;
 
-import static gregsjourney.common.metatileentities.part.OreDictItemBus.allowedSymbols;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import static gregsjourney.utils.StringUtil.allowedSymbols;
 import static gregtech.api.capability.GregtechDataCodes.UPDATE_AUTO_OUTPUT_ITEMS;
 import static gregtech.common.metatileentities.storage.MetaTileEntityCreativeEnergy.getTextFieldValidator;
 
-public class MetaTileEntityOredictFilteredStacksizeBuffer extends MetaTileEntity {
+public class MetaTileEntityOredictFilteredStacksizeItemBuffer extends MetaTileEntity {
     private int mode, size;
-    private String oredictString;
+    private String oredictString = "";
     private boolean autoOutput;
     private EnumFacing outputFacing;
-    private final IItemCondition condition;
 
-    public MetaTileEntityOredictFilteredStacksizeBuffer(ResourceLocation metaTileEntityId, IItemCondition condition) {
+    public MetaTileEntityOredictFilteredStacksizeItemBuffer(ResourceLocation metaTileEntityId) {
         super(metaTileEntityId);
-        this.condition = condition;
         initializeInventory();
-    }
-
-    public MetaTileEntityOredictFilteredStacksizeBuffer(ResourceLocation metaTileEntityId) {
-        this(metaTileEntityId, is -> false);
     }
 
     @Override
     public MetaTileEntity createMetaTileEntity(IGregTechTileEntity iGregTechTileEntity) {
-        return new MetaTileEntityOredictFilteredStacksizeBuffer(metaTileEntityId, this.condition);
+        return new MetaTileEntityOredictFilteredStacksizeItemBuffer(metaTileEntityId);
     }
 
     @Override
     protected void initializeInventory() {
-        importItems = new FilteredItemStackHandler(this, 9, this.condition);
+        importItems = new FilteredItemStackHandler(this, 9);
         exportItems = new GTItemStackHandler(this, 9);
         itemInventory = new ItemHandlerProxy(importItems, exportItems);
     }
 
+    private boolean belongsToOreDict(ItemStack stack) {
+        if (oredictString.isEmpty()) {
+            return false;
+        }
+        int[] ids = OreDictionary.getOreIDs(stack);
+        List<String> names = new ArrayList<>();
+        for (int id : ids) {
+            names.add(OreDictionary.getOreName(id));
+        }
+        String[] conditions = oredictConditions(oredictString);
+        if (Arrays.asList(conditions).contains("*") && names.isEmpty()) {
+            return true;
+        }
+        for (String name : names) {
+            if (StringUtil.checkOredictString(name, conditions)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private static String[] oredictConditions(String s) {
+        String ss = s.replaceAll(", ","");
+        ss = ss.replaceAll(" ,", "");
+        ss = ss.replaceAll("\\s","");
+        if (!ss.contains(",")) {
+            return new String[]{ss};
+        }
+        return ss.split(",");
+    }
+
     @Override
     protected ModularUI createUI(EntityPlayer entityPlayer) {
-        CycleButtonWidget cbWidget = new CycleButtonWidget(116, 89, 50, 18, new String[]{"Exact", "At Least", "At Most"}, () -> mode, value -> mode = value);
+        CycleButtonWidget cbWidget = new CycleButtonWidget(116, 105, 50, 18, new String[]{"Exact", "At Least", "At Most"}, () -> mode, value -> mode = value);
         ImageWidget imWidget = new ImageWidget(7, 14, 158, 16, GuiTextures.DISPLAY);
         ImageWidget imWidget2 = new ImageWidget(7, 30, 158, 16, GuiTextures.DISPLAY);
         TextFieldWidget2 tfWidget = new TextFieldWidget2(9, 19, 176, 16, () -> String.valueOf(size), value -> size = Integer.parseInt(value)).setAllowedChars(TextFieldWidget2.WHOLE_NUMS).setValidator(getTextFieldValidator());
-        TextFieldWidget2 tfWidget2 = new TextFieldWidget2(9, 35, 176, 16, () -> oredictString, value -> oredictString = value).setAllowedChars(allowedSymbols);
-        ToggleButtonWidget tbWidget = new ToggleButtonWidget(7, 90, 18, 18, GuiTextures.BUTTON_ITEM_OUTPUT, this::isAutoOutput, this::setAutoOutput).setTooltipText("gregtech.gui.item_auto_output.tooltip").shouldUseBaseBackground();
-        ModularUI.Builder builder = ModularUI.builder(GuiTextures.BACKGROUND, 176, 194).label(10, 5, getMetaFullName());
+        TextFieldWidget2 tfWidget2 = new TextFieldWidget2(9, 35, 176, 16, () -> oredictString, value -> {oredictString = value; ((FilteredItemStackHandler)importItems).changeCondition(this::belongsToOreDict);}).setAllowedChars(allowedSymbols);
+        ToggleButtonWidget tbWidget = new ToggleButtonWidget(7, 106, 18, 18, GuiTextures.BUTTON_ITEM_OUTPUT, this::isAutoOutput, this::setAutoOutput).setTooltipText("gregtech.gui.item_auto_output.tooltip").shouldUseBaseBackground();
+        ModularUI.Builder builder = ModularUI.builder(GuiTextures.BACKGROUND, 176, 210).label(10, 5, getMetaFullName());
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                builder.widget(new SlotWidget(importItems, i * 3 + j, 7 + j * 18, 18 * (1 + i) + 16, true, true).setBackgroundTexture(GuiTextures.SLOT));
-                builder.widget(new SlotWidget(exportItems, i * 3 + j, 111 + j * 18, 18 * (1 + i) + 16, true, false).setBackgroundTexture(GuiTextures.SLOT));
+                builder.widget(new SlotWidget(importItems, i * 3 + j, 7 + j * 18, 18 * (1 + i) + 32, true, true).setBackgroundTexture(GuiTextures.SLOT));
+                builder.widget(new SlotWidget(exportItems, i * 3 + j, 111 + j * 18, 18 * (1 + i) + 32, true, false).setBackgroundTexture(GuiTextures.SLOT));
             }
         }
         builder.widget(imWidget);
@@ -80,12 +110,10 @@ public class MetaTileEntityOredictFilteredStacksizeBuffer extends MetaTileEntity
         builder.widget(tfWidget2);
         builder.widget(cbWidget);
         builder.widget(tbWidget);
-        return builder.bindPlayerInventory(entityPlayer.inventory, GuiTextures.SLOT, 7, 112).build(getHolder(), entityPlayer);
+        return builder.bindPlayerInventory(entityPlayer.inventory, GuiTextures.SLOT, 7, 128).build(getHolder(), entityPlayer);
     }
 
-    public boolean isAutoOutput() {
-        return autoOutput;
-    }
+    public boolean isAutoOutput() { return autoOutput; }
 
     public void setAutoOutput(boolean autoOutputItems) {
         this.autoOutput = autoOutputItems;
@@ -110,14 +138,10 @@ public class MetaTileEntityOredictFilteredStacksizeBuffer extends MetaTileEntity
 
     }
 
-    public EnumFacing getOutputFacing() {
-        return outputFacing == null ? EnumFacing.SOUTH : outputFacing;
-    }
+    public EnumFacing getOutputFacing() { return outputFacing == null ? EnumFacing.SOUTH : outputFacing; }
 
     @Override
-    public boolean hasFrontFacing() {
-        return true;
-    }
+    public boolean hasFrontFacing() { return true; }
 
     @Override
     public void update() {
@@ -138,8 +162,6 @@ public class MetaTileEntityOredictFilteredStacksizeBuffer extends MetaTileEntity
         }
     }
 
-    //TODO: oredict einbinden
-
     private boolean areItemsMovable(IItemHandlerModifiable input, IItemHandlerModifiable output, int i) {
         if (input.getStackInSlot(i).isEmpty()) {
             return false; // No items in input slot
@@ -147,6 +169,9 @@ public class MetaTileEntityOredictFilteredStacksizeBuffer extends MetaTileEntity
         if (!output.getStackInSlot(i).isEmpty()
                 && input.getStackInSlot(i).getItem() != output.getStackInSlot(i).getItem()) {
             return false; // Items in slots don't match
+        }
+        if (output.getStackInSlot(i).getCount() >= output.getStackInSlot(i).getItem().getItemStackLimit()) {
+            return false; // Max Stacksize is reached
         }
 
         return switch (mode) {
@@ -178,7 +203,7 @@ public class MetaTileEntityOredictFilteredStacksizeBuffer extends MetaTileEntity
         int transferableAmount = Math.min(amount, input.getStackInSlot(i).getCount()); // Ensure we only transfer available items
         transferableAmount = Math.min(transferableAmount, getFreeSpace(output, i)); // Also account for available space in the output
 
-        output.insertItem(i, new ItemStack(input.getStackInSlot(i).getItem(), transferableAmount), false);
+        output.insertItem(i, new ItemStack(input.getStackInSlot(i).getItem(), transferableAmount, input.getStackInSlot(i).getMetadata()), false);
         input.extractItem(i, transferableAmount, false);
     }
 

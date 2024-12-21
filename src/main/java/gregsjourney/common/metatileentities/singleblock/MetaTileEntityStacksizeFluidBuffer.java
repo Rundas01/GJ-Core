@@ -4,6 +4,8 @@ import codechicken.lib.render.CCRenderState;
 import codechicken.lib.render.pipeline.ColourMultiplier;
 import codechicken.lib.render.pipeline.IVertexOperation;
 import codechicken.lib.vec.Matrix4;
+import gregtech.api.capability.impl.FluidHandlerProxy;
+import gregtech.api.capability.impl.FluidTankList;
 import gregtech.api.capability.impl.ItemHandlerProxy;
 import gregtech.api.gui.GuiTextures;
 import gregtech.api.gui.ModularUI;
@@ -14,39 +16,43 @@ import gregtech.api.metatileentity.interfaces.IGregTechTileEntity;
 import gregtech.api.util.GTUtility;
 import gregtech.client.renderer.texture.Textures;
 import gregtech.client.renderer.texture.cube.SimpleOverlayRenderer;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.tuple.Pair;
 import org.jetbrains.annotations.NotNull;
 
 import static gregtech.api.capability.GregtechDataCodes.UPDATE_AUTO_OUTPUT_ITEMS;
 import static gregtech.common.metatileentities.storage.MetaTileEntityCreativeEnergy.getTextFieldValidator;
 
-public class MetaTileEntityFilteredStacksizeBuffer extends MetaTileEntity {
+public class MetaTileEntityStacksizeFluidBuffer extends MetaTileEntity {
     private int mode, size;
     private boolean autoOutput;
     private EnumFacing outputFacing;
 
-    public MetaTileEntityFilteredStacksizeBuffer(ResourceLocation metaTileEntityId) {
+    public MetaTileEntityStacksizeFluidBuffer(ResourceLocation metaTileEntityId) {
         super(metaTileEntityId);
         initializeInventory();
     }
 
     @Override
     public MetaTileEntity createMetaTileEntity(IGregTechTileEntity iGregTechTileEntity) {
-        return new MetaTileEntityFilteredStacksizeBuffer(metaTileEntityId);
+        return new MetaTileEntityStacksizeFluidBuffer(metaTileEntityId);
     }
 
     @Override
     protected void initializeInventory() {
-        importItems = new GTItemStackHandler(this, 9);
-        exportItems = new GTItemStackHandler(this, 9);
-        itemInventory = new ItemHandlerProxy(importItems, exportItems);
+        importFluids = new FluidTankList(false);
+        exportFluids = new FluidTankList(false);
+        fluidInventory = new FluidHandlerProxy(importFluids, exportFluids);
     }
 
     @Override
@@ -58,8 +64,8 @@ public class MetaTileEntityFilteredStacksizeBuffer extends MetaTileEntity {
         ModularUI.Builder builder = ModularUI.builder(GuiTextures.BACKGROUND, 176, 194).label(10, 5, getMetaFullName());
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                builder.widget(new SlotWidget(importItems, i * 3 + j, 7 + j * 18, 18 * (1 + i) + 16, true, true).setBackgroundTexture(GuiTextures.SLOT));
-                builder.widget(new SlotWidget(exportItems, i * 3 + j, 111 + j * 18, 18 * (1 + i) + 16, true, false).setBackgroundTexture(GuiTextures.SLOT));
+                builder.widget(new TankWidget(importFluids.getTankAt(i * 3 + j), 7 + j * 18, 18 * (1 + i) + 16, 18, 18).setBackgroundTexture(GuiTextures.SLOT));
+                builder.widget(new TankWidget(exportFluids.getTankAt(i * 3 + j), 111 + j * 18, 18 * (1 + i) + 16, 18,18).setBackgroundTexture(GuiTextures.SLOT));
             }
         }
         builder.widget(imWidget);
@@ -93,17 +99,18 @@ public class MetaTileEntityFilteredStacksizeBuffer extends MetaTileEntity {
                 Textures.BUFFER_OVERLAY.renderSided(facing, renderState, translation, pipeline);
             }
         }
-
-    }
-
-    public EnumFacing getOutputFacing() {
-        return outputFacing == null ? EnumFacing.SOUTH : outputFacing;
     }
 
     @Override
-    public boolean hasFrontFacing() {
-        return true;
+    @SideOnly(Side.CLIENT)
+    public Pair<TextureAtlasSprite, Integer> getParticleTexture() {
+        return Pair.of(Textures.VOLTAGE_CASINGS[1].getParticleSprite(), this.getPaintingColorForRendering());
     }
+
+    public EnumFacing getOutputFacing() { return outputFacing == null ? EnumFacing.SOUTH : outputFacing; }
+
+    @Override
+    public boolean hasFrontFacing() { return true; }
 
     @Override
     public void update() {
@@ -162,7 +169,7 @@ public class MetaTileEntityFilteredStacksizeBuffer extends MetaTileEntity {
         int transferableAmount = Math.min(amount, input.getStackInSlot(i).getCount()); // Ensure we only transfer available items
         transferableAmount = Math.min(transferableAmount, getFreeSpace(output, i)); // Also account for available space in the output
 
-        output.insertItem(i, new ItemStack(input.getStackInSlot(i).getItem(), transferableAmount), false);
+        output.insertItem(i, new ItemStack(input.getStackInSlot(i).getItem(), transferableAmount, input.getStackInSlot(i).getMetadata()), false);
         input.extractItem(i, transferableAmount, false);
     }
 

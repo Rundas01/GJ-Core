@@ -16,6 +16,10 @@ public class FilteredItemStackHandler extends GTItemStackHandler implements IFil
         this.condition = condition;
     }
 
+    public FilteredItemStackHandler(MetaTileEntity metaTileEntity, int slots) {
+        this(metaTileEntity, slots, is  -> false);
+    }
+
     public void changeCondition(IItemCondition newCondition) {
         this.condition = newCondition;
     }
