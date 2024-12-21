@@ -1,48 +1,116 @@
 package gregsjourney.utils;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.Stack;
+
 public class StringUtil {
-    public static String splitAtOccurrence(String input, String splitString, int occurrence, boolean returnBefore) {
-        if (input == null || occurrence == 0) {
-            throw new IllegalArgumentException("Invalid input or occurrence number.");
+
+    public static boolean checkOredictString(String input, String[] expressions) {
+        for (String expression : expressions) {
+            if (evaluateExpression(expression, input)) {
+                return true;
+            }
         }
+        return false;
+    }
 
-        char splitChar = splitString.charAt(0);
+    private static boolean evaluateExpression(String expression, String input) {
+        // Convert the expression into tokens for evaluation.
+        List<String> tokens = tokenize(expression);
+        // Evaluate the tokens with the input string.
+        return evaluateTokens(tokens, input);
+    }
 
-        int index = -1;
-        int occurrenceCount = 0;
+    private static List<String> tokenize(String expression) {
+        List<String> tokens = new ArrayList<>();
+        StringBuilder currentToken = new StringBuilder();
 
-        if (occurrence > 0) {
-            // Loop forward to find the nth occurrence from the beginning
-            for (int i = 0; i < input.length(); i++) {
-                if (input.charAt(i) == splitChar) {
-                    occurrenceCount++;
-                    if (occurrenceCount == occurrence) {
-                        index = i;
-                        break;
-                    }
+        for (char c : expression.toCharArray()) {
+            if (c == '&' || c == '|' || c == '!' || c == '(' || c == ')') {
+                if (currentToken.length() > 0) {
+                    tokens.add(currentToken.toString());
+                    currentToken.setLength(0);
                 }
-            }
-        } else {
-            // Loop backward to find the nth occurrence from the end (occurrence is negative)
-            index = input.length();
-            occurrence = -occurrence;  // Convert to positive for counting
-            while (occurrenceCount < occurrence && index != -1) {
-                index = input.lastIndexOf(splitChar, index - 1);
-                occurrenceCount++;
+                tokens.add(String.valueOf(c));
+            } else {
+                currentToken.append(c);
             }
         }
 
-        // If the occurrence isn't found, return the original string
-        if (index == -1) {
-            return input;
+        if (currentToken.length() > 0) {
+            tokens.add(currentToken.toString());
         }
 
-        // If returnBefore is true, return the part before the found character
-        if (returnBefore) {
-            return input.substring(0, index);
+        return tokens;
+    }
+
+    private static boolean evaluateTokens(List<String> tokens, String input) {
+        Stack<Boolean> values = new Stack<>();
+        Stack<String> operators = new Stack<>();
+
+        for (String token : tokens) {
+            switch (token) {
+                case "&", "|" -> {
+                    while (!operators.isEmpty() && precedence(operators.peek()) >= precedence(token)) {
+                        applyOperator(values, operators.pop());
+                    }
+                    operators.push(token);
+                }
+                case "!", "(" -> operators.push(token);
+                case ")" -> {
+                    while (!operators.isEmpty() && !operators.peek().equals("(")) {
+                        applyOperator(values, operators.pop());
+                    }
+                    operators.pop(); // Remove the '('
+                }
+                default -> // Operand
+                        values.push(evaluateOperand(token, input));
+            }
+        }
+
+        while (!operators.isEmpty()) {
+            applyOperator(values, operators.pop());
+        }
+
+        return values.pop();
+    }
+
+    private static int precedence(String operator) {
+        return switch (operator) {
+            case "!" -> 3;
+            case "&" -> 2;
+            case "|" -> 1;
+            default -> 0;
+        };
+    }
+
+    private static boolean evaluateOperand(String operand, String input) {
+        if (operand.contains("*")) {
+            String regex = operand.replace("*", ".*");
+            return input.matches(regex);
         } else {
-            // Otherwise, return the part after the found character
-            return input.substring(index + 1);
+            return Objects.equals(input, operand);
+        }
+    }
+
+    private static void applyOperator(Stack<Boolean> values, String operator) {
+        switch (operator) {
+            case "!" -> {
+                boolean value = values.pop();
+                values.push(!value);
+            }
+            case "&" -> {
+                boolean b = values.pop();
+                boolean a = values.pop();
+                values.push(a && b);
+            }
+            case "|" -> {
+                boolean b = values.pop();
+                boolean a = values.pop();
+                values.push(a || b);
+            }
         }
     }
 }

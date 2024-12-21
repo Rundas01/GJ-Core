@@ -1,10 +1,8 @@
 package gregsjourney.utils;
 
-import gregicality.multiblocks.api.metatileentity.GCYMMultiblockAbility;
 import gregsjourney.GregsJourney;
-import gregsjourney.common.metatileentities.part.MetaTileEntityCoolantHatch;
-import gregtech.api.metatileentity.MetaTileEntity;
-import gregtech.api.pattern.TraceabilityPredicate;
+import gregtech.api.capability.IMultipleTankHandler;
+import gregtech.api.capability.impl.FluidTankList;
 import gregtech.api.unification.material.Material;
 import gregtech.api.unification.stack.MaterialStack;
 import net.minecraft.util.ResourceLocation;
@@ -13,9 +11,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
-import static gregtech.api.metatileentity.multiblock.MultiblockControllerBase.abilities;
 import static gregtech.api.unification.material.Materials.*;
-import static gregtech.common.metatileentities.MetaTileEntities.registerMetaTileEntity;
 
 public final class GJUtil {
 
@@ -85,6 +81,14 @@ public final class GJUtil {
         }
 
         return result;
+    }
+
+    public static int getTotalFluidAmount(FluidTankList tankList) {
+        int amount = 0;
+        for (IMultipleTankHandler.MultiFluidTankEntry tank : tankList) {
+            amount += tank.getFluidAmount();
+        }
+        return amount;
     }
 
     //3 Na + (HNO3)(HCl)3 = 3 (NaCl)(H2O) + NO - H2O

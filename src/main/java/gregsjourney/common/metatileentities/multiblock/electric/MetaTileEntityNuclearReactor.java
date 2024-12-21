@@ -4,10 +4,13 @@ import gregicality.multiblocks.api.metatileentity.GCYMMultiblockAbility;
 import gregicality.multiblocks.api.render.GCYMTextures;
 import gregicality.multiblocks.common.block.GCYMMetaBlocks;
 import gregicality.multiblocks.common.block.blocks.BlockLargeMultiblockCasing;
+import gregsjourney.api.metatileentity.multiblock.GJMultiblockAbility;
 import gregsjourney.api.recipe.NoEnergyMultiblockRecipeLogic;
 import gregsjourney.api.unification.property.CoolantProperty;
 import gregsjourney.api.unification.property.GJPropertyKeys;
+import gregsjourney.common.metatileentities.part.MetaTileEntityCoolantHatch;
 import gregtech.api.capability.IMultipleTankHandler;
+import gregtech.api.capability.impl.FluidTankList;
 import gregtech.api.capability.impl.MultiblockRecipeLogic;
 import gregtech.api.metatileentity.ITieredMetaTileEntity;
 import gregtech.api.metatileentity.MetaTileEntity;
@@ -32,9 +35,10 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 
 import static gregicality.multiblocks.api.metatileentity.GCYMRecipeMapMultiblockController.tieredCasing;
-import static gregsjourney.utils.GJMaterialUtil.getFromFluidStack;
 import static gregsjourney.common.recipe.GJRecipeMaps.BREEDER_REACTOR_RECIPES;
 import static gregsjourney.common.recipe.GJRecipeMaps.FISSION_REACTOR_RECIPES;
+import static gregsjourney.utils.GJMaterialUtil.getFromFluidStack;
+import static gregsjourney.utils.GJUtil.getTotalFluidAmount;
 
 public class MetaTileEntityNuclearReactor extends MultiMapMultiblockController {
 
@@ -59,7 +63,7 @@ public class MetaTileEntityNuclearReactor extends MultiMapMultiblockController {
                 .where('T', tieredCasing())
                 .where('X', states(getCasingState())
                         .or(autoAbilities(false, true, true, true, false, false, false))
-                        .or(abilities(MultiblockAbility.IMPORT_FLUIDS).setExactLimit(1))
+                        .or(abilities(GJMultiblockAbility.COOLANT_HATCH).setExactLimit(1))
                         .or(abilities(MultiblockAbility.EXPORT_FLUIDS).setExactLimit(1))
                 )
                 .build();
@@ -73,7 +77,8 @@ public class MetaTileEntityNuclearReactor extends MultiMapMultiblockController {
                     tl.add(TextComponentUtil.translationWithColor(TextFormatting.GRAY, "gj.multiblock.active_recipe_map", getCurrentRecipeMap().getLocalizedName()));
                     if (isStructureFormed()) {
                         tl.add(TextComponentUtil.translationWithColor(TextFormatting.GRAY, "gj.multiblock.nuclear_reactor.base_coolant_conversion", recipeMapWorkable.getMaxVoltage()));
-                        if (getInputFluidInventory().getTankAt(0).getFluidAmount() > 0) {
+                        //TODO: Fixen
+                        if (getTotalFluidAmount(getCoolantInput()) > 0) {
                             IMultipleTankHandler.MultiFluidTankEntry inputTank = getInputFluidInventory().getTankAt(0);
                             IMultipleTankHandler.MultiFluidTankEntry outputTank = getOutputFluidInventory().getTankAt(0);
                             CoolantProperty property = getFromFluidStack(inputTank.getFluid()).getProperty(GJPropertyKeys.COOLANT_PROPERTY);
@@ -120,6 +125,16 @@ public class MetaTileEntityNuclearReactor extends MultiMapMultiblockController {
         return (int) Math.min(recipeLogic.getMaxVoltage() * property.conversion(), Math.min(inputTank.getFluidAmount(), outputTank.getCapacity() - outputTank.getFluidAmount()));
     }
 
+    protected FluidTankList getCoolantInput() {
+        List<IMultiblockPart> parts = getMultiblockParts();
+        for (IMultiblockPart part : parts) {
+            if (part instanceof MetaTileEntityCoolantHatch) {
+                return ((MetaTileEntityCoolantHatch) part).getImportFluids();
+            }
+        }
+        return null;
+    }
+
     protected class NuclearReactorRecipeLogic extends NoEnergyMultiblockRecipeLogic {
         RecipeMapMultiblockController controller;
         public NuclearReactorRecipeLogic(RecipeMapMultiblockController tileEntity) {
@@ -140,39 +155,65 @@ public class MetaTileEntityNuclearReactor extends MultiMapMultiblockController {
         @Override
         public void update() {
             super.update();
-            if (isStructureFormed() && !getWorld().isRemote) {
-                setWorkingEnabled(MetaTileEntityNuclearReactor.this.getInputFluidInventory().getTankAt(0).getFluidAmount() != 0);
+            if (getWorld().isRemote) {
+                return;
             }
-            if ((Math.floorMod(getOffsetTimer(), 20) == 0)) {
-                if (isStructureFormed() && !getWorld().isRemote && isWorkingEnabled() && isActive()) {
-                    convertCoolant();
-                }
+            if (!isStructureFormed()) {
+                return;
+            }
+            setWorkingEnabled(getTotalFluidAmount(MetaTileEntityNuclearReactor.this.getCoolantInput()) == 0);
+            if ((Math.floorMod(getOffsetTimer(), 20) == 0) && isWorkingEnabled() && isActive()) {
+                convertCoolant();
             }
         }
 
+        private IMultipleTankHandler.MultiFluidTankEntry getValidOutputTank(IMultipleTankHandler inventory, CoolantProperty property) {
+            Material hotCoolant = property.hotCoolant();
+            for (IMultipleTankHandler.MultiFluidTankEntry tank : inventory) {
+                if (tank.getFluidAmount() == 0) {
+                    return tank;
+                }
+                if (tank.getFluid().getFluid() == hotCoolant.getFluid()){
+                    return tank;
+                }
+            }
+            return null;
+        }
+
         private void convertCoolant() {
-            IMultipleTankHandler.MultiFluidTankEntry inputTank = MetaTileEntityNuclearReactor.this.getInputFluidInventory().getTankAt(0);
-            if (inputTank.getFluid() == null) {
+            FluidTankList coolantTanks = MetaTileEntityNuclearReactor.this.getCoolantInput();
+            int coolantAmount = 0;
+            int activeIndex = -1;
+            int amount;
+            for (int i = 0; i < coolantTanks.getTanks(); i++) {
+                amount = coolantTanks.getTankAt(i).getFluidAmount();
+                coolantAmount += amount;
+                if (amount > 0 && activeIndex == -1){
+                    activeIndex = i;
+                }
+            }
+            if (coolantAmount == 0) {
                 return;
             }
-            Material coolant = getFromFluidStack(inputTank.getFluid());
+            IMultipleTankHandler.MultiFluidTankEntry activeInputTank = coolantTanks.getTankAt(activeIndex);
+            Material coolant = getFromFluidStack(activeInputTank.getFluid());
             CoolantProperty property = coolant.getProperty(GJPropertyKeys.COOLANT_PROPERTY);
-            IMultipleTankHandler.MultiFluidTankEntry outputTank = MetaTileEntityNuclearReactor.this.getOutputFluidInventory().getTankAt(0);
-            if (outputTank.getFluidAmount() > 0 && getFromFluidStack(outputTank.getFluid()) != property.hotCoolant()) {
+            IMultipleTankHandler.MultiFluidTankEntry activeOutputTank = getValidOutputTank(MetaTileEntityNuclearReactor.this.getOutputFluidInventory(), property);
+            if (activeOutputTank == null) {
                 return;
             }
-            int actualConversion = calculateActualCoolantConversion(this, inputTank, outputTank, property);
+            int actualConversion = calculateActualCoolantConversion(this, activeInputTank, activeOutputTank, property);
             if (actualConversion == 0) {
                 return;
             }
-            if (inputTank.drain(coolant.getFluid(actualConversion), false).amount == 0) {
+            if (activeInputTank.drain(coolant.getFluid(actualConversion), false).amount == 0) {
                 return;
             }
-            if (outputTank.fill(property.hotCoolant().getFluid(actualConversion), false) == 0) {
+            if (activeOutputTank.fill(property.hotCoolant().getFluid(actualConversion), false) == 0) {
                 return;
             }
-            inputTank.drain(coolant.getFluid(actualConversion), true);
-            outputTank.fill(property.hotCoolant().getFluid(actualConversion), true);
+            activeInputTank.drain(coolant.getFluid(actualConversion), true);
+            activeOutputTank.fill(property.hotCoolant().getFluid(actualConversion), true);
         }
     }
 }

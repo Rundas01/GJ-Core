@@ -1,16 +1,12 @@
 package gregsjourney.common.metatileentities.part;
 
-import codechicken.lib.render.CCRenderState;
-import codechicken.lib.render.pipeline.IVertexOperation;
-import codechicken.lib.vec.Matrix4;
 import forestry.api.apiculture.BeeManager;
 import forestry.api.apiculture.EnumBeeType;
 import gregsjourney.api.metatileentity.multiblock.GJMultiblockAbility;
-import gregsjourney.api.metatileentity.part.FilteredItemInputBus;
+import gregsjourney.api.metatileentity.part.FilteredItemBus;
 import gregtech.api.metatileentity.MetaTileEntity;
 import gregtech.api.metatileentity.interfaces.IGregTechTileEntity;
 import gregtech.api.metatileentity.multiblock.MultiblockAbility;
-import gregtech.client.renderer.texture.Textures;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -21,10 +17,10 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class MetaTileEntityBeeHatch extends FilteredItemInputBus {
+public class MetaTileEntityBeeHatch extends FilteredItemBus {
 
     public MetaTileEntityBeeHatch(ResourceLocation metaTileEntityId, int tier) {
-        super(metaTileEntityId, tier, MetaTileEntityBeeHatch::isQueen);
+        super(metaTileEntityId, tier, MetaTileEntityBeeHatch::isQueen, false);
     }
 
     @Override
@@ -38,24 +34,14 @@ public class MetaTileEntityBeeHatch extends FilteredItemInputBus {
     }
 
     @Override
-    public void renderMetaTileEntity(CCRenderState renderState, Matrix4 translation, IVertexOperation[] pipeline) {
-        super.renderMetaTileEntity(renderState, translation, pipeline);
-        Textures.PIPE_IN_OVERLAY.renderSided(getFrontFacing(), renderState, translation, pipeline);
-    }
-
-    @Override
     public boolean canPartShare() {
         return false;
-    }
-
-    public int getBeeLimit() {
-        return getTier() * getTier();
     }
 
     @Override
     public void addInformation(ItemStack stack, @Nullable World player, @NotNull List<String> tooltip, boolean advanced) {
         super.addInformation(stack, player, tooltip, advanced);
-        tooltip.add(I18n.format("gj.machine.bee_hatch.info", Integer.toString(getBeeLimit())));
+        tooltip.add(I18n.format("gj.machine.bee_hatch.info", Integer.toString(getTier() * getTier())));
     }
 
     @Override
@@ -63,6 +49,11 @@ public class MetaTileEntityBeeHatch extends FilteredItemInputBus {
         tooltip.add(I18n.format("gregtech.tool_action.screwdriver.access_covers"));
         tooltip.add(I18n.format("gregtech.tool_action.wrench.set_facing"));
         super.addToolUsages(stack, world, tooltip, advanced);
+    }
+
+    @Override
+    public boolean hasGhostCircuitInventory() {
+        return false;
     }
 
     private static boolean isQueen(ItemStack stack) {

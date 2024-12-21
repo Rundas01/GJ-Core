@@ -1,20 +1,23 @@
 package gregsjourney.api.metatileentity.part;
 
 import gregtech.api.capability.IFilter;
-import gregtech.api.capability.impl.NotifiableItemStackHandler;
-import gregtech.api.metatileentity.IMachineHatchMultiblock;
+import gregtech.api.items.itemhandlers.GTItemStackHandler;
 import gregtech.api.metatileentity.MetaTileEntity;
 import gregtech.api.util.ItemStackHashStrategy;
 import net.minecraft.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
-public class FilteredItemStackHandler extends NotifiableItemStackHandler implements IFilter<ItemStack> {
+public class FilteredItemStackHandler extends GTItemStackHandler implements IFilter<ItemStack> {
 
-    private final IItemCondition condition;
+    private IItemCondition condition;
 
-    public FilteredItemStackHandler(MetaTileEntity metaTileEntity, int slots, MetaTileEntity entityToNotify, boolean isExport, IItemCondition condition) {
-        super(metaTileEntity, slots, entityToNotify, isExport);
+    public FilteredItemStackHandler(MetaTileEntity metaTileEntity, int slots, IItemCondition condition) {
+        super(metaTileEntity, slots);
         this.condition = condition;
+    }
+
+    public void changeCondition(IItemCondition newCondition) {
+        this.condition = newCondition;
     }
 
     @Override
@@ -83,12 +86,5 @@ public class FilteredItemStackHandler extends NotifiableItemStackHandler impleme
                 ItemStackHashStrategy.comparingAllButCount().equals(this.getStackInSlot(slot), stack);
 
         return slotMatches && test(stack);
-    }
-
-    @Override
-    public <T> void addToNotifiedList(MetaTileEntity metaTileEntity, T handler, boolean isExport) {
-        if (metaTileEntity instanceof IMachineHatchMultiblock && metaTileEntity.isValid()) {
-            ((IMachineHatchMultiblock) metaTileEntity).notifyMachineChanged();
-        }
     }
 }

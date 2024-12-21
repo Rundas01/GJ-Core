@@ -1,15 +1,16 @@
 package gregsjourney.common.metatileentities;
 
 import gregsjourney.api.metatileentity.singleblock.MetaTileEntityGeneratorWithOutput;
-import gregsjourney.api.metatileentity.singleblock.SteamMetaTileEntityWithGhostCircuit;
 import gregsjourney.api.render.GJTextures;
-import gregsjourney.api.widget.SteamProgressIndicator;
 import gregsjourney.common.metatileentities.multiblock.electric.*;
 import gregsjourney.common.metatileentities.multiblock.primitive.MetaTileEntityCrucible;
 import gregsjourney.common.metatileentities.multiblock.primitive.MetaTileEntityHeatExchanger;
 import gregsjourney.common.metatileentities.part.MetaTileEntityBeeHatch;
 import gregsjourney.common.metatileentities.part.MetaTileEntityCoolantHatch;
 import gregsjourney.common.metatileentities.part.MetaTileEntityHeatHatch;
+import gregsjourney.common.metatileentities.part.OreDictItemBus;
+import gregsjourney.common.metatileentities.singleblock.MetaTileEntityOredictFilteredStacksizeBuffer;
+import gregsjourney.common.metatileentities.singleblock.MetaTileEntityStacksizeBuffer;
 import gregsjourney.common.recipe.GJRecipeMaps;
 import gregsjourney.utils.GJUtil;
 import gregtech.api.GTValues;
@@ -51,7 +52,12 @@ public final class GJMetaTileEntities {
     public static SimpleMachineMetaTileEntity[] ISOTOPIC_STABILIZER = new SimpleMachineMetaTileEntity[GTValues.V.length - 1];
     public static MetaTileEntityBeeHatch[] BEE_HATCH = new MetaTileEntityBeeHatch[6];
     public static MetaTileEntityHeatHatch HEAT_HATCH;
-    public static MetaTileEntityCoolantHatch[] COOLANT_HATCH = new MetaTileEntityCoolantHatch[6];
+    public static MetaTileEntityCoolantHatch[] COOLANT_HATCH = new MetaTileEntityCoolantHatch[3];
+    public static OreDictItemBus[] OREDICT_INPUT_BUS = new OreDictItemBus[3];
+    public static OreDictItemBus[] OREDICT_OUTPUT_BUS = new OreDictItemBus[3];
+    public static MetaTileEntityStacksizeBuffer STACKSIZE_BUFFER;
+    public static MetaTileEntityOredictFilteredStacksizeBuffer OREDICT_FILTERED_STACKSIZE_BUFFER;
+    //Multiblock
     public static MetaTileEntityCrucible CRUCIBLE;
     public static MetaTileEntityAdvancedArcFurnace ADVANCED_ARC_FURNACE;
     public static MetaTileEntityFlotationCell FLOTATION_CELL;
@@ -70,11 +76,6 @@ public final class GJMetaTileEntities {
                                                      Function<Integer, Integer> tankScalingFunction) {
         gregtech.common.metatileentities.MetaTileEntities.registerSimpleMetaTileEntity(machines, startId, name, map,
                 texture, hasFrontFacing, GJUtil::gjId, tankScalingFunction);
-    }
-
-    private static void registerSimpleSteamMetaTileEntity(SteamMetaTileEntityWithGhostCircuit[] machines, int startId, String name, RecipeMap<?> recipeMap, SteamProgressIndicator progressIndicator, ICubeRenderer texture, boolean isBricked) {
-        machines[0] = registerMetaTileEntity(startId, new SteamMetaTileEntityWithGhostCircuit(gjId(String.format("%s.bronze", name)), recipeMap, progressIndicator, texture, isBricked, false));
-        machines[1] = registerMetaTileEntity(startId + 1, new SteamMetaTileEntityWithGhostCircuit(gjId(String.format("%s.steel", name)), recipeMap, progressIndicator, texture, isBricked, true));
     }
 
     public static void init() {
@@ -144,11 +145,16 @@ public final class GJMetaTileEntities {
         registerSimpleMetaTileEntity(ISOTOPIC_STABILIZER, 2375, "isotopic_stabilizer", GJRecipeMaps.ISOTOPIC_STABILIZER_RECIPES,
                 GJTextures.ISOTOPIC_STABILIZER_OVERLAY, true, defaultTankSizeFunction);
 
-        COOLANT_HATCH[0] = registerMetaTileEntity(2390, new MetaTileEntityCoolantHatch(gjId("coolant_hatch.hv"), 3, 1));
-        COOLANT_HATCH[1] = registerMetaTileEntity(2391, new MetaTileEntityCoolantHatch(gjId("coolant_hatch.ev"), 4, 1));
-        COOLANT_HATCH[2] = registerMetaTileEntity(2392, new MetaTileEntityCoolantHatch(gjId("coolant_hatch.iv"), 5, 4));
-        COOLANT_HATCH[3] = registerMetaTileEntity(2393, new MetaTileEntityCoolantHatch(gjId("coolant_hatch.luv"), 6, 4));
-        COOLANT_HATCH[4] = registerMetaTileEntity(2394, new MetaTileEntityCoolantHatch(gjId("coolant_hatch.zpm"), 7, 9));
-        COOLANT_HATCH[5] = registerMetaTileEntity(2395, new MetaTileEntityCoolantHatch(gjId("coolant_hatch.uv"), 8, 9));
+        COOLANT_HATCH[0] = registerMetaTileEntity(2390, new MetaTileEntityCoolantHatch(gjId("coolant_hatch.luv"), 6, 1));
+        COOLANT_HATCH[1] = registerMetaTileEntity(2391, new MetaTileEntityCoolantHatch(gjId("coolant_hatch.zpm"), 7, 4));
+        COOLANT_HATCH[2] = registerMetaTileEntity(2392, new MetaTileEntityCoolantHatch(gjId("coolant_hatch.uv"), 8, 9));
+        OREDICT_INPUT_BUS[0] = registerMetaTileEntity(2393, new OreDictItemBus(gjId("oredict_input_bus.lv"), 1, false));
+        OREDICT_INPUT_BUS[1] = registerMetaTileEntity(2394, new OreDictItemBus(gjId("oredict_input_bus.mv"), 2,false));
+        OREDICT_INPUT_BUS[2] = registerMetaTileEntity(2395, new OreDictItemBus(gjId("oredict_input_bus.hv"), 3,false));
+        OREDICT_OUTPUT_BUS[0] = registerMetaTileEntity(2396, new OreDictItemBus(gjId("oredict_output_bus.lv"), 1,true));
+        OREDICT_OUTPUT_BUS[1] = registerMetaTileEntity(2397, new OreDictItemBus(gjId("oredict_output_bus.mv"), 2,true));
+        OREDICT_OUTPUT_BUS[2] = registerMetaTileEntity(2398, new OreDictItemBus(gjId("oredict_output_bus.hv"), 3,true));
+        STACKSIZE_BUFFER = registerMetaTileEntity(2399, new MetaTileEntityStacksizeBuffer(gjId("stacksize_buffer")));
+        OREDICT_FILTERED_STACKSIZE_BUFFER = registerMetaTileEntity(2400, new MetaTileEntityOredictFilteredStacksizeBuffer(gjId("item_filtered_buffer")));
     }
 }

@@ -115,7 +115,7 @@ public class MetaTileEntityIndustrialAlveary extends RecipeMapMultiblockControll
             List<IMultiblockPart> parts = getMultiblockParts();
             for (IMultiblockPart part : parts) {
                 if (part instanceof MetaTileEntityBeeHatch) {
-                    maxAmount = ((MetaTileEntityBeeHatch) part).getBeeLimit();
+                    maxAmount = (int) Math.pow(((MetaTileEntityBeeHatch) part).getTier(), 2);
                 }
             }
         }
