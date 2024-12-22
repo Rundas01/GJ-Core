@@ -12,6 +12,7 @@ gj.machine.coolant_hatch.uv.name=Nonuple Coolant Hatch
 
 gj.machine.oredict_filtered_stacksize_buffer.name=Oredict Filtered Stacksize Buffer
 gj.machine.stacksize_buffer.name=Stacksize Buffer
+gj.machine.stacksize_fluid_buffer.name=Stacksize Fluid Buffer
 
 gj.machine.heat_hatch.name=Crucible Heat Hatch
 

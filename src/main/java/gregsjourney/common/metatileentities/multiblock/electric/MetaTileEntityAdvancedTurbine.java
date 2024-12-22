@@ -1,21 +1,10 @@
 package gregsjourney.common.metatileentities.multiblock.electric;
 
-import static gregsjourney.api.block.IBlockOrientable.FACING;
-
-import java.util.List;
-import java.util.function.Supplier;
-
-import javax.annotation.Nonnull;
-
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextComponentTranslation;
-import net.minecraftforge.fluids.FluidStack;
-
-import org.jetbrains.annotations.NotNull;
-
+import gregsjourney.api.metatileentity.multiblock.GJMultiblockAbility;
+import gregsjourney.api.recipe.AdvancedTurbineRecipeLogic;
+import gregsjourney.common.block.GJMetaBlocks;
+import gregsjourney.common.block.blocks.BlockAlternatorCoil;
+import gregsjourney.common.block.blocks.BlockTurbineRotor;
 import gregtech.api.GTValues;
 import gregtech.api.metatileentity.ITieredMetaTileEntity;
 import gregtech.api.metatileentity.MetaTileEntity;
@@ -29,13 +18,19 @@ import gregtech.api.pattern.TraceabilityPredicate;
 import gregtech.api.recipes.RecipeMap;
 import gregtech.api.util.BlockInfo;
 import gregtech.client.renderer.ICubeRenderer;
-import gregtech.common.blocks.BlockTurbineCasing;
-import gregtech.common.blocks.MetaBlocks;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraftforge.fluids.FluidStack;
+import org.jetbrains.annotations.NotNull;
 
-import gregsjourney.api.recipe.AdvancedTurbineRecipeLogic;
-import gregsjourney.common.block.GJMetaBlocks;
-import gregsjourney.common.block.blocks.BlockAlternatorCoil;
-import gregsjourney.common.block.blocks.BlockTurbineRotor;
+import javax.annotation.Nonnull;
+import java.util.List;
+import java.util.function.Supplier;
+
+import static gregsjourney.api.block.IBlockOrientable.FACING;
 
 public class MetaTileEntityAdvancedTurbine extends FuelMultiblockController implements ITieredMetaTileEntity {
 
@@ -58,8 +53,7 @@ public class MetaTileEntityAdvancedTurbine extends FuelMultiblockController impl
 
     @Override
     public MetaTileEntity createMetaTileEntity(IGregTechTileEntity tileEntity) {
-        return new MetaTileEntityAdvancedTurbine(metaTileEntityId, recipeMap, tier, casingState, casingRenderer,
-                frontOverlay);
+        return new MetaTileEntityAdvancedTurbine(metaTileEntityId, recipeMap, tier, casingState, casingRenderer, frontOverlay);
     }
 
     @Override
@@ -76,32 +70,23 @@ public class MetaTileEntityAdvancedTurbine extends FuelMultiblockController impl
 
     @Override
     protected @NotNull BlockPattern createStructurePattern() {
-        TraceabilityPredicate maintenance = autoAbilities(false, true, false, false, false, false, false)
-                .setMaxGlobalLimited(1);
-
         return FactoryBlockPattern.start()
-                .aisle("GAAAAAAAO", "GAAAAAAAO", "G   A   O")
-                .aisle("GAAAAAAAO", "GDDDDCCCF", "GAAAAAAAO")
-                .aisle("GAAAAAAAO", "GSAAAAAAO", "G   A   O")
+                .aisle("AAAAAAAAA", "OEEEEEEEE", "A   A   A")
+                .aisle("AAAAAAAAA", "EDDDDCCCR", "AAAAAAAAA")
+                .aisle("AAAAAAAAA", "OSEEEEEEE", "A   A   A")
                 .where('S', selfPredicate())
-                .where('A',
-                        states(MetaBlocks.TURBINE_CASING
-                                .getState(BlockTurbineCasing.TurbineCasingType.STEEL_TURBINE_CASING))
-                                        .or(autoAbilities(false, false, true, false, false, false, false))
-                                        .or(maintenance))
-                .where('O',
-                        states(MetaBlocks.TURBINE_CASING
-                                .getState(BlockTurbineCasing.TurbineCasingType.STEEL_TURBINE_CASING))
-                                        .or(autoAbilities(false, false, true, false, false, true, false))
-                                        .or(maintenance))
+                .where('A', states(casingState))
+                .where('O', states(casingState).or(abilities(MultiblockAbility.IMPORT_FLUIDS).or(abilities(MultiblockAbility.EXPORT_FLUIDS))))
+                .where('E', states(casingState).or(abilities(MultiblockAbility.OUTPUT_ENERGY).setExactLimit(1)))
+                .where('R', metaTileEntities(MultiblockAbility.REGISTRY.get(GJMultiblockAbility.ADVANCED_ROTOR_HOLDER).stream()
+                        .filter(mte -> (mte instanceof ITieredMetaTileEntity) &&
+                                (((ITieredMetaTileEntity) mte).getTier() >= tier))
+                        .toArray(MetaTileEntity[]::new))
+                        .addTooltips("gregtech.multiblock.pattern.clear_amount_3")
+                        .addTooltip("gregtech.multiblock.pattern.error.limited.1", GTValues.VN[tier])
+                        .setExactLimit(1))
                 .where('C', coilOrientation())
                 .where('D', rotorOrientation())
-                .where('F', abilities(MultiblockAbility.OUTPUT_ENERGY))
-                .where('G',
-                        states(MetaBlocks.TURBINE_CASING
-                                .getState(BlockTurbineCasing.TurbineCasingType.STEEL_TURBINE_CASING))
-                                        .or(autoAbilities(false, false, true, false, true, false, false))
-                                        .or(maintenance))
                 .where(' ', any())
                 .build();
     }
@@ -159,11 +144,6 @@ public class MetaTileEntityAdvancedTurbine extends FuelMultiblockController impl
     @Override
     public int getTier() {
         return tier;
-    }
-
-    @Override
-    public boolean canVoidRecipeItemOutputs() {
-        return true;
     }
 
     @Override

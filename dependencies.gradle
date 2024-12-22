@@ -16,7 +16,7 @@ dependencies {
     implementation rfg.deobf("curse.maven:gregicality-multiblocks-564858:5619513") //GCYM 1.2.11
     //Tech
     implementation rfg.deobf("curse.maven:forestry-59751:2918418") // Forsetry 5.8.2.442
-    implementation rfg.deobf("curse.maven:railcraft-51195:3853491") // Railkraft 12.1.0 Beta 8
+    //implementation rfg.deobf("curse.maven:railcraft-51195:3853491") // Railkraft 12.1.0 Beta 8
     implementation rfg.deobf("cofh:ThermalFoundation:1.12.2-2.6.3.27:universal") //Termal
     implementation rfg.deobf("cofh:ThermalDynamics:1.12.2-2.5.5.21:universal")
     implementation rfg.deobf("curse.maven:ae2-extended-life-570458:5411078") //AE2 PP Extendus

@@ -77,9 +77,9 @@ public class MetaTileEntityNuclearReactor extends MultiMapMultiblockController {
                     tl.add(TextComponentUtil.translationWithColor(TextFormatting.GRAY, "gj.multiblock.active_recipe_map", getCurrentRecipeMap().getLocalizedName()));
                     if (isStructureFormed()) {
                         tl.add(TextComponentUtil.translationWithColor(TextFormatting.GRAY, "gj.multiblock.nuclear_reactor.base_coolant_conversion", recipeMapWorkable.getMaxVoltage()));
-                        //TODO: Fixen
+                        //TODO: Aktiver Coolant muss nicht in slot 1 sein
                         if (getTotalFluidAmount(getCoolantInput()) > 0) {
-                            IMultipleTankHandler.MultiFluidTankEntry inputTank = getInputFluidInventory().getTankAt(0);
+                            IMultipleTankHandler.MultiFluidTankEntry inputTank = getCoolantInput().getTankAt(0);
                             IMultipleTankHandler.MultiFluidTankEntry outputTank = getOutputFluidInventory().getTankAt(0);
                             CoolantProperty property = getFromFluidStack(inputTank.getFluid()).getProperty(GJPropertyKeys.COOLANT_PROPERTY);
                             tl.add(TextComponentUtil.translationWithColor(TextFormatting.GRAY, "gj.multiblock.nuclear_reactor.actual_coolant_conversion", calculateActualCoolantConversion(recipeMapWorkable, inputTank, outputTank, property)));
@@ -161,7 +161,7 @@ public class MetaTileEntityNuclearReactor extends MultiMapMultiblockController {
             if (!isStructureFormed()) {
                 return;
             }
-            setWorkingEnabled(getTotalFluidAmount(MetaTileEntityNuclearReactor.this.getCoolantInput()) == 0);
+            setWorkingEnabled(getTotalFluidAmount(MetaTileEntityNuclearReactor.this.getCoolantInput()) != 0);
             if ((Math.floorMod(getOffsetTimer(), 20) == 0) && isWorkingEnabled() && isActive()) {
                 convertCoolant();
             }

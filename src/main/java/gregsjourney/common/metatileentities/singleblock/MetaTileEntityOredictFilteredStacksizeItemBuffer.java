@@ -12,19 +12,24 @@ import gregtech.api.gui.ModularUI;
 import gregtech.api.gui.widgets.*;
 import gregtech.api.items.itemhandlers.GTItemStackHandler;
 import gregtech.api.metatileentity.MetaTileEntity;
+import gregtech.api.metatileentity.TieredMetaTileEntity;
 import gregtech.api.metatileentity.interfaces.IGregTechTileEntity;
 import gregtech.api.util.GTUtility;
 import gregtech.client.renderer.texture.Textures;
 import gregtech.client.renderer.texture.cube.SimpleOverlayRenderer;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.oredict.OreDictionary;
 import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.tuple.Pair;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -35,20 +40,23 @@ import static gregsjourney.utils.StringUtil.allowedSymbols;
 import static gregtech.api.capability.GregtechDataCodes.UPDATE_AUTO_OUTPUT_ITEMS;
 import static gregtech.common.metatileentities.storage.MetaTileEntityCreativeEnergy.getTextFieldValidator;
 
-public class MetaTileEntityOredictFilteredStacksizeItemBuffer extends MetaTileEntity {
-    private int mode, size;
+public class MetaTileEntityOredictFilteredStacksizeItemBuffer extends TieredMetaTileEntity {
+    private int mode;
+    private int size;
+    private final int tier;
     private String oredictString = "";
     private boolean autoOutput;
     private EnumFacing outputFacing;
 
-    public MetaTileEntityOredictFilteredStacksizeItemBuffer(ResourceLocation metaTileEntityId) {
-        super(metaTileEntityId);
+    public MetaTileEntityOredictFilteredStacksizeItemBuffer(ResourceLocation metaTileEntityId, int tier) {
+        super(metaTileEntityId, tier);
+        this.tier = tier;
         initializeInventory();
     }
 
     @Override
     public MetaTileEntity createMetaTileEntity(IGregTechTileEntity iGregTechTileEntity) {
-        return new MetaTileEntityOredictFilteredStacksizeItemBuffer(metaTileEntityId);
+        return new MetaTileEntityOredictFilteredStacksizeItemBuffer(metaTileEntityId, tier);
     }
 
     @Override
@@ -125,7 +133,7 @@ public class MetaTileEntityOredictFilteredStacksizeItemBuffer extends MetaTileEn
 
     @Override
     public void renderMetaTileEntity(CCRenderState renderState, Matrix4 translation, IVertexOperation[] pipeline) {
-        Textures.VOLTAGE_CASINGS[1].render(renderState, translation, ArrayUtils.add(pipeline,
+        Textures.VOLTAGE_CASINGS[tier].render(renderState, translation, ArrayUtils.add(pipeline,
                 new ColourMultiplier(GTUtility.convertRGBtoOpaqueRGBA_CL(getPaintingColorForRendering()))));
         for (EnumFacing facing : EnumFacing.VALUES) {
             if (facing == getFrontFacing()) {
@@ -135,7 +143,12 @@ public class MetaTileEntityOredictFilteredStacksizeItemBuffer extends MetaTileEn
                 Textures.BUFFER_OVERLAY.renderSided(facing, renderState, translation, pipeline);
             }
         }
+    }
 
+    @Override
+    @SideOnly(Side.CLIENT)
+    public Pair<TextureAtlasSprite, Integer> getParticleTexture() {
+        return Pair.of(Textures.VOLTAGE_CASINGS[tier].getParticleSprite(), this.getPaintingColorForRendering());
     }
 
     public EnumFacing getOutputFacing() { return outputFacing == null ? EnumFacing.SOUTH : outputFacing; }

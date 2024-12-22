@@ -28,6 +28,7 @@ public final class GJRecipeMaps {
     public static RecipeMap<FuelRecipeBuilder> DECAY_GENERATOR_RECIPES;
     public static RecipeMap<SimpleRecipeBuilder> ISOTOPIC_STABILIZER_RECIPES;
     public static RecipeMap<SimpleRecipeBuilder> DECAY_HASTENER_RECIPES;
+    public static RecipeMap<FuelRecipeBuilder> ROCKET_ENGINE_FUELS;
 
 
     // Multiblock
@@ -106,6 +107,11 @@ public final class GJRecipeMaps {
                 1, 1, new SimpleRecipeBuilder(), false)
                 .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, ProgressWidget.MoveType.HORIZONTAL)
                 .setSound(GTSoundEvents.SCIENCE);
+
+        ROCKET_ENGINE_FUELS = new RecipeMap<>("rocket_engine", 0, 0,
+                1, 3, new FuelRecipeBuilder(), false)
+                .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW_MULTIPLE, ProgressWidget.MoveType.HORIZONTAL)
+                .setSound(GTSoundEvents.COMBUSTION);
 
 
         // Multiblock

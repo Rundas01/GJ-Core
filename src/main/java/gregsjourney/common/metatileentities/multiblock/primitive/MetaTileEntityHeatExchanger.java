@@ -4,6 +4,7 @@ import static gregsjourney.common.recipe.GJRecipeMaps.HEAT_EXCHANGER_RECIPES;
 
 import javax.annotation.Nonnull;
 
+import gregtech.api.metatileentity.multiblock.MultiblockAbility;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.ResourceLocation;
 
@@ -52,8 +53,7 @@ public class MetaTileEntityHeatExchanger extends RecipeMapMultiblockController {
                 .aisle("CCC", "BSB", "ACA")
                 .where('S', selfPredicate())
                 .where('A', states(MetaBlocks.FRAMES.get(Materials.Steel).getBlock(Materials.Steel)))
-                .where('B', autoAbilities(false, false, false, false, false, true, false).setMinGlobalLimited(2)
-                        .or(autoAbilities(false, false, false, false, true, false, false).setMinGlobalLimited(2)))
+                .where('B', abilities(MultiblockAbility.IMPORT_FLUIDS).setExactLimit(2).or(abilities(MultiblockAbility.EXPORT_FLUIDS).setExactLimit(2)))
                 .where('C', states(MetaBlocks.METAL_CASING.getState(BlockMetalCasing.MetalCasingType.STEEL_SOLID))
                         .or(autoAbilities(false, true, false, false, false, false, false))
                         .or(autoAbilities(false, false, true, false, false, false, false).setMaxGlobalLimited(1)))

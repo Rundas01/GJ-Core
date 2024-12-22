@@ -10,6 +10,7 @@ import gregtech.api.gui.ModularUI;
 import gregtech.api.gui.widgets.*;
 import gregtech.api.items.itemhandlers.GTItemStackHandler;
 import gregtech.api.metatileentity.MetaTileEntity;
+import gregtech.api.metatileentity.TieredMetaTileEntity;
 import gregtech.api.metatileentity.interfaces.IGregTechTileEntity;
 import gregtech.api.util.GTUtility;
 import gregtech.client.renderer.texture.Textures;
@@ -31,20 +32,23 @@ import org.jetbrains.annotations.NotNull;
 import static gregtech.api.capability.GregtechDataCodes.UPDATE_AUTO_OUTPUT_ITEMS;
 import static gregtech.common.metatileentities.storage.MetaTileEntityCreativeEnergy.getTextFieldValidator;
 
-public class MetaTileEntityStacksizeItemBuffer extends MetaTileEntity {
-    private int mode, size;
+public class MetaTileEntityStacksizeItemBuffer extends TieredMetaTileEntity {
+    private int mode;
+    private int size;
+    private final int tier;
     private boolean autoOutput;
     private EnumFacing outputFacing;
     private GTItemStackHandler inputs, outputs;
 
-    public MetaTileEntityStacksizeItemBuffer(ResourceLocation metaTileEntityId) {
-        super(metaTileEntityId);
+    public MetaTileEntityStacksizeItemBuffer(ResourceLocation metaTileEntityId, int tier) {
+        super(metaTileEntityId, tier);
+        this.tier = tier;
         initializeInventory();
     }
 
     @Override
     public MetaTileEntity createMetaTileEntity(IGregTechTileEntity iGregTechTileEntity) {
-        return new MetaTileEntityStacksizeItemBuffer(metaTileEntityId);
+        return new MetaTileEntityStacksizeItemBuffer(metaTileEntityId, tier);
     }
 
     @Override
@@ -89,7 +93,7 @@ public class MetaTileEntityStacksizeItemBuffer extends MetaTileEntity {
 
     @Override
     public void renderMetaTileEntity(CCRenderState renderState, Matrix4 translation, IVertexOperation[] pipeline) {
-        Textures.VOLTAGE_CASINGS[1].render(renderState, translation, ArrayUtils.add(pipeline,
+        Textures.VOLTAGE_CASINGS[tier].render(renderState, translation, ArrayUtils.add(pipeline,
                 new ColourMultiplier(GTUtility.convertRGBtoOpaqueRGBA_CL(getPaintingColorForRendering()))));
         for (EnumFacing facing : EnumFacing.VALUES) {
             if (facing == getFrontFacing()) {
@@ -104,7 +108,7 @@ public class MetaTileEntityStacksizeItemBuffer extends MetaTileEntity {
     @Override
     @SideOnly(Side.CLIENT)
     public Pair<TextureAtlasSprite, Integer> getParticleTexture() {
-        return Pair.of(Textures.VOLTAGE_CASINGS[1].getParticleSprite(), this.getPaintingColorForRendering());
+        return Pair.of(Textures.VOLTAGE_CASINGS[tier].getParticleSprite(), this.getPaintingColorForRendering());
     }
 
     public EnumFacing getOutputFacing() { return outputFacing == null ? EnumFacing.SOUTH : outputFacing; }
@@ -135,8 +139,7 @@ public class MetaTileEntityStacksizeItemBuffer extends MetaTileEntity {
         if (input.getStackInSlot(i).isEmpty()) {
             return false; // No items in input slot
         }
-        if (!output.getStackInSlot(i).isEmpty()
-                && input.getStackInSlot(i).getItem() != output.getStackInSlot(i).getItem()) {
+        if (!output.getStackInSlot(i).isEmpty() && input.getStackInSlot(i).getItem() != output.getStackInSlot(i).getItem()) {
             return false; // Items in slots don't match
         }
 
@@ -179,8 +182,8 @@ public class MetaTileEntityStacksizeItemBuffer extends MetaTileEntity {
 
     @Override
     public NBTTagCompound writeToNBT(NBTTagCompound data) {
-        data.setTag("InputInventory", ((GTItemStackHandler)importItems).serializeNBT());
-        data.setTag("OutputInventory", ((GTItemStackHandler)exportItems).serializeNBT());
+        data.setTag("InputInventory", inputs.serializeNBT());
+        data.setTag("OutputInventory", outputs.serializeNBT());
         data.setInteger("OutputFacing", getOutputFacing().getIndex());
         data.setBoolean("AutoOutput", autoOutput);
         data.setInteger("size", size);
@@ -193,10 +196,10 @@ public class MetaTileEntityStacksizeItemBuffer extends MetaTileEntity {
         super.readFromNBT(data);
         mode = data.getInteger("mode");
         size = data.getInteger("size");
-        this.autoOutput = data.getBoolean("AutoOutput");
-        this.outputFacing = EnumFacing.VALUES[data.getInteger("OutputFacing")];
-        ((GTItemStackHandler)this.exportItems).deserializeNBT(data.getCompoundTag("OutputInventory"));
-        ((GTItemStackHandler)this.importItems).deserializeNBT(data.getCompoundTag("InputInventory"));
+        autoOutput = data.getBoolean("AutoOutput");
+        outputFacing = EnumFacing.VALUES[data.getInteger("OutputFacing")];
+        outputs.deserializeNBT(data.getCompoundTag("OutputInventory"));
+        inputs.deserializeNBT(data.getCompoundTag("InputInventory"));
     }
 
     @Override
