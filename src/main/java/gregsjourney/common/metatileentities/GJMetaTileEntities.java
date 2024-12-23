@@ -9,9 +9,6 @@ import gregsjourney.common.metatileentities.part.MetaTileEntityAdvancedRotorHold
 import gregsjourney.common.metatileentities.part.MetaTileEntityBeeHatch;
 import gregsjourney.common.metatileentities.part.MetaTileEntityCoolantHatch;
 import gregsjourney.common.metatileentities.part.MetaTileEntityHeatHatch;
-import gregsjourney.common.metatileentities.singleblock.MetaTileEntityOredictFilteredStacksizeItemBuffer;
-import gregsjourney.common.metatileentities.singleblock.MetaTileEntityStacksizeFluidBuffer;
-import gregsjourney.common.metatileentities.singleblock.MetaTileEntityStacksizeItemBuffer;
 import gregsjourney.common.recipe.GJRecipeMaps;
 import gregsjourney.utils.GJUtil;
 import gregtech.api.GTValues;
@@ -54,10 +51,7 @@ public final class GJMetaTileEntities {
     public static MetaTileEntityBeeHatch[] BEE_HATCH = new MetaTileEntityBeeHatch[6];
     public static MetaTileEntityHeatHatch HEAT_HATCH;
     public static MetaTileEntityCoolantHatch[] COOLANT_HATCH = new MetaTileEntityCoolantHatch[3];
-    public static MetaTileEntityStacksizeItemBuffer[] STACKSIZE_BUFFER = new MetaTileEntityStacksizeItemBuffer[3];
-    public static MetaTileEntityStacksizeFluidBuffer[] STACKSIZE_FLUID_BUFFER = new MetaTileEntityStacksizeFluidBuffer[3];
-    public static MetaTileEntityOredictFilteredStacksizeItemBuffer[] OREDICT_FILTERED_STACKSIZE_BUFFER = new
-            MetaTileEntityOredictFilteredStacksizeItemBuffer[3];
+
     public static SimpleGeneratorMetaTileEntity[] ROCKET_ENGINE = new SimpleGeneratorMetaTileEntity[3];
     public static MetaTileEntityAdvancedRotorHolder[] ADVANCED_ROTOR_HOLDERS = new MetaTileEntityAdvancedRotorHolder[6];
     //Multiblock
@@ -152,15 +146,6 @@ public final class GJMetaTileEntities {
         COOLANT_HATCH[0] = registerMetaTileEntity(2390, new MetaTileEntityCoolantHatch(gjId("coolant_hatch.luv"), 6, 1));
         COOLANT_HATCH[1] = registerMetaTileEntity(2391, new MetaTileEntityCoolantHatch(gjId("coolant_hatch.zpm"), 7, 4));
         COOLANT_HATCH[2] = registerMetaTileEntity(2392, new MetaTileEntityCoolantHatch(gjId("coolant_hatch.uv"), 8, 9));
-        STACKSIZE_BUFFER[0] = registerMetaTileEntity(2393, new MetaTileEntityStacksizeItemBuffer(gjId("stacksize_buffer.lv"), 1));
-        STACKSIZE_BUFFER[1] = registerMetaTileEntity(2394, new MetaTileEntityStacksizeItemBuffer(gjId("stacksize_buffer.mv"), 2));
-        STACKSIZE_BUFFER[2] = registerMetaTileEntity(2395, new MetaTileEntityStacksizeItemBuffer(gjId("stacksize_buffer.hv"), 3));
-        OREDICT_FILTERED_STACKSIZE_BUFFER[0] = registerMetaTileEntity(2396, new MetaTileEntityOredictFilteredStacksizeItemBuffer(gjId("oredict_filtered_stacksize_buffer.lv"), 1));
-        OREDICT_FILTERED_STACKSIZE_BUFFER[1] = registerMetaTileEntity(2397, new MetaTileEntityOredictFilteredStacksizeItemBuffer(gjId("oredict_filtered_stacksize_buffer.mv"), 2));
-        OREDICT_FILTERED_STACKSIZE_BUFFER[2] = registerMetaTileEntity(2398, new MetaTileEntityOredictFilteredStacksizeItemBuffer(gjId("oredict_filtered_stacksize_buffer.hv"), 3));
-        STACKSIZE_FLUID_BUFFER[0] = registerMetaTileEntity(2399, new MetaTileEntityStacksizeFluidBuffer(gjId("stacksize_fluid_buffer.lv"), 1));
-        STACKSIZE_FLUID_BUFFER[1] = registerMetaTileEntity(2400, new MetaTileEntityStacksizeFluidBuffer(gjId("stacksize_fluid_buffer.mv"), 2));
-        STACKSIZE_FLUID_BUFFER[2] = registerMetaTileEntity(2401, new MetaTileEntityStacksizeFluidBuffer(gjId("stacksize_fluid_buffer.hv"), 3));
         ROCKET_ENGINE[0] = registerMetaTileEntity(2402, new SimpleGeneratorMetaTileEntity(gjId("rocket_engine.hv"), GJRecipeMaps.ROCKET_ENGINE_FUELS, Textures.STEAM_TURBINE_OVERLAY, 3, GTUtility.genericGeneratorTankSizeFunction));
         ROCKET_ENGINE[1] = registerMetaTileEntity(2403, new SimpleGeneratorMetaTileEntity(gjId("rocket_engine.ev"), GJRecipeMaps.ROCKET_ENGINE_FUELS, Textures.STEAM_TURBINE_OVERLAY, 4, GTUtility.genericGeneratorTankSizeFunction));
         ROCKET_ENGINE[2] = registerMetaTileEntity(2404, new SimpleGeneratorMetaTileEntity(gjId("rocket_engine.iv"), GJRecipeMaps.ROCKET_ENGINE_FUELS, Textures.STEAM_TURBINE_OVERLAY, 5, GTUtility.genericGeneratorTankSizeFunction));
