@@ -1,9 +1,9 @@
-package gregsjourney.api.unification.material.materiallines;
+package thegreggening.api.unification.material.materiallines;
 
-import static gregsjourney.api.unification.material.GJOreMaterials.Colemanite;
-import static gregsjourney.api.unification.material.GJOreMaterials.Kernite;
-import static gregsjourney.api.utils.GJUtil.avgColor;
-import static gregsjourney.api.utils.GJUtil.gjId;
+import static thegreggening.api.unification.material.GJOreMaterials.Colemanite;
+import static thegreggening.api.unification.material.GJOreMaterials.Kernite;
+import static thegreggening.api.utils.GJUtil.avgColor;
+import static thegreggening.api.utils.GJUtil.gjId;
 import static gregtech.api.unification.material.Materials.*;
 
 import gregtech.api.unification.material.Material;

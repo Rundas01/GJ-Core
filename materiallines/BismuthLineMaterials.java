@@ -1,9 +1,9 @@
-package gregsjourney.api.unification.material.materiallines;
+package thegreggening.api.unification.material.materiallines;
 
-import static gregsjourney.api.unification.material.GJOreMaterials.Bismuthinite;
-import static gregsjourney.api.unification.material.GJOreMaterials.Polarite;
-import static gregsjourney.api.utils.GJUtil.avgColor;
-import static gregsjourney.api.utils.GJUtil.gjId;
+import static thegreggening.api.unification.material.GJOreMaterials.Bismuthinite;
+import static thegreggening.api.unification.material.GJOreMaterials.Polarite;
+import static thegreggening.api.utils.GJUtil.avgColor;
+import static thegreggening.api.utils.GJUtil.gjId;
 import static gregtech.api.unification.material.Materials.*;
 import static gregtech.api.unification.material.info.MaterialFlags.DISABLE_DECOMPOSITION;
 
